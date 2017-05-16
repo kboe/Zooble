@@ -1,0 +1,154 @@
+package Logic.Util;
+
+/**
+ * Created by Rocki on 09.05.2017.
+ */
+public class Vector2d {
+
+    private double x;
+    private double y;
+    private double length;
+
+    /**
+     * Creates a 0 Vector x & y = 0
+     */
+    public Vector2d(){
+        this.x = 0;
+        this.y = 0;
+    }
+
+    /**
+     * Creates a Vector with the specified x and y coords
+     * @param x coordinate
+     * @param y coordinate
+     */
+    public Vector2d(double x, double y){
+        init(x, y);
+    }
+
+
+    /**
+     * will calculate the length of a Vector and store it into the Variable length which can be read by getLength();
+     * @return the length value of the on called Vector
+     */
+    public double calcLength(){
+        this.length = Math.sqrt(this.x * this.x + this.y * this.y);
+        return getLength();
+    }
+
+    /**
+     * normalizes the on called Vector (length = 1 &&  -> x & y chords will be divided by it's previous length)
+     */
+    public void normalize(){
+        this.x /= getLength();      //get Length will calculate the length, if not already initialized
+        this.y /= getLength();
+        this.calcLength();          //length has to be recalculated
+    }
+
+    /**
+     *Adds a Vector to the on called Vector
+     * @param vector The Vector you want to add to the on called Vector
+     */
+    public void add(Vector2d vector){       //TODO think about making add and subtract return a Vector2d
+        this.x += vector.getX();
+        this.y += vector.getY();
+    }
+
+    /**
+     *Subtracts a Vector from the on called Vector
+     * @param vector The Vector you want to subtract from the on called Vector
+     */
+    public void subtract(Vector2d vector){
+        this.x -= vector.getX();
+        this.y -= vector.getY();
+    }
+
+    /**
+     *
+     * @param vector the vector you want to have the dot product with
+     * @return returns the dot product of two Vectors
+     */
+    public double dot(Vector2d vector){
+        return this.getX() * vector.getX() + this.getY() * vector.getY();
+    }
+
+    /**
+     * Scales the Vector by a specified scale value
+     * @param scale the scalar value you want to scale the on called Vector with
+     */
+    public void scale(int scale){
+        this.setX(this.getX() * scale);
+        this.setY(this.getY() * scale);
+    }
+
+    /**
+     * Scales the Vector by a specified scale value
+     * @param scale the scalar value you want to scale the on called Vector with
+     */
+    public void scale(double scale){
+        this.setX(this.getX() * scale);
+        this.setY(this.getY() * scale);
+    }
+
+    /**
+     *
+     * @param vector the vector you want to have the cross product with
+     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector
+     */
+    public Vector2d ortho(Vector2d vector){
+        return new Vector2d(vector.getY(),vector.getX() * -1);
+    }
+
+    /**
+     * inverts the on called Vector (x & y Coordinate)
+     */
+    public void invert(){
+        this.x *= -1;
+        this.y *= -1;
+    }
+
+    /**
+     * inverts the on called Vector on the X-Axis
+     */
+    public void invertX(){
+        this.x *= -1;
+    }
+
+    /**
+     * inverts the on called Vector on the Y-Axis
+     */
+    public void invertY(){
+        this.y *= -1;
+    }
+
+    private void init(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
+    //GETTER AND SETTER
+
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getLength() {
+        if (this.length == 0){          //If the length is not already calculated...
+            this.calcLength();
+        }
+        return length;
+    }
+}
