@@ -7,7 +7,7 @@ import javafx.scene.transform.Rotate;
 /**
  * Created by Rocki on 09.05.2017.
  */
-public abstract class Collider {
+public abstract class Collider{
 
     private Vector2d position;
     private Rotate rotation;
