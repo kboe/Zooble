@@ -11,6 +11,7 @@ public abstract class Collider{
 
     private Vector2d position;
     private Rotate rotation;
+    private double angle = 0;
 
     //CONSTRUCTOR
     public Collider(){}
@@ -37,5 +38,13 @@ public abstract class Collider{
 
     public void setRotation(Rotate rotation) {
         this.rotation = rotation;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 }

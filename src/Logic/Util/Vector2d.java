@@ -96,7 +96,7 @@ public class Vector2d {
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector
      */
     public Vector2d ortho(Vector2d vector){
-        return new Vector2d(vector.getY(),vector.getX() * -1);
+        return new Vector2d(vector.getY() * -1,vector.getX());
     }
 
     /**

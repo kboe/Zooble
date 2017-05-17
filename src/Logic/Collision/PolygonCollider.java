@@ -10,11 +10,19 @@ import java.util.ArrayList;
  */
 public abstract class PolygonCollider extends Collider {
 
-    Vector2d[] points;
+    private Vector2d[] points;
 
     @Override
     public abstract boolean checkCollision(Collider collider);
 
     @Override
     public abstract void draw(GraphicsContext gc);
+
+    public Vector2d[] getPoints() {
+        return points;
+    }
+
+    public void setPoints(Vector2d[] points) {
+        this.points = points;
+    }
 }

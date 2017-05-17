@@ -12,7 +12,6 @@ public class CircleCollider extends Collider {
 
     private int radius;
     private Image circleImage;
-    private double angle = 0;
     private double rotationSpeed = 0.5;
 
     //CONSTRUCTOR
@@ -32,7 +31,7 @@ public class CircleCollider extends Collider {
     private void init(int xCoord, int yCoord, int radius) {
         this.setPositionVector(new Vector2d(xCoord, yCoord));
         setRadius(radius);
-        setRotation(new Rotate(angle, this.getPositionVector().getX(), this.getPositionVector().getY()));
+        setRotation(new Rotate(getAngle(), this.getPositionVector().getX(), this.getPositionVector().getY()));
     }
 
     @Override
@@ -67,11 +66,11 @@ public class CircleCollider extends Collider {
      * @param gc the Graphics Context which should be rotated
      */
     private void rotate(GraphicsContext gc) {
-        getRotation().setAngle(angle);
+        getRotation().setAngle(getAngle());
         getRotation().setPivotX(getPositionVector().getX());
         getRotation().setPivotY(getPositionVector().getY());
         gc.setTransform(getRotation().getMxx(), getRotation().getMyx(), getRotation().getMxy(), getRotation().getMyy(), getRotation().getTx(), getRotation().getTy());
-        angle += rotationSpeed;
+        setAngle(getAngle() + rotationSpeed); //TODO make it rotate by user input
     }
 
 

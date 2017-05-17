@@ -8,12 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class RectangleCollider extends PolygonCollider {
 
-    public RectangleCollider(){
-     init();
-    }
-
-    private void init(){
-        points = new Vector2d[4];
+    public RectangleCollider(Vector2d[] points){
+     setPoints(points);
     }
 
     @Override

@@ -8,12 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class TriangleCollider extends PolygonCollider {
 
-    public TriangleCollider(){
-        init();
-    }
-
-    private void init(){
-        points = new Vector2d[3];
+    public TriangleCollider(Vector2d[] points){
+        setPoints(points);
     }
 
     @Override
