@@ -25,8 +25,12 @@ public class SAT {
 
     private static void getAllNormals(PolygonCollider p1, PolygonCollider p2){
 
-        for (int i = 0; i < p1.getPoints().length-1; i++) {
+        for (int i = 0; i < p1.getPoints().length - 1; i++) {
+            //TODO get all normal Vectors from the polygon p1 and store them into the "normals" Array
+        }
 
+        for (int i = 0; i < p2.getPoints().length - 1; i++) {
+            //TODO get all normal Vectors from the polygon p2 and store them into the "normals" Array
         }
     }
 
