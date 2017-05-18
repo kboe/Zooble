@@ -5,4 +5,6 @@ package Logic.Util;
  */
 public class DeltaTime {
 
+    private int Zeit = 0;
+
 }
