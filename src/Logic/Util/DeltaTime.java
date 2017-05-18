@@ -5,4 +5,6 @@ package Logic.Util;
  */
 public class DeltaTime {
 
+    double deltatime = 0.016667;
+
 }
