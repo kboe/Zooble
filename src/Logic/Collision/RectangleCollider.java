@@ -11,6 +11,7 @@ public class RectangleCollider extends PolygonCollider {
 
     private double[] xPositions = new double[4];
     private double[] yPositions = new double[4];
+    private Vector2d midpoint = new Vector2d();
 
     public RectangleCollider(double x, double y, double width, double height){
         setPoints(new Vector2d[4]);                     //Store points into the Vector2d Points array
@@ -18,6 +19,8 @@ public class RectangleCollider extends PolygonCollider {
         getPoints()[1] = new Vector2d(x+width,y);
         getPoints()[2] = new Vector2d(x+width,y+height);
         getPoints()[3] = new Vector2d(x,y+height);
+        midpoint.setX(x + width/2);
+        midpoint.setY(y + height/2);
 
         splitIntoArrays(getPoints());                   //Prepare the Vector2d array for beingable to be drawn with the fillPolygon Method (needs double[] for x positions and double[] for y positions)
     }

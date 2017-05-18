@@ -40,7 +40,7 @@ public class Main extends Application {
         points[3] = new Vector2d(5,105);
 
 
-        RectangleCollider rect = new RectangleCollider(15,15,200,342);
+        RectangleCollider rect = new RectangleCollider(50,50,200,200);
         root.getChildren().add(canvas);
 
         new AnimationTimer() {
