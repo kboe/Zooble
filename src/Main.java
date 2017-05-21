@@ -1,6 +1,8 @@
 import Logic.Collision.RectangleCollider;
 import Logic.Collision.SAT;
 import Logic.Collision.TriangleCollider;
+import Logic.Physics;
+import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -14,12 +16,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import static Logic.Util.DeltaTime.deltatime;
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
-       // ROBIN CODE BEGINNING
+        // ROBIN CODE BEGINNING
 
         //Parent root = FXMLLoader.load(getClass().getResource("Controller/sample.fxml"));
         primaryStage.setTitle("Hello World");
@@ -34,21 +38,32 @@ public class Main extends Application {
 
         Vector2d[] points = new Vector2d[4];
 
-        points[0] = new Vector2d(5,5);
-        points[1] = new Vector2d(105,5);
-        points[2] = new Vector2d(105,105);
-        points[3] = new Vector2d(5,105);
+        points[0] = new Vector2d(5, 5);
+        points[1] = new Vector2d(105, 5);
+        points[2] = new Vector2d(105, 105);
+        points[3] = new Vector2d(5, 105);
 
 
-        RectangleCollider rect = new RectangleCollider(50,50,200,200);
+        RectangleCollider rect = new RectangleCollider(50, 50, 200, 200);
         root.getChildren().add(canvas);
 
         new AnimationTimer() {
+
+            DeltaTime dt = new DeltaTime();
+
+
             @Override
             public void handle(long now) {
-                gc.clearRect(0,0, 500, 500);
-                rect.draw(gc);
-                //gc.fillOval(0,0,100,100);
+
+                gc.clearRect(0, 0, 500, 500);
+                dt.setCurrentTime(dt.getCurrentTime() + deltatime);
+
+                System.out.println(dt.getCurrentTime());
+
+                // rect.draw(gc);
+                gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
+
+
             }
         }.start();
         primaryStage.show();

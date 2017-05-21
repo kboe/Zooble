@@ -5,12 +5,8 @@ package Logic.Util;
  */
 public class DeltaTime {
 
-    public static double deltatime = 0.016667;
-    private double currentTime = 0.01667;
-
-    public double getDeltatime() {
-        return deltatime;
-    }
+    public static double deltatime = 0.0167;
+    private double currentTime = 0.0167;
 
     public double getCurrentTime() {
         return currentTime;
