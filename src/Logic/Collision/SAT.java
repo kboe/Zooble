@@ -20,6 +20,7 @@ public class SAT {
         Vector2d[] normals = new Vector2d[p1.getPoints().length + p2.getPoints().length];
         storeAllNormals(p1, p2, normals);
 
+
         /*for (Vector2d vector2d:
              normals) {
             System.out.println("normal: (" + vector2d.getX() + "/" + vector2d.getY() + ")");
@@ -47,8 +48,8 @@ public class SAT {
         }
     }
 
-    private static void projectOnAxis(){
-
+    private static void projectOnNormals(){
+        //TODO project all points of the polygons on the normals and search for gaps. If a Gap is found: BREAK -> not colliding
     }
 
 }
