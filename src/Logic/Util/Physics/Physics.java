@@ -155,6 +155,7 @@ public class Physics {
 
     /**
      * Velocity of first object after Colliding
+     *
      * @param mass1
      * @param mass2
      * @param velocity1
@@ -162,12 +163,13 @@ public class Physics {
      * @return velocity of object
      */
     public double elasticPushVel1(double mass1, double mass2, double velocity1, double velocity2) {
-        double u1= (((mass1-mass2)*velocity1)+2*mass2*velocity2)/(mass1+mass2);
+        double u1 = (((mass1 - mass2) * velocity1) + 2 * mass2 * velocity2) / (mass1 + mass2);
         return u1;
     }
 
     /**
      * Velocity of second object after Colliding
+     *
      * @param mass1
      * @param mass2
      * @param velocity1
@@ -175,10 +177,9 @@ public class Physics {
      * @return velocity of object
      */
     public double elasticPushVel2(double mass1, double mass2, double velocity1, double velocity2) {
-        double u2= (((mass2-mass1)*velocity2)+2*mass2*velocity1)/(mass1+mass2);
+        double u2 = (((mass2 - mass1) * velocity2) + 2 * mass2 * velocity1) / (mass1 + mass2);
         return u2;
     }
-
 
 
     /**
@@ -194,31 +195,16 @@ public class Physics {
     }
 
     /**
-     * Gleichmäßig beschleunigte Bewegung --> Position
+     * Evenly accelerated Movement velocity
      *
-     * @param a
+     * @param acceleration
      * @param time
-     * @param v0
-     * @param s0
-     * @return
+     * @param lastVelocity
+     * @return velocity
      */
-    public double gbBSpeed(double a, int time, double v0, double s0) {
-        double s = a / 2 * (time * time) + v0 + time + s0;
-        return s;
-    }
-
-    /**
-     * Geschwindigkeit nach einem unelastischem Stoß
-     *
-     * @param m0
-     * @param v0
-     * @param m1
-     * @param v1
-     * @return
-     */
-    public double unelasticS(double m0, double v0, double m1, double v1) {
-        double u = ((m1 * v1) + (m0 * v0)) / (m0 + m1);
-        return u;
+    public double evenAcceleratedMovement(double acceleration, double time, double lastVelocity) {
+        double velocity = acceleration * time + lastVelocity;
+        return velocity;
     }
 
     /**
