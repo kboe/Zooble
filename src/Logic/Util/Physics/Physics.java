@@ -214,19 +214,46 @@ public class Physics {
      * @param dt time
      * @return acceleration
      */
-    public double EvenAcceleration(double dv, double dt) {
+    public double evenAcceleration(double dv, double dt) {
         double a = dv / dt;
         return a;
     }
 
-    public double wX(double v0, double time) {
-        double x = v0 * time;
+    /**
+     * Position with even accelerated Movement
+     *
+     * @param acceleration
+     * @param time
+     * @param velocity0
+     * @param position0
+     * @return current Position
+     */
+    public double evenAcceleratedMovementPosition(double acceleration, double time, double velocity0, double position0) {
+        double pos = ((acceleration / 2) * (time * time)) + (velocity0 * time) + position0;
+        return pos;
+    }
+
+    /**
+     * Level Toss
+     *
+     * @param velocity
+     * @param time
+     * @return x Position
+     */
+    public double levelTossX(double velocity, double time) {
+        double x = velocity * time;
         return x;
     }
 
-    public double wY(double gravity, double time) {
+    /**
+     * Level Toss
+     *
+     * @param gravity
+     * @param time
+     * @return y Position
+     */
+    public double LevelTossY(double gravity, double time) {
         double y = gravity * (time * time);
-        setY(y);
         return y;
     }
 
