@@ -116,7 +116,7 @@ public class Vector2d {
      * @param vector the vector you want to have the orthogonal vector from
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CCW order)
      */
-    public Vector2d orthoCCW(Vector2d vector){
+    public static Vector2d orthoCCW(Vector2d vector){
         return new Vector2d(vector.getY(),vector.getX() * -1);
     }
 
@@ -125,7 +125,7 @@ public class Vector2d {
      * @param vector the vector you want to have the orthogonal vector from
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CW order)
      */
-    public Vector2d orthoCW(Vector2d vector){
+    public static Vector2d orthoCW(Vector2d vector){
         return new Vector2d(vector.getY() * -1, vector.getX());
     }
 

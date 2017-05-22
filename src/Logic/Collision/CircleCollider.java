@@ -10,14 +10,16 @@ import javafx.scene.transform.Rotate;
  */
 public class CircleCollider extends Collider {
 
+    private Vector2d position;
     private int radius;
     private Image circleImage;
     private double rotationSpeed = 0.5;
+    private Rotate rotation;
 
     //CONSTRUCTOR
 
     /**
-     * Creates a Collider with a circular shape, be aware, that the x and y coords will be stored into a ector2d, which you can access by getPositionVector()
+     * Creates a Collider with a circular shape, be aware, that the x and y coords will be stored into a Vector2d, which you can access by getPositionVector()
      *
      * @param xCoord x Position
      * @param yCoord y Position
@@ -34,18 +36,14 @@ public class CircleCollider extends Collider {
         setRotation(new Rotate(getAngle(), this.getPositionVector().getX(), this.getPositionVector().getY()));
     }
 
-    @Override
-    public boolean checkCollision(Collider collider) {          //TODO maybe create this method static, so it can be used on EVERY Object in the scene
+    public boolean checkCollision(CircleCollider collider) {          //TODO maybe create this method static, so it can be used on EVERY Object in the scene
 
-        if (collider instanceof CircleCollider) {
+        if (collider != null) {
             Vector2d distance = new Vector2d(collider.getPositionVector().getX() - this.getPositionVector().getX(), collider.getPositionVector().getY() - this.getPositionVector().getY());
             return distance.getLength() <= this.getCircleImage().getWidth() / 2 + ((CircleCollider) collider).getCircleImage().getWidth() / 2;  //TODO use subtract method for Vector distance
 
-        } else if (collider instanceof RectangleCollider) {                                        //TODO add more collision checks for different geometry
-            return false;
-        } else if (collider instanceof TriangleCollider) {
-            return false;
         } else {
+            //SAT COLLISION
             return false;
         }
     }
@@ -98,5 +96,21 @@ public class CircleCollider extends Collider {
 
     public void setCircleImage(Image circleImage) {
         this.circleImage = circleImage;
+    }
+
+    public Rotate getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(Rotate rotation) {
+        this.rotation = rotation;
+    }
+
+    public Vector2d getPositionVector() {
+        return position;
+    }
+
+    public void setPositionVector(Vector2d position) {
+        this.position = position;
     }
 }

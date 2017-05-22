@@ -9,8 +9,6 @@ import javafx.scene.transform.Rotate;
  */
 public abstract class Collider {
 
-    private Vector2d position;
-    private Rotate rotation;
     private double angle = 0;
     private double mass;
 
@@ -21,26 +19,9 @@ public abstract class Collider {
 
     //METHODS
 
-    public abstract boolean checkCollision(Collider collider);
-
     public abstract void draw(GraphicsContext gc);
 
     //GETTER AND SETTER
-    public Vector2d getPositionVector() {
-        return position;
-    }
-
-    public void setPositionVector(Vector2d position) {
-        this.position = position;
-    }
-
-    public Rotate getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(Rotate rotation) {
-        this.rotation = rotation;
-    }
 
     public double getAngle() {
         return angle;

@@ -1,5 +1,6 @@
 import Logic.Collision.CircleCollider;
 import Logic.Collision.RectangleCollider;
+import Logic.Collision.SAT;
 import Logic.Util.Physics.Physics;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
@@ -33,6 +34,10 @@ public class Main extends Application {
         primaryStage.setScene(theScene);
 
         RectangleCollider rect = new RectangleCollider(50, 50, 200, 200);
+        RectangleCollider rect2 = new RectangleCollider(100,100,200,200);
+
+        SAT.isColliding(rect,rect2);
+
         root.getChildren().add(canvas);
 
         new AnimationTimer() {
@@ -50,6 +55,8 @@ public class Main extends Application {
 
                 // rect.draw(gc);
                 gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
+
+
 
 
             }
