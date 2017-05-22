@@ -7,14 +7,16 @@ import javafx.scene.transform.Rotate;
 /**
  * Created by Rocki on 09.05.2017.
  */
-public abstract class Collider{
+public abstract class Collider {
 
     private Vector2d position;
     private Rotate rotation;
     private double angle = 0;
+    private double mass;
 
     //CONSTRUCTOR
-    public Collider(){}
+    public Collider() {
+    }
 
 
     //METHODS
@@ -46,5 +48,13 @@ public abstract class Collider{
 
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
     }
 }
