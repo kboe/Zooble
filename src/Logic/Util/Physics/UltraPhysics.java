@@ -10,9 +10,6 @@ import static Logic.Util.Physics.Physics.GRAVITY;
  */
 public class UltraPhysics {
 
-
-
-
     /**
      *
      * @param collider
