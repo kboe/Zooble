@@ -40,9 +40,27 @@ public class Vector2d {
      * normalizes the on called Vector (length = 1 &&  -> x & y chords will be divided by it's previous length)
      */
     public void normalize(){
-        this.x /= getLength();      //get Length will calculate the length, if not already initialized
-        this.y /= getLength();
+        this.x /= this.getLength();      //get Length will calculate the length, if not already initialized
+        this.y /= this.getLength();
         this.calcLength();          //length has to be recalculated
+    }
+
+    /**
+     * divide the vector with a scalar
+     * @param scalar the scalar (int) with which you want to divide the vector
+     */
+    public void divide(int scalar){
+        this.x /= scalar;
+        this.y /= scalar;
+    }
+
+    /**
+     * divide the vector with a scalar
+     * @param scalar the scalar (double) with which you want to divide the vector
+     */
+    public void divide(double scalar){
+        this.x /= scalar;
+        this.y /= scalar;
     }
 
     /**

@@ -22,7 +22,7 @@ public class RectangleCollider extends PolygonCollider {
         midpoint.setX(x + width/2);
         midpoint.setY(y + height/2);
 
-        splitIntoArrays(getPoints());                   //Prepare the Vector2d array for beingable to be drawn with the fillPolygon Method (needs double[] for x positions and double[] for y positions)
+        splitIntoArrays(getPoints());                   //Prepare the Vector2d array for being able to be drawn with the fillPolygon Method (needs double[] for x positions and double[] for y positions)
     }
     private void splitIntoArrays(Vector2d[] points){
         for (int x = 0; x < xPositions.length; x++) {
