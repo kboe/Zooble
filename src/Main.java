@@ -1,18 +1,14 @@
+import Logic.Collision.CircleCollider;
 import Logic.Collision.RectangleCollider;
-import Logic.Collision.SAT;
-import Logic.Collision.TriangleCollider;
-import Logic.Physics;
+import Logic.Util.Physics.Physics;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -35,14 +31,6 @@ public class Main extends Application {
 
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
-
-        Vector2d[] points = new Vector2d[4];
-
-        points[0] = new Vector2d(5, 5);
-        points[1] = new Vector2d(105, 5);
-        points[2] = new Vector2d(105, 105);
-        points[3] = new Vector2d(5, 105);
-
 
         RectangleCollider rect = new RectangleCollider(50, 50, 200, 200);
         root.getChildren().add(canvas);
