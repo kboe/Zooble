@@ -35,11 +35,6 @@ public class RectangleCollider extends PolygonCollider {
     }
 
     @Override
-    public boolean checkCollision(Collider collider) {
-        return false;                                       //TODO Implement stuff :D
-    }
-
-    @Override
     public void draw(GraphicsContext gc) {
         gc.fillPolygon(xPositions,yPositions,getPoints().length);
     }

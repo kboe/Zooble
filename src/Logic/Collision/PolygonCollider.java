@@ -13,9 +13,6 @@ public abstract class PolygonCollider extends Collider {
     private Vector2d[] points;
 
     @Override
-    public abstract boolean checkCollision(Collider collider);
-
-    @Override
     public abstract void draw(GraphicsContext gc);
 
     public Vector2d[] getPoints() {

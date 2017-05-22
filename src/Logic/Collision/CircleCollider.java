@@ -40,7 +40,7 @@ public class CircleCollider extends Collider {
 
         if (collider != null) {
             Vector2d distance = new Vector2d(collider.getPositionVector().getX() - this.getPositionVector().getX(), collider.getPositionVector().getY() - this.getPositionVector().getY());
-            return distance.getLength() <= this.getCircleImage().getWidth() / 2 + ((CircleCollider) collider).getCircleImage().getWidth() / 2;  //TODO use subtract method for Vector distance
+            return distance.getLength() <= this.getCircleImage().getWidth() / 2 + collider.getCircleImage().getWidth() / 2;  //TODO use subtract method for Vector distance
 
         } else {
             //SAT COLLISION

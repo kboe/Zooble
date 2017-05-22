@@ -13,11 +13,6 @@ public class TriangleCollider extends PolygonCollider {
     }
 
     @Override
-    public boolean checkCollision(Collider collider) {
-        return false;                                           //TODO Implement stuff :D
-    }
-
-    @Override
     public void draw(GraphicsContext gc) {
 
     }
