@@ -154,28 +154,42 @@ public class Physics {
     }
 
     /**
-     * Für zweite Kugel die Geschwindigkeit bei Kugelkollision
-     *
-     * @param m1
-     * @param m2
-     * @param v1
-     * @param v2
-     * @return
+     * Velocity of first object after Colliding
+     * @param mass1
+     * @param mass2
+     * @param velocity1
+     * @param velocity2
+     * @return velocity of object
      */
-    public double elStv1(double m1, double m2, double v1, double v2) {
-        double u2 = ((m2 - m1) * (v2 * v2) + (2 * m1 * v1)) / (m1 + m2);
-        return u2;
+    public double elasticPushVel1(double mass1, double mass2, double velocity1, double velocity2) {
+        double u1= (((mass1-mass2)*velocity1)+2*mass2*velocity2)/(mass1+mass2);
+        return u1;
     }
 
     /**
-     * Kinetische Energie
-     *
-     * @param m
-     * @param v
-     * @return
+     * Velocity of second object after Colliding
+     * @param mass1
+     * @param mass2
+     * @param velocity1
+     * @param velocity2
+     * @return velocity of object
      */
-    public double eKin(double m, double v) {
-        double eKin = 0.5 * m * (v * v);
+    public double elasticPushVel2(double mass1, double mass2, double velocity1, double velocity2) {
+        double u2= (((mass2-mass1)*velocity2)+2*mass2*velocity1)/(mass1+mass2);
+        return u2;
+    }
+
+
+
+    /**
+     * Kinetic Energy
+     *
+     * @param mass
+     * @param velocity
+     * @return kinetic Energy
+     */
+    public double eKin(double mass, double velocity) {
+        double eKin = 0.5 * mass * (velocity * velocity);
         return eKin;
     }
 
