@@ -12,7 +12,7 @@ public class Physics {
 
 
     private double v; //velocity
-    public final double gravity = 9.81; //gravity
+    public final static double GRAVITY = 9.81; //gravity
     private double y = 100;
 
     boolean collided = false;
@@ -27,14 +27,6 @@ public class Physics {
 
     public double getV() {
         return v;
-    }
-
-    public boolean isCollided() {
-        return collided;
-    }
-
-    public void setCollided(boolean collided) {
-        this.collided = collided;
     }
 
     /**
@@ -58,7 +50,7 @@ public class Physics {
      * @return current y Position
      */
     public double yPos(double h, double time) {
-        double y = getY() + gravity / 2 * (time * time);
+        double y = getY() + GRAVITY / 2 * (time * time);
         System.out.println(y);
         setY(y);
         return y;
@@ -135,7 +127,7 @@ public class Physics {
      * @return current velocity
      */
     public double freeFallSpeed(double time) {
-        double velocity = gravity * time;
+        double velocity = GRAVITY * time;
         return velocity;
     }
 
