@@ -208,29 +208,15 @@ public class Physics {
     }
 
     /**
-     * Durchsnittsgeschwindigkeit in einem Intervall
+     * Even acceleration
      *
-     * @param s0
-     * @param s1
-     * @param t0
-     * @param t1
-     * @return
+     * @param dv velocity
+     * @param dt time
+     * @return acceleration
      */
-    public double averageSpeed(double s0, double s1, double t0, double t1) {
-        double v = (s1 - s0) / (t1 - t0);
-        return v;
-    }
-
-    /**
-     * Konstante Beschleunigung
-     *
-     * @param dv
-     * @param dt
-     * @return
-     */
-    public double cAcceleration(double dv, double dt) {
+    public double EvenAcceleration(double dv, double dt) {
         double a = dv / dt;
-        return 0;
+        return a;
     }
 
     public double wX(double v0, double time) {
