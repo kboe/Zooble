@@ -100,6 +100,7 @@ public class Physics {
     }
 
     //TODO doesnt really make sense yet
+
     /**
      * Calculate instaneous Velocity
      *
@@ -116,33 +117,40 @@ public class Physics {
 
     /**
      * Calculate current position with consistent velocity
+     *
      * @param velocity
      * @param time
      * @param lastPosition
      * @return current position
      */
     public double linearEvenlyMoving(double velocity, double time, double lastPosition) {
-        double position = (velocity*time)+lastPosition;
+        double position = (velocity * time) + lastPosition;
         return position;
     }
 
-    public double freeFallSpeed(int time, double gravity) {
-        double v = gravity * time;
-        return v;
+    /**
+     * Free Fall velocity
+     *
+     * @param time
+     * @return current velocity
+     */
+    public double freeFallSpeed(double time) {
+        double velocity = gravity * time;
+        return velocity;
     }
 
     /**
-     * Für erste Kugel die Geschwindigkeit bei Kugelkollision
+     * Calculates velocity of an unelastic push
      *
-     * @param m1
-     * @param m2
-     * @param v1
-     * @param v2
-     * @return
+     * @param mass1     Mass 1
+     * @param mass2     Mass 2
+     * @param velocity1 Velocity 1
+     * @param velocity2 Velocity 2
+     * @return velocity after push
      */
-    public double elStv0(double m1, double m2, double v1, double v2) {
-        double u1 = ((m1 - m2) * (v1 * v1) + (2 * m2 * v2)) / (m1 + m2);
-        return u1;
+    public double unelasticPush(double mass1, double mass2, double velocity1, double velocity2) {
+        double v = ((mass1 * velocity1) + (mass2 * velocity2)) / (mass1 + mass2);
+        return v;
     }
 
     /**
