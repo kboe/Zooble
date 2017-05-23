@@ -85,7 +85,7 @@ public class Main extends Application {
                     System.out.println("collision Point with circle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
                 } else if (CollisionChecker.checkCollision(c,rect)){
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c,rect);
-                    System.out.println("collision Point with circle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
+                    System.out.println("collision Point with Rectangle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
                 }
 
                // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
