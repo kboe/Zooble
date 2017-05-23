@@ -1,5 +1,6 @@
 import Logic.Collision.CollisionChecker;
 import Logic.Util.DeltaTime;
+import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -79,8 +80,12 @@ public class Main extends Application {
                 stackPane.setRotate(stackPane.getRotate()+1);
 
                 rect.setRotate(rect.getRotate()+1);
-                if (CollisionChecker.checkCollision(c,c2) || CollisionChecker.checkCollision(c,rect)){
-                    System.out.println("intersecting");
+                if (CollisionChecker.checkCollision(c,c2)){
+                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c,c2);
+                    System.out.println("collision Point with circle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
+                } else if (CollisionChecker.checkCollision(c,rect)){
+                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c,rect);
+                    System.out.println("collision Point with circle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
                 }
 
                // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);

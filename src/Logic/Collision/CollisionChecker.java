@@ -1,5 +1,6 @@
 package Logic.Collision;
 
+import Logic.Util.Vector2d;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -13,4 +14,9 @@ public final class CollisionChecker {
         return intersection.getLayoutBounds().getHeight() > 0 || intersection.getLayoutBounds().getWidth() > 0;         //if the 2 Shapes Collide...
     }
 
+
+    public static Vector2d getCollisionPoint(Shape shape1, Shape shape2){
+        Shape intersection = Shape.intersect(shape1,shape2);
+        return new Vector2d(intersection.getBoundsInParent().getMinX(), intersection.getBoundsInParent().getMinY());
+    }
 }
