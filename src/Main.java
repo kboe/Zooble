@@ -1,16 +1,18 @@
-import Logic.Collision.CircleCollider;
-import Logic.Collision.RectangleCollider;
-import Logic.Collision.SAT;
-import Logic.Util.Physics.Physics;
+import Logic.Collision.CollisionChecker;
 import Logic.Util.DeltaTime;
-import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import static Logic.Util.DeltaTime.deltatime;
@@ -33,12 +35,33 @@ public class Main extends Application {
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
 
-        RectangleCollider rect = new RectangleCollider(50, 50, 200, 200);
-        RectangleCollider rect2 = new RectangleCollider(100,100,200,200);
 
-        SAT.isColliding(rect,rect2);
+
+        final Circle c = new Circle();
+        c.setRadius(50);
+        c.setCenterX(100);
+        c.setCenterY(100);
+        c.setFill(Color.BLACK);
+        final Circle c2 = new Circle();
+        c2.setRadius(30);
+        c2.setCenterX(100);
+        c2.setCenterY(100);
+        c2.setFill(Color.BLACK);
+        final Rectangle rect = new Rectangle(100,50, Color.AQUA);
+        rect.setX(231);
+        rect.setY(231);
+        rect.setRotate(32);
+
+        ImageView imageView = new ImageView(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
+        StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
+
+        root.setOnMouseMoved(event -> {
+            stackPane.setLayoutX(event.getX() - c.getRadius());
+            stackPane.setLayoutY(event.getY() - c.getRadius());
+        });
 
         root.getChildren().add(canvas);
+        root.getChildren().addAll(stackPane,c2, rect);
 
         new AnimationTimer() {
 
@@ -51,10 +74,16 @@ public class Main extends Application {
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
 
-                System.out.println(dt.getCurrentTime());
+                //System.out.println(dt.getCurrentTime());
 
-                // rect.draw(gc);
-                gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
+                stackPane.setRotate(stackPane.getRotate()+1);
+
+                rect.setRotate(rect.getRotate()+1);
+                if (CollisionChecker.checkCollision(c,c2) || CollisionChecker.checkCollision(c,rect)){
+                    System.out.println("intersecting");
+                }
+
+               // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
 
 
 
