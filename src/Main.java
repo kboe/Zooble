@@ -1,3 +1,4 @@
+import GUI.MainMenu;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
@@ -11,10 +12,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -31,12 +30,20 @@ public class Main extends Application {
         //Parent root = FXMLLoader.load(getClass().getResource("Controller/sample.fxml"));
         primaryStage.setTitle("Hello World");
 
+        /*TAMARA CODE ANFANG*/
+
+        //MainMenu hauptmenue = new MainMenu();
+        //Scene theScene = hauptmenue.getMainMenuScene();
+
+        /*TAMARA CODE ENDE*/
+
         Group root = new Group();
         Canvas canvas = new Canvas(500, 500);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
         Scene theScene = new Scene(root);
+
         primaryStage.setScene(theScene);
 
 
