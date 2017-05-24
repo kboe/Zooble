@@ -1,9 +1,8 @@
 package Logic.Util.Physics;
 
-import Logic.Collision.CircleCollider;
-import Logic.Collision.Collider;
+import Logic.Collision.Deprecated.CircleCollider;
+import Logic.Collision.Deprecated.Collider;
 import Logic.Util.DeltaTime;
-import javafx.scene.shape.Circle;
 
 import static Logic.Util.Physics.Physics.GRAVITY;
 

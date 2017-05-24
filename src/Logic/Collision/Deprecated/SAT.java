@@ -1,4 +1,4 @@
-package Logic.Collision;
+package Logic.Collision.Deprecated;
 
 import Logic.Util.Vector2d;
 

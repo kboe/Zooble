@@ -1,4 +1,3 @@
-import GUI.MainMenu;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
@@ -15,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import static Logic.Util.DeltaTime.deltatime;
@@ -51,14 +49,17 @@ public class Main extends Application {
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(100,100,50,Color.BLACK);
         final BallCollider c2 = new BallCollider(100,100,30,Color.BLACK);
-        final BoxCollider rect = new BoxCollider(231,231,100,50,Color.BLACK);
+        final BoxCollider rect = new BoxCollider(200,100,100,50,Color.BLACK);
+
+        System.out.println(rect.getMidpoint().getX());
+        System.out.println(rect.getMidpoint().getY());
 
         ImageView imageView = new ImageView(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
         StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
 
         root.setOnMouseMoved(event -> {
-            rect.setX(event.getX() - rect.getWidth()/2);
-            rect.setY(event.getY() - rect.getHeight()/2);
+            stackPane.setLayoutX(event.getX() - c.getRadius());
+            stackPane.setLayoutY(event.getY() - c.getRadius());
         });
 
         root.getChildren().add(canvas);
@@ -83,9 +84,13 @@ public class Main extends Application {
                 if (CollisionChecker.checkCollision(c,c2)){
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c,c2);
                     System.out.println("collision Point with circle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
+                    Circle collisionPoint = new Circle(collPoint.getX(),collPoint.getY(),3,Color.RED);
+                    root.getChildren().add(collisionPoint);
                 } else if (CollisionChecker.checkCollision(c,rect)){
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c,rect);
                     System.out.println("collision Point with Rectangle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
+                    Circle collisionPoint = new Circle(collPoint.getX(),collPoint.getY(),3,Color.RED);
+                    root.getChildren().add(collisionPoint);
                 }
 
                // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);

@@ -1,8 +1,7 @@
-package Logic.Collision;
+package Logic.Collision.Deprecated;
 
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 /**
  * Created by Rocki on 11.05.2017.

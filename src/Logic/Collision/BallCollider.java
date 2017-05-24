@@ -12,7 +12,6 @@ public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
     private Vector2d velocity;
-    private double rotationAngle = 0;
     private double mass = 0;
 
 
@@ -45,14 +44,6 @@ public class BallCollider extends Circle {
 
     public void setVelocity(Vector2d velocity) {
         this.velocity = velocity;
-    }
-
-    public double getRotationAngle() {
-        return rotationAngle;
-    }
-
-    public void setRotationAngle(double rotationAngle) {
-        this.rotationAngle = rotationAngle;
     }
 
     public double getMass() {

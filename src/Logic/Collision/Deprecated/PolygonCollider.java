@@ -1,9 +1,7 @@
-package Logic.Collision;
+package Logic.Collision.Deprecated;
 
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.GraphicsContext;
-
-import java.util.ArrayList;
 
 /**
  * Created by Rocki on 17.05.2017.

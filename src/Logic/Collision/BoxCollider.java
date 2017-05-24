@@ -10,9 +10,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class BoxCollider extends Rectangle {
 
-    private Vector2d midpoint;
+    private Vector2d midpoint;              //Center of the Box
     private Vector2d position;              //upper left corner of the box
-    private Vector2d velocity;
     private double mass = 0;
 
 
@@ -24,7 +23,7 @@ public class BoxCollider extends Rectangle {
         if (paint != null){
             this.setFill(paint);
         }
-        midpoint = new Vector2d();
+        midpoint = new Vector2d(position.getX() + width/2, position.getY() + height/2);
     }
 
 
@@ -39,14 +38,6 @@ public class BoxCollider extends Rectangle {
         this.position = position;
     }
 
-    public Vector2d getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector2d velocity) {
-        this.velocity = velocity;
-    }
-
     public double getMass() {
         return mass;
     }
@@ -55,4 +46,7 @@ public class BoxCollider extends Rectangle {
         this.mass = mass;
     }
 
+    public Vector2d getMidpoint() {
+        return midpoint;
+    }
 }
