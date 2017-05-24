@@ -1,3 +1,5 @@
+import Logic.Collision.BallCollider;
+import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
@@ -39,27 +41,17 @@ public class Main extends Application {
 
 
 
-        final Circle c = new Circle();
-        c.setRadius(50);
-        c.setCenterX(100);
-        c.setCenterY(100);
-        c.setFill(Color.BLACK);
-        final Circle c2 = new Circle();
-        c2.setRadius(30);
-        c2.setCenterX(100);
-        c2.setCenterY(100);
-        c2.setFill(Color.BLACK);
-        final Rectangle rect = new Rectangle(100,50, Color.AQUA);
-        rect.setX(231);
-        rect.setY(231);
-        rect.setRotate(32);
+        //CenterX and CenterY are unnecessary if the colliders are inside a Pane
+        final BallCollider c = new BallCollider(100,100,50,Color.BLACK);
+        final BallCollider c2 = new BallCollider(100,100,30,Color.BLACK);
+        final BoxCollider rect = new BoxCollider(231,231,100,50,Color.BLACK);
 
         ImageView imageView = new ImageView(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
         StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
 
         root.setOnMouseMoved(event -> {
-            stackPane.setLayoutX(event.getX() - c.getRadius());
-            stackPane.setLayoutY(event.getY() - c.getRadius());
+            rect.setX(event.getX() - rect.getWidth()/2);
+            rect.setY(event.getY() - rect.getHeight()/2);
         });
 
         root.getChildren().add(canvas);
@@ -78,7 +70,7 @@ public class Main extends Application {
 
                 //System.out.println(dt.getCurrentTime());
 
-                stackPane.setRotate(stackPane.getRotate()+1);
+                stackPane.setRotate(stackPane.getRotate()-2);
 
                 rect.setRotate(rect.getRotate()+1);
                 if (CollisionChecker.checkCollision(c,c2)){
