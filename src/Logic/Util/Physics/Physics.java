@@ -29,8 +29,10 @@ public class Physics {
         return v;
     }
 
+
+
     /**
-     * Position with consistent velocity
+     * Position with consistent velocity with beginning velocity
      *
      * @param v velocity
      * @param a acceleration
@@ -41,6 +43,7 @@ public class Physics {
         double pos = a * t + v;
         return pos;
     }
+    //________________________________________________________________________________________________________________
 
     /**
      * Free Fall from certain height

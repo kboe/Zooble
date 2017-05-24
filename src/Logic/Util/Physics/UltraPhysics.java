@@ -19,16 +19,29 @@ public class UltraPhysics {
         collider.getPositionVector().setY(collider.getPositionVector().getY() + (GRAVITY / 2 * (deltaTime.getCurrentTime()* deltaTime.getCurrentTime())));
     }
 
-
-    public static void consistentVelocity(CircleCollider collider,double v, double a, DeltaTime deltaTime) {
+    /**
+     *
+     * @param collider
+     * @param v
+     * @param a
+     * @param deltaTime
+     */
+    public static void consistentVelocityPosition(CircleCollider collider,double v, double a, DeltaTime deltaTime) {
         double pos = a * deltaTime.getCurrentTime() + v;
         collider.getPositionVector().setX(collider.getPositionVector().getX() + pos);
 
     }
 
-    public static double move(Collider collider, double v, DeltaTime deltaTime){
-        double p = v*deltaTime.getCurrentTime();
-        return p;
+    /**
+     *
+     * @param collider
+     * @param v
+     * @param deltaTime
+     * @return
+     */
+    public static double evenAcceleratedVelocity(CircleCollider collider, double v, DeltaTime deltaTime){
+        double v1 = v*deltaTime.getCurrentTime();
+        return v1;
     }
 
 }
