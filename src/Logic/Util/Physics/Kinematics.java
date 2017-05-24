@@ -162,6 +162,7 @@ public class Kinematics {
      * @param deltaTime
      * @return
      */
+
     public static double levelThrowYPos(double height, DeltaTime deltaTime) {
         double yPos = height - 0.5 * GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return yPos;
@@ -211,5 +212,7 @@ public class Kinematics {
         double velocity =((mass1-mass0)*velocity1+2*mass1*velocity1)/(mass0+mass1);
         return velocity;
     }
+
+    //------------------------------------------------------------------------------------------------------------------
 
 }

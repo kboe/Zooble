@@ -88,7 +88,7 @@ public class Main extends Application {
                     System.out.println("collision Point with Rectangle: " + "(" +(int)collPoint.getX() + "/" + (int)collPoint.getY() + ")");
                 }
 
-               // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
+                // gc.fillOval(dt.getCurrentTime(), 0, 100, 100);
 
 
 
