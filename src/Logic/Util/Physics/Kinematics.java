@@ -214,5 +214,18 @@ public class Kinematics {
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    //Radialbeschleunigung
+
+    /**
+     * Radial acceleration
+     * @param velocity
+     * @param radius
+     * @return
+     */
+    public static double radialAcceleration(double velocity, double radius){
+        double acceleration=(velocity*velocity)/radius;
+
+        return acceleration;
+    }
 
 }
