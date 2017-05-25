@@ -82,7 +82,7 @@ public class Main extends Application {
                 x++;
                 //System.out.println(dt.getCurrentTime());
 
-                stackPane.setRotate(stackPane.getRotate() - Kinematics.radialAcceleration(9,c.getRadius()));
+                stackPane.setRotate(stackPane.getRotate() - Kinematics.radialAcceleration(12,c.getRadius()));
 
                 // rect.setRotate(rect.getRotate()+1);
                 if (CollisionChecker.checkCollision(c, c2)) {

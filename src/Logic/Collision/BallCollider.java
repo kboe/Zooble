@@ -13,6 +13,8 @@ public class BallCollider extends Circle {
     private Vector2d position;          //will be the center of the circle!
     private Vector2d velocity;
     private double mass = 0;
+    private double currentVelocity;
+    private double lastVelocity;
 
 
 
@@ -52,5 +54,23 @@ public class BallCollider extends Circle {
 
     public void setMass(double mass) {
         this.mass = mass;
+    }
+
+    //TODO wo sollen wir das hintun?
+
+    public double getCurrentVelocity() {
+        return currentVelocity;
+    }
+
+    public void setCurrentVelocity(double currentVelocity) {
+        this.currentVelocity = currentVelocity;
+    }
+
+    public double getLastVelocity() {
+        return lastVelocity;
+    }
+
+    public void setLastVelocity(double lastVelocity) {
+        this.lastVelocity = lastVelocity;
     }
 }

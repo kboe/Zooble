@@ -9,6 +9,7 @@ public class Kinematics {
 
     public static final double GRAVITY = 9.81;
 
+
     //---------------------------------------------------------------------------------
     //Gradlining beschleunigte Bewegung
 
@@ -106,12 +107,11 @@ public class Kinematics {
      *
      * @param velocity0
      * @param velocity1
-     * @param deltaTime0
-     * @param deltaTime1
+     * @param deltaTime
      * @return
      */
-    public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime0, DeltaTime deltaTime1) {
-        double acceleration = (velocity1 - velocity0) / (deltaTime1.getCurrentTime() - deltaTime0.getCurrentTime());
+    public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
+        double acceleration = (velocity1 - velocity0) / (deltaTime.getLastTime() - deltaTime.getCurrentTime());
         return 0;
     }
 
