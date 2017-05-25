@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -49,13 +50,12 @@ public class Main extends Application {
 
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(100, 100, 60, Color.BLACK);
+        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("elephant_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(100, 100, 30, Color.BLACK);
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
-        ImageView imageView = new ImageView(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
-        StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
-        StackPane stackPane2 = new StackPane(c2);
+        //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
+        //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
 
         root.setOnMouseMoved(event -> {
             rect.setX(event.getX() - rect.getWidth() / 2);
@@ -64,8 +64,8 @@ public class Main extends Application {
 
         root.getChildren().add(canvas);
         //  root.getChildren().addAll(stackPane,c2, rect);
-        root.getChildren().addAll(stackPane, rect,stackPane2,c2);
-
+        //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
+        root.getChildren().addAll(rect,c2, c);
 
         new AnimationTimer() {
 
@@ -78,20 +78,23 @@ public class Main extends Application {
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
 
-                stackPane.setLayoutX(x);
+                //stackPane.setLayoutX(x);
+                c.setCenterX(x+c.getRadius());
                 x++;
                 //System.out.println(dt.getCurrentTime());
 
-                stackPane.setRotate(stackPane.getRotate() - Kinematics.radialAcceleration(12,c.getRadius()));
+                c.setRotate(c.getRotate() + Kinematics.radialAcceleration(12,c.getRadius()));
 
                 // rect.setRotate(rect.getRotate()+1);
-                if (CollisionChecker.checkCollision(c, c2)) {
+                /*if (CollisionChecker.checkCollision(c, c2)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, c2);
                     System.out.println("collision Point with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
                 } else if (CollisionChecker.checkCollision(c, rect)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, rect);
                     System.out.println("collision Point with Rectangle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                }
+                }*/
+
+                CollisionChecker.checkSceneBoundsCollision(canvas,c);
 
                 dt.setLastTime(dt.getCurrentTime());
 

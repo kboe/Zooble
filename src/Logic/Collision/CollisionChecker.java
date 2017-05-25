@@ -1,7 +1,8 @@
 package Logic.Collision;
 
 import Logic.Util.Vector2d;
-import javafx.scene.paint.Color;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
 /**
@@ -9,14 +10,26 @@ import javafx.scene.shape.Shape;
  */
 public final class CollisionChecker {
 
-    public static boolean checkCollision(Shape shape1, Shape shape2){
-        Shape intersection = Shape.intersect(shape1,shape2);
+    public static boolean checkCollision(BallCollider ball, Shape otherCollider){
+        Shape intersection = Shape.intersect(ball,otherCollider);
         return intersection.getLayoutBounds().getHeight() > 0 || intersection.getLayoutBounds().getWidth() > 0;         //if the 2 Shapes Collide...
     }
 
 
-    public static Vector2d getCollisionPoint(Shape shape1, Shape shape2){
-        Shape intersection = Shape.intersect(shape1,shape2);
+    public static Vector2d getCollisionPoint(BallCollider ball, Shape otherCollider){
+        Shape intersection = Shape.intersect(ball,otherCollider);
         return new Vector2d(intersection.getBoundsInParent().getMinX(), intersection.getBoundsInParent().getMinY());
+    }
+
+    public static void checkSceneBoundsCollision(Canvas canvas, BallCollider ball){
+        if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()){
+            System.out.println("ball outside of Bounds (right)");
+        } else if (ball.getCenterX() - ball.getRadius() < 0){
+            System.out.println("ball outside of Bounds (left)");
+        } else if (ball.getCenterY() - ball.getRadius() < 0){
+            System.out.println("ball outside of Bounds (up)");
+        } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()){
+            System.out.println("ball outside of Bounds (down)");
+        }
     }
 }
