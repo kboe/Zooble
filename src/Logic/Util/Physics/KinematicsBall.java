@@ -149,6 +149,12 @@ public class KinematicsBall {
         bc.setPosition(new Vector2d(x, y));
 
     }
+    public static Vector2d levelThrowVector(BallCollider bc, DeltaTime deltaTime) {
+        double x = levelThrowXPos(bc.getVelocity().getX(), deltaTime);
+        double y = levelThrowYPos(bc.getVelocity().getY(), deltaTime);
+        return new Vector2d(x,y);
+
+    }
 
     /**
      * Calculates the x-Position of a level throw
@@ -240,6 +246,7 @@ public class KinematicsBall {
     public static double radialAcceleration(BallCollider bc){
         //double acceleration=(velocity*velocity)/radius;
         double a = (bc.getVelocity().getX()*bc.getVelocity().getX())/bc.getRadius();
+        System.out.println(a);
         return a;
     }
 

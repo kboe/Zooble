@@ -5,6 +5,7 @@ import Logic.Collision.CollisionChecker;
 import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Kinematics;
+import Logic.Util.Physics.KinematicsBall;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -86,10 +87,13 @@ public class Main extends Application {
 
                 //stackPane.setLayoutX(x);
                 c.setCenterX(x+c.getRadius());
+                c.setPosition(new Vector2d(x,20));
                 x++;
                 //System.out.println(dt.getCurrentTime());
+                //c.setVelocity(KinematicsBall.levelThrowVector(c,dt));
 
-                c.setRotate(c.getRotate() + Kinematics.radialAcceleration(12,c.getRadius()));
+
+                c.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c));
 
                 // rect.setRotate(rect.getRotate()+1);
                 /*if (CollisionChecker.checkCollision(c, c2)) {
