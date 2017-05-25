@@ -2,6 +2,7 @@ import GUI.MainMenu;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
+import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Kinematics;
 import Logic.Util.Vector2d;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import static Logic.Util.DeltaTime.deltatime;
 
 public class Main extends Application {
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -74,6 +76,10 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+                if(LoopStopped.out_of_bounds==true){
+                    System.out.println("stopped");
+                    stop();
+                }
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
