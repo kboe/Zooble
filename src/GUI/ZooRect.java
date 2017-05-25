@@ -12,9 +12,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 
-/**
- * Created by TheRop on 23/05/17.
- */
 public class ZooRect {
 
     double width = 200;
