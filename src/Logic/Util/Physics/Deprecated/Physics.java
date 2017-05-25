@@ -1,4 +1,4 @@
-package Logic.Util.Physics;
+package Logic.Util.Physics.Deprecated;
 
 
 /**

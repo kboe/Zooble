@@ -2,6 +2,7 @@ import GUI.MainMenu;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
+import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Kinematics;
 import Logic.Util.Vector2d;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import static Logic.Util.DeltaTime.deltatime;
 
 public class Main extends Application {
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -50,7 +52,7 @@ public class Main extends Application {
 
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("elephant_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(100, 100, 30, Color.BLACK);
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
@@ -74,6 +76,10 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+                if(LoopStopped.out_of_bounds==true){
+                    System.out.println("stopped");
+                    stop();
+                }
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);

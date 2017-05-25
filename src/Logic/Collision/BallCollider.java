@@ -11,10 +11,14 @@ import javafx.scene.shape.Circle;
 public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
+    private Vector2d lastPosition;
     private Vector2d velocity;
+    private Vector2d currentVelocity;
+    private Vector2d lastVelocity;
     private double mass = 0;
-    private double currentVelocity;
-    private double lastVelocity;
+    private double acceleration;
+    //private double currentVelocity;
+    //private double lastVelocity;
 
 
 
@@ -58,19 +62,35 @@ public class BallCollider extends Circle {
 
     //TODO wo sollen wir das hintun?
 
-    public double getCurrentVelocity() {
+    public Vector2d getCurrentVelocity() {
         return currentVelocity;
     }
 
-    public void setCurrentVelocity(double currentVelocity) {
+    public void setCurrentVelocity(Vector2d currentVelocity) {
         this.currentVelocity = currentVelocity;
     }
 
-    public double getLastVelocity() {
+    public Vector2d getLastVelocity() {
         return lastVelocity;
     }
 
-    public void setLastVelocity(double lastVelocity) {
+    public void setLastVelocity(Vector2d lastVelocity) {
         this.lastVelocity = lastVelocity;
+    }
+
+    public Vector2d getLastPosition() {
+        return lastPosition;
+    }
+
+    public void setLastPosition(Vector2d lastPosition) {
+        this.lastPosition = lastPosition;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
     }
 }
