@@ -40,36 +40,57 @@ public class Vector2d {
      * normalizes the on called Vector (length = 1 &&  -> x & y chords will be divided by it's previous length)
      */
     public void normalize(){
-        this.x /= getLength();      //get Length will calculate the length, if not already initialized
-        this.y /= getLength();
+        this.x /= this.getLength();      //get Length will calculate the length, if not already initialized
+        this.y /= this.getLength();
         this.calcLength();          //length has to be recalculated
     }
 
     /**
-     *Adds a Vector to the on called Vector
-     * @param vector The Vector you want to add to the on called Vector
+     * divide the vector with a scalar
+     * @param scalar the scalar (int) with which you want to divide the vector
      */
-    public void add(Vector2d vector){       //TODO think about making add and subtract return a Vector2d
-        this.x += vector.getX();
-        this.y += vector.getY();
+    public void divide(int scalar){
+        this.x /= scalar;
+        this.y /= scalar;
     }
 
     /**
-     *Subtracts a Vector from the on called Vector
-     * @param vector The Vector you want to subtract from the on called Vector
+     * divide the vector with a scalar
+     * @param scalar the scalar (double) with which you want to divide the vector
      */
-    public void subtract(Vector2d vector){
-        this.x -= vector.getX();
-        this.y -= vector.getY();
+    public void divide(double scalar){
+        this.x /= scalar;
+        this.y /= scalar;
+    }
+
+    /**
+     * Adds vector1 with vector2 and returns a new vector with
+     * @param vector1
+     * @param vector2
+     * @return
+     */
+    public static Vector2d add(Vector2d vector1, Vector2d vector2){       //TODO think about making add and subtract return a Vector2d
+        return new Vector2d(vector1.x + vector2.x, vector1.y + vector2.y);
     }
 
     /**
      *
-     * @param vector the vector you want to have the dot product with
-     * @return returns the dot product of two Vectors
+     * @param vector1
+     * @param vector2
+     * @return
      */
-    public double dot(Vector2d vector){
-        return this.getX() * vector.getX() + this.getY() * vector.getY();
+    public static Vector2d subtract(Vector2d vector1, Vector2d vector2){
+        return new Vector2d(vector1.x - vector2.x, vector1.y - vector2.y);
+    }
+
+    /**
+     *
+     * @param vector1
+     * @param vector2
+     * @return
+     */
+    public static double dot(Vector2d vector1, Vector2d vector2){
+        return vector1.x * vector2.x + vector1.y * vector2.y;
     }
 
     /**
@@ -91,12 +112,21 @@ public class Vector2d {
     }
 
     /**
-     *
-     * @param vector the vector you want to have the cross product with
-     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector
+     *Ortho (if verts are connected in a) Counter Clockwise (order)
+     * @param vector the vector you want to have the orthogonal vector from
+     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CCW order)
      */
-    public Vector2d ortho(Vector2d vector){
+    public static Vector2d orthoCCW(Vector2d vector){
         return new Vector2d(vector.getY(),vector.getX() * -1);
+    }
+
+    /**
+     *Ortho (if verts are connected in a) Clockwise (order)
+     * @param vector the vector you want to have the orthogonal vector from
+     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CW order)
+     */
+    public static Vector2d orthoCW(Vector2d vector){
+        return new Vector2d(vector.getY() * -1, vector.getX());
     }
 
     /**

@@ -1,0 +1,59 @@
+.root {
+      -fx-background-image: url("background.png");
+             -fx-background-repeat: stretch;
+             -fx-background-size: 1300 750;
+             -fx-background-position: center center;
+         }
+
+
+.play-red {
+    -fx-background-color: #9d2e4a;
+    -fx-padding: 25 90 25 90;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-background-radius:0;
+    -fx-font-size: 40px;
+    }
+    
+ .options-blue {
+    -fx-background-color: #2d7ec1;
+   -fx-padding: 25 55 25 55;
+       -fx-text-fill: #FFFFFF;
+       -fx-font-weight: bold;
+       -fx-background-radius:0;
+       -fx-font-size: 40px;
+    }
+    
+    .highscore-gray {
+    -fx-background-color: #5a5e5f;
+    -fx-padding: 25 30 25 170;
+           -fx-text-fill: #FFFFFF;
+           -fx-font-weight: bold;
+           -fx-background-radius:0;
+           -fx-font-size: 40px;
+    }
+
+    .fill-gray {
+        -fx-background-color: #a4e8fb;
+        -fx-padding: 25 70 25 70;
+               -fx-text-fill: #FFFFFF;
+               -fx-font-weight: bold;
+               -fx-background-radius:0;
+               -fx-font-size: 40px;
+        }
+    
+    .play-red:hover{
+    -fx-background-color: #b35c72;
+    }
+    
+    .options-blue:hover{
+    -fx-background-color: #6697c0;
+    }
+    
+    .highscore-gray:hover{
+    -fx-background-color: #818586;
+    }
+       
+
+        
+       

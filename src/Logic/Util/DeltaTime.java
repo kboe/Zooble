@@ -5,6 +5,23 @@ package Logic.Util;
  */
 public class DeltaTime {
 
-    private int Zeit = 0;
+    public static double deltatime = 0.0167;
+    private double currentTime = 0.0167;
+    private  double lastTime;
 
+    public double getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(double currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public double getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(double lastTime) {
+        this.lastTime = lastTime;
+    }
 }
