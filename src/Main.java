@@ -52,7 +52,7 @@ public class Main extends Application {
 
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("elephant_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(100, 100, 30, Color.BLACK);
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
