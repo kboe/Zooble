@@ -97,6 +97,7 @@ public class Main extends Application {
                 x++;
                 //System.out.println(dt.getCurrentTime());
                 //c.setVelocity(KinematicsBall.levelThrowVector(c,dt));
+                rect.rotatePoints(5);
 
 
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
