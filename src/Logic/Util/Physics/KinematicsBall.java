@@ -105,12 +105,13 @@ public class KinematicsBall {
 
     /**
      * Mean acceleration
+     *
      * @param bc
      * @param deltaTime
      * @return
      */
     public static double effectiveAcceleration(BallCollider bc, DeltaTime deltaTime) {
-        double acceleration = (bc.getVelocity().getX()-bc.getLastVelocity().getX()) / (deltaTime.getCurrentTime()-deltaTime.getLastTime());
+        double acceleration = (bc.getVelocity().getX() - bc.getLastVelocity().getX()) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
         return 0;
     }
 
@@ -123,9 +124,9 @@ public class KinematicsBall {
      * @param deltaTime
      * @return
      */
-    public static void freeFallHeight(DeltaTime deltaTime,BallCollider bc) {
+    public static void freeFallHeight(DeltaTime deltaTime, BallCollider bc) {
         double height = 0.5 * GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
-        bc.setPosition(new Vector2d(bc.getPosition().getX(),height));
+        bc.setPosition(new Vector2d(bc.getPosition().getX(), height));
     }
 
     /**
@@ -136,16 +137,16 @@ public class KinematicsBall {
      */
     public static void freeFallVelocity(double h, BallCollider bc) {
         double velocity = Math.sqrt(2 * h * GRAVITY);
-        bc.setVelocity(new Vector2d(bc.getVelocity().getX(),velocity));
+        bc.setVelocity(new Vector2d(bc.getVelocity().getX(), velocity));
     }
 
     //-----------------------------------------------------------------------------------------------------------
     //Waagrechter Wurf
 
-    public static void levelThrow(BallCollider bc, DeltaTime deltaTime){
-        double x = levelThrowXPos(bc.getVelocity().getX(),deltaTime);
-        double y = levelThrowYPos(bc.getVelocity().getY(),deltaTime);
-        bc.setPosition(new Vector2d(x,y));
+    public static void levelThrow(BallCollider bc, DeltaTime deltaTime) {
+        double x = levelThrowXPos(bc.getVelocity().getX(), deltaTime);
+        double y = levelThrowYPos(bc.getVelocity().getY(), deltaTime);
+        bc.setPosition(new Vector2d(x, y));
 
     }
 
@@ -179,17 +180,68 @@ public class KinematicsBall {
 
     /**
      * Calculates new velocity after an unelastic push
+     *
      * @param bc1
      * @param bc2
      */
-    public static void unelasticPushVelocity(BallCollider bc1, BallCollider bc2){
-        double v =(bc1.getMass()*bc1.getVelocity().getX()+bc2.getMass()*bc2.getVelocity().getX())/(bc1.getMass()+bc2.getMass());
-        bc1.setVelocity(new Vector2d(v,bc1.getVelocity().getY()));
-        bc2.setVelocity(new Vector2d(v,bc2.getVelocity().getY()));
-
+    public static void unelasticPushVelocity(BallCollider bc1, BallCollider bc2) {
+        double v = (bc1.getMass() * bc1.getVelocity().getX() + bc2.getMass() * bc2.getVelocity().getX()) / (bc1.getMass() + bc2.getMass());
+        bc1.setVelocity(new Vector2d(v, bc1.getVelocity().getY()));
+        bc2.setVelocity(new Vector2d(v, bc2.getVelocity().getY()));
     }
 
+    //---------------------------------------------------------------------------------
+    //elastischer Stoß
 
+    public static void elasticPush(BallCollider bc1, BallCollider bc2) {
+        double v1 = elasticPushVelocity1(bc1.getMass(), bc2.getMass(), bc1.getVelocity().getX(), bc2.getVelocity().getX());
+        double v2 = elasticPushVelocity2(bc1.getMass(), bc2.getMass(), bc1.getVelocity().getX(), bc2.getVelocity().getX());
+
+        bc1.setVelocity(new Vector2d(v1,bc1.getVelocity().getY()));
+        bc2.setVelocity(new Vector2d(v2,bc2.getVelocity().getY()));
+    }
+
+    /**
+     * Calculates new velocity of first colliding object
+     *
+     * @param mass0
+     * @param mass1
+     * @param velocity0
+     * @param velocity1
+     * @return
+     */
+    public static double elasticPushVelocity1(double mass0, double mass1, double velocity0, double velocity1) {
+        double velocity = ((mass0 - mass1) * (velocity0 * velocity0) + 2 * mass1 * velocity1) / (mass0 + mass1);
+        return velocity;
+    }
+
+    /**
+     * Calculates starting velocity of object that is pushed
+     *
+     * @param mass0
+     * @param mass1
+     * @param velocity0
+     * @param velocity1
+     * @return
+     */
+    public static double elasticPushVelocity2(double mass0, double mass1, double velocity0, double velocity1) {
+        double velocity = ((mass1 - mass0) * velocity1 + 2 * mass1 * velocity1) / (mass0 + mass1);
+        return velocity;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //Radialbeschleunigung
+
+    /**
+     * Radial acceleration
+     * @param bc
+     * @return
+     */
+    public static double radialAcceleration(BallCollider bc){
+        //double acceleration=(velocity*velocity)/radius;
+        double a = (bc.getVelocity().getX()*bc.getVelocity().getX())/bc.getRadius();
+        return a;
+    }
 
 
 }
