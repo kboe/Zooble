@@ -54,7 +54,7 @@ public class Main extends Application {
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c2 = new BallCollider(500, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
@@ -74,7 +74,8 @@ public class Main extends Application {
 
             DeltaTime dt = new DeltaTime();
             int x = 0;
-            int x2 = 500;
+            int x2 = 300;
+            boolean collided=false;
 
             @Override
             public void handle(long now) {
@@ -85,13 +86,18 @@ public class Main extends Application {
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
+                if(collided==true){
+                    double cx= c2.getCenterX()+1;
+                    c2.setCenterX(cx);
+                    c2.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c2));
+                }
 
                 //stackPane.setLayoutX(x);
                 c.setCenterX(x + c.getRadius());
                 c.setPosition(new Vector2d(x, 20));
-                c2.setCenterX(x2 - c.getRadius());
+            //    c2.setCenterX(x2 - c.getRadius());
 
-                x2--;
+               x2++;
 
                 x++;
                 //System.out.println(dt.getCurrentTime());
@@ -99,13 +105,16 @@ public class Main extends Application {
 
 
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                c2.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c2));
+
 
                 // rect.setRotate(rect.getRotate()+1);
                 if (CollisionChecker.checkCollision(c, c2)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, c2);
                     System.out.println("collision Point with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                    stop();
+
+                   // c2.setCenterX(x+c2.getRadius());
+                    collided=true;
+                    //stop();
                 }/* else if (CollisionChecker.checkCollision(c, rect)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, rect);
                     System.out.println("collision Point with Rectangle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
