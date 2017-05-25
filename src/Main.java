@@ -88,7 +88,8 @@ public class Main extends Application {
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
                 if(collided==true){
                     double cx= c2.getCenterX()+1;
-                    c2.setCenterX(cx);
+                    double v = KinematicsBall.unelasticPushVelocityReturn(c,c2);
+                    c2.setCenterX(c2.getCenterX()+v);
                     c2.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c2));
                 }
 

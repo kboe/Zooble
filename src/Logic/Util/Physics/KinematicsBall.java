@@ -196,6 +196,17 @@ public class KinematicsBall {
         bc2.setVelocity(new Vector2d(v, bc2.getVelocity().getY()));
     }
 
+    /**
+     * Calculates new velocity after an unelastic push
+     *
+     * @param bc1
+     * @param bc2
+     */
+    public static double unelasticPushVelocityReturn(BallCollider bc1, BallCollider bc2) {
+        double v = (bc1.getMass() * bc1.getVelocity().getX() + bc2.getMass() * bc2.getVelocity().getX()) / (bc1.getMass() + bc2.getMass());
+        return v;
+    }
+
     //---------------------------------------------------------------------------------
     //elastischer Stoß
 
