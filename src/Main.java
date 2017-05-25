@@ -64,7 +64,7 @@ public class Main extends Application {
 
         root.getChildren().add(canvas);
         //  root.getChildren().addAll(stackPane,c2, rect);
-        root.getChildren().addAll(stackPane, rect);
+        root.getChildren().addAll(stackPane, rect,stackPane2,c2);
 
 
         new AnimationTimer() {
