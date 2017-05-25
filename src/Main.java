@@ -60,11 +60,6 @@ public class Main extends Application {
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
 
-        root.setOnMouseMoved(event -> {
-            rect.setX(event.getX() - rect.getWidth() / 2);
-            rect.setY(event.getY() - rect.getHeight() / 2);
-        });
-
         root.getChildren().add(canvas);
         //  root.getChildren().addAll(stackPane,c2, rect);
         //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
@@ -88,8 +83,7 @@ public class Main extends Application {
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
                 if(collided==true){
                     double cx= c2.getCenterX()+1;
-                    double v = KinematicsBall.unelasticPushVelocityReturn(c,c2);
-                    c2.setCenterX(c2.getCenterX()+v);
+                    c2.setCenterX(cx);
                     c2.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c2));
                 }
 
