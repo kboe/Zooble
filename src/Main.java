@@ -1,4 +1,5 @@
 import GUI.MainMenu;
+import GUI.ZooRect;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
@@ -17,7 +18,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -28,6 +32,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 import static Logic.Util.DeltaTime.deltatime;
+import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 public class Main extends Application {
 
@@ -58,7 +63,7 @@ public class Main extends Application {
 
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(50, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
@@ -79,19 +84,43 @@ public class Main extends Application {
         //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
         root.getChildren().addAll(rect, c2, c);
 
+        /*theScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.A){
+                System.out.println(rect.getPoints().get(2));
+                rect.scaleWidth(10);
+                System.out.println(rect.getPoints().get(2));
+            } else if (event.getCode() == KeyCode.S){
+                rect.rotatePoints(45);
+            }
+        });*/
+
+
+        //Roberts TESTFACTORY START
+        ZooRect testRect = new ZooRect();
+        root.getChildren().add(testRect.rectGrp);
+
+
+
+        //Roberts TESTFACTORY END
+
+
         new AnimationTimer() {
 
             DeltaTime dt = new DeltaTime();
             int x = 0;
-            double x2 = 300;
-            boolean collided = false;
+            double sp = c.getCenterX();
+            double v0 = 0;
+            double v1=0;
+            boolean notFirstFrame = false;
+            boolean notSecondFrame =false;
+            boolean contact = false;
 
             @Override
             public void handle(long now) {
-                if (LoopStopped.out_of_bounds == true) {
+                /*if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
                     stop();
-                }
+                }*/
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
@@ -100,8 +129,24 @@ public class Main extends Application {
 
                 //BASISEFFEKT 1
 
-                c.setCenterX(x+c.getRadius());
-                x++;
+                if(notFirstFrame==false){
+                    c.setCenterX(Kinematics.evenMovementPosition(100,dt,sp));
+                    if(!contact){
+                        c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
+                    }
+                    else {
+
+                    }
+
+
+                    //notFirstFrame=true;
+                }
+                else {
+
+                }
+
+                /*
+                c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));*/
 
                 /*if (collided == true) {
                     c2.setCenterX(Kinematics.evenMovementPosition(5,dt,c2.getCenterX()));
@@ -113,11 +158,6 @@ public class Main extends Application {
                     System.out.println(c.getCenterX());
                     c.setCenterX(Kinematics.evenMovementPosition(5, dt, c.getCenterX()));
                 }
-
-                x2++;
-
-                x++;
-
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));*/
 
                 //KAREN CODE ENDING
@@ -130,10 +170,10 @@ public class Main extends Application {
                     //KAREN CODE BEGINNING
                     //collided = true;
                     //KAREN CODE ENDING
-                }/* else if (CollisionChecker.checkCollision(c, rect)) {
+                } else if (CollisionChecker.checkCollision(c, rect)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, rect);
                     System.out.println("collision Point with Rectangle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                }*/
+                }
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
 
