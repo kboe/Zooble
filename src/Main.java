@@ -18,6 +18,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -81,6 +83,16 @@ public class Main extends Application {
         //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
         root.getChildren().addAll(rect, c2, c);
 
+        /*theScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.A){
+                System.out.println(rect.getPoints().get(2));
+                rect.scaleWidth(10);
+                System.out.println(rect.getPoints().get(2));
+            } else if (event.getCode() == KeyCode.S){
+                rect.rotatePoints(45);
+            }
+        });*/
+
 
         //Roberts TESTFACTORY START
         ZooRect testRect = new ZooRect();
@@ -100,10 +112,10 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                if (LoopStopped.out_of_bounds == true) {
+                /*if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
                     stop();
-                }
+                }*/
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
