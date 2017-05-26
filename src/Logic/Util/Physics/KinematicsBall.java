@@ -265,6 +265,7 @@ public class KinematicsBall {
     public static double radialAcceleration(BallCollider bc) {
         //double acceleration=(velocity*velocity)/radius;
         double a = (bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius();
+        a =( bc.getVelocityX()*bc.getVelocityX())/bc.getRadius();
         return a;
     }
 
