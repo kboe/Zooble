@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -23,9 +24,12 @@ public class ZooRect {
 
     public Group rectGrp;
 
+    private GridPane manipulators = new GridPane();
+
     Button controlPlus;
     Button controlMinus;
     Button controlRotPlus;
+    Button controlRotMinus;
 
     double sceneX;
     double sceneY;
@@ -46,16 +50,16 @@ public class ZooRect {
             rect.setFill(Color.ORANGE);
         }
 
+        manipulators.setVisible(false);
+        updateManipulator();
+
         controlPlus = new Button("+");
         {
-            controlPlus.setVisible(false);
-            controlPlus.setLayoutX((coordY+width)/2+25);
-            controlPlus.setLayoutY(coordY);
+            manipulators.add(controlPlus,1,1);
             controlPlus.setOnAction(event -> {
                 if (rect.getWidth() < 400){
                     width += 100;
-                    controlPlus.setLayoutX((coordY+width)/2+25);
-                    controlMinus.setLayoutX((coordY+ width)/2-5);
+                    updateManipulator();
                     rect.setWidth(width);
                 }else{
                     System.out.println("nope");
@@ -66,14 +70,11 @@ public class ZooRect {
 
         controlMinus = new Button("-");
         {
-            controlMinus.setVisible(false);
-            controlMinus.setLayoutX((coordY+ width)/2-5);
-            controlMinus.setLayoutY(coordY);
+            manipulators.add(controlMinus,0,1);
             controlMinus.setOnAction(event -> {
                 if (rect.getWidth() > 200){
                     width -= 100;
-                    controlPlus.setLayoutX((coordY+width)/2+25);
-                    controlMinus.setLayoutX((coordY+ width)/2-5);
+                    updateManipulator();
                     rect.setWidth(width);
                 }else{
                     System.out.println("nope");
@@ -84,19 +85,28 @@ public class ZooRect {
 
         controlRotPlus = new Button("rot +");
         {
-            controlRotPlus.setVisible(false);
-            controlRotPlus.setLayoutX((coordY+ width)/2);
-            controlRotPlus.setLayoutY(coordY-30);
+            manipulators.add(controlRotPlus,1,0);
             controlRotPlus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(45,coordX+width/2,coordY+height/2));
+                rect.getTransforms().add(new Rotate(22.5,coordX+width/2,coordY+height/2));
+                updateManipulator();
             });
         }
 
+
+        controlRotMinus = new Button("rot -");
+        {
+            manipulators.add(controlRotMinus,0,0);
+            controlRotMinus.setOnAction(event -> {
+                rect.getTransforms().add(new Rotate(-22.5,coordX+width/2,coordY+height/2));
+                updateManipulator();
+            });
+        }
+
+
+
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
-        rectGrp.getChildren().add(controlPlus);
-        rectGrp.getChildren().add(controlMinus);
-        rectGrp.getChildren().add(controlRotPlus);
+        rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
 
@@ -141,9 +151,12 @@ public class ZooRect {
     };
 
     public void showManipulator(Boolean b){
-        controlPlus.setVisible(b);
-        controlMinus.setVisible(b);
-        controlRotPlus.setVisible(b);
+        manipulators.setVisible(b);
+    }
+
+    public void updateManipulator(){
+        manipulators.setLayoutX(coordX + width/3);
+        manipulators.setLayoutY(coordY + height/2-50);
     }
 
 }
