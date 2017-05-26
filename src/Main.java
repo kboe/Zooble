@@ -67,9 +67,8 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
-        c.setVelocity(new Vector2d(10, 0));
-        c2.setVelocity(new Vector2d(0, 0));
-        c.setMass(0.2);
+        c.setVelocityX(2);
+        c.setMass(0.002);
 
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
@@ -117,10 +116,10 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                /*if (LoopStopped.out_of_bounds == true) {
+                if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
                     stop();
-                }*/
+                }
 
                 gc.clearRect(0, 0, 500, 500);
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
@@ -129,8 +128,14 @@ public class Main extends Application {
 
                 //BASISEFFEKT 1
 
+                //TODO Collison and Contact with rotated Rectangle
                 if(notFirstFrame==false){
-                    c.setCenterX(Kinematics.evenMovementPosition(100,dt,sp));
+                   // c.setCenterX(Kinematics.evenMovementPosition(100,dt,sp));
+                    notFirstFrame=true;
+                    c.setAcceleration(c.getVelocityX()/dt.getCurrentTime());
+                    c.setCenterX(c.getVelocityX()*dt.getCurrentTime()+0.5*(c.getAcceleration())*(dt.getCurrentTime()*dt.getCurrentTime()));
+                    c.setVelocityX(Kinematics.acceleratedMovementVelocityWithStartingVelocity(c.getAcceleration(),dt,0));
+
                     if(!contact){
                         c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
                     }
@@ -142,7 +147,14 @@ public class Main extends Application {
                     //notFirstFrame=true;
                 }
                 else {
+                    c.setVelocityX2(c.getVelocityX());
+                    c.setVelocityX(c.getAcceleration()*dt.getCurrentTime());
+                    c.setAcceleration(Kinematics.effectiveAcceleration(c.getVelocityX2(),c.getVelocityX(),dt));
+                    c.setCenterX(c.getVelocityX()*dt.getCurrentTime()+0.5*(c.getAcceleration())*(dt.getCurrentTime()*dt.getCurrentTime()));
 
+                    if(!contact){
+                        c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
+                    }
                 }
 
                 /*
