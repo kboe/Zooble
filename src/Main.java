@@ -22,6 +22,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 import static Logic.Util.DeltaTime.deltatime;
 
 public class Main extends Application {
@@ -57,8 +59,17 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
+        c.setVelocity(new Vector2d(10,0));
+        c2.setVelocity(new Vector2d(0,0));
+        c.setMass(0.2);
+
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
+
+        root.setOnMouseMoved(event -> {
+            rect.setX(event.getX() - rect.getWidth() / 2);
+            rect.setY(event.getY() - rect.getHeight() / 2);
+        });
 
         root.getChildren().add(canvas);
         //  root.getChildren().addAll(stackPane,c2, rect);
@@ -83,13 +94,24 @@ public class Main extends Application {
                 dt.setCurrentTime(dt.getCurrentTime() + deltatime);
                 if(collided==true){
                     double cx= c2.getCenterX()+1;
-                    c2.setCenterX(cx);
+                    double v = KinematicsBall.unelasticPushVelocityReturn(c,c2);
+                    ArrayList vs = KinematicsBall.elasticPush(c,c2);
+                    double v1 = (double) vs.get(0);
+                    double v2 = (double) vs.get(1);
+
+                    System.out.println("VELOCITY: "+v);
+                    c2.setCenterX(c2.getCenterX()+v1);
                     c2.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c2));
+                    c.setCenterX(c.getCenterX()+v2);
+                    c.setPosition(new Vector2d(x, 20));
+                }
+                else{
+                    c.setCenterX(x + c.getRadius());
+                    c.setPosition(new Vector2d(x, 20));
                 }
 
                 //stackPane.setLayoutX(x);
-                c.setCenterX(x + c.getRadius());
-                c.setPosition(new Vector2d(x, 20));
+
             //    c2.setCenterX(x2 - c.getRadius());
 
                x2++;
@@ -97,7 +119,6 @@ public class Main extends Application {
                 x++;
                 //System.out.println(dt.getCurrentTime());
                 //c.setVelocity(KinematicsBall.levelThrowVector(c,dt));
-                rect.rotatePoints(5);
 
 
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));

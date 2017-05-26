@@ -5,6 +5,8 @@ import Logic.Collision.BoxCollider;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 
+import java.util.ArrayList;
+
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 /**
@@ -149,10 +151,11 @@ public class KinematicsBall {
         bc.setPosition(new Vector2d(x, y));
 
     }
+
     public static Vector2d levelThrowVector(BallCollider bc, DeltaTime deltaTime) {
         double x = levelThrowXPos(bc.getVelocity().getX(), deltaTime);
         double y = levelThrowYPos(bc.getVelocity().getY(), deltaTime);
-        return new Vector2d(x,y);
+        return new Vector2d(x, y);
 
     }
 
@@ -210,12 +213,16 @@ public class KinematicsBall {
     //---------------------------------------------------------------------------------
     //elastischer Stoß
 
-    public static void elasticPush(BallCollider bc1, BallCollider bc2) {
+    public static ArrayList<Double> elasticPush(BallCollider bc1, BallCollider bc2) {
         double v1 = elasticPushVelocity1(bc1.getMass(), bc2.getMass(), bc1.getVelocity().getX(), bc2.getVelocity().getX());
         double v2 = elasticPushVelocity2(bc1.getMass(), bc2.getMass(), bc1.getVelocity().getX(), bc2.getVelocity().getX());
 
-        bc1.setVelocity(new Vector2d(v1,bc1.getVelocity().getY()));
-        bc2.setVelocity(new Vector2d(v2,bc2.getVelocity().getY()));
+        bc1.setVelocity(new Vector2d(v1, bc1.getVelocity().getY()));
+        bc2.setVelocity(new Vector2d(v2, bc2.getVelocity().getY()));
+        ArrayList<Double> vs = new ArrayList();
+        vs.add(v1);
+        vs.add(v2);
+        return vs;
     }
 
     /**
@@ -251,12 +258,13 @@ public class KinematicsBall {
 
     /**
      * Radial acceleration
+     *
      * @param bc
      * @return
      */
-    public static double radialAcceleration(BallCollider bc){
+    public static double radialAcceleration(BallCollider bc) {
         //double acceleration=(velocity*velocity)/radius;
-        double a = (bc.getVelocity().getX()*bc.getVelocity().getX())/bc.getRadius();
+        double a = (bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius();
         return a;
     }
 

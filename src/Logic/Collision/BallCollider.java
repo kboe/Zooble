@@ -12,11 +12,13 @@ public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
     private Vector2d lastPosition;
-    private Vector2d velocity = new Vector2d(15,0);
+    private Vector2d velocity=new Vector2d(2,0);
     private Vector2d currentVelocity;
     private Vector2d lastVelocity;
     private double mass = 1;
     private double acceleration;
+    //private double currentVelocity;
+    //private double lastVelocity;
 
 
 
