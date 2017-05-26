@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 import static Logic.Util.DeltaTime.deltatime;
+import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 public class Main extends Application {
 
@@ -62,7 +63,7 @@ public class Main extends Application {
 
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(100, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(50, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
@@ -107,8 +108,12 @@ public class Main extends Application {
 
             DeltaTime dt = new DeltaTime();
             int x = 0;
-            double x2 = 300;
-            boolean collided = false;
+            double sp = c.getCenterX();
+            double v0 = 0;
+            double v1=0;
+            boolean notFirstFrame = false;
+            boolean notSecondFrame =false;
+            boolean contact = false;
 
             @Override
             public void handle(long now) {
@@ -124,8 +129,24 @@ public class Main extends Application {
 
                 //BASISEFFEKT 1
 
-                c.setCenterX(x+c.getRadius());
-                x++;
+                if(notFirstFrame==false){
+                    c.setCenterX(Kinematics.evenMovementPosition(100,dt,sp));
+                    if(!contact){
+                        c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
+                    }
+                    else {
+
+                    }
+
+
+                    //notFirstFrame=true;
+                }
+                else {
+
+                }
+
+                /*
+                c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));*/
 
                 /*if (collided == true) {
                     c2.setCenterX(Kinematics.evenMovementPosition(5,dt,c2.getCenterX()));
@@ -137,11 +158,6 @@ public class Main extends Application {
                     System.out.println(c.getCenterX());
                     c.setCenterX(Kinematics.evenMovementPosition(5, dt, c.getCenterX()));
                 }
-
-                x2++;
-
-                x++;
-
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));*/
 
                 //KAREN CODE ENDING
@@ -154,10 +170,10 @@ public class Main extends Application {
                     //KAREN CODE BEGINNING
                     //collided = true;
                     //KAREN CODE ENDING
-                }/* else if (CollisionChecker.checkCollision(c, rect)) {
+                } else if (CollisionChecker.checkCollision(c, rect)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c, rect);
                     System.out.println("collision Point with Rectangle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                }*/
+                }
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
 
