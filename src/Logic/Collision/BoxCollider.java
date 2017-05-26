@@ -13,18 +13,17 @@ import java.awt.geom.AffineTransform;
 public class BoxCollider extends Polygon {
 
     private Vector2d midpoint;              //Center of the Box
-    private Vector2d[] vectorPoints = new Vector2d[this.getPoints().size()/2];              //upper left corner of the box
+    private Vector2d[] vectorPoints = new Vector2d[this.getPoints().size() / 2];              //upper left corner of the box
     private double width;
     private double height;
     private double mass = 0;
     private int angle = 0;
 
 
-
     //CONSTRUCTOR
 
-    public BoxCollider(double x, double y, double width, double height, @Nullable Paint paint){
-        super(x,y,x+width,y,x+width,y+height,x,y+height);
+    public BoxCollider(double x, double y, double width, double height, @Nullable Paint paint) {
+        super(x, y, x + width, y, x + width, y + height, x, y + height);
 
         //Store the points from the observable ArrayList into an Array called points, so they can be converted to Vector
 
@@ -33,64 +32,93 @@ public class BoxCollider extends Polygon {
 
         this.width = width;
         this.height = height;
-        if (paint != null){
+        if (paint != null) {
             this.setFill(paint);
         }
-       midpoint = new Vector2d(vectorPoints[0].getX() + width/2, vectorPoints[0].getY() + height/2);
-    }
-
-    public void scaleWidth(double newWidth){        //KLAPPT NICHT RICHTIG... vllt. etwas mit Rotiere zurück, skaliere und rotiere wieder hin!
-        int actualAngle = this.angle;
-        rotatePoints(-this.angle);
-        this.getPoints().set(2,this.getPoints().get(2) + newWidth);
-        this.getPoints().set(4,this.getPoints().get(4) + newWidth);
-        rotatePoints(actualAngle);
+        calculateMidpoint();
     }
 
     //METHODS
+    //TRANSFORM METHODS
+
+    //TODO define a method for moving the whole Rectangle
+
+    /**
+     * Scales the Box with a specified value
+     *
+     * @param newWidth the value you want to add to the width of the Box
+     */
+    public void scaleWidth(double newWidth) {
+        int actualAngle = this.angle;
+
+        rotatePoints(-this.angle);
+        this.getPoints().set(2, this.getPoints().get(2) + newWidth);
+        this.getPoints().set(4, this.getPoints().get(4) + newWidth);
+        rotatePoints(actualAngle);
+
+        storePointsInVector();      //update vectorPoints
+        calculateMidpoint();
+    }
 
     /**
      * rotates the points array of the BoxCollider
+     *
      * @param angle the angle you want the Box to be rotated
      * @return returns a double[] with the x,y points
      */
-    public void rotatePoints(int angle){
+    public void rotatePoints(int angle) {
         this.angle += angle;
         double midpointX = this.getMidpoint().getX();
         double midpointY = this.getMidpoint().getY();
         double[] points = convertPointsObservableArrayIntoPointsArray();
         double[] storeTo = new double[this.getPoints().size()];
 
-        AffineTransform.getRotateInstance(Math.toRadians(angle), midpointX, midpointY).transform(points,0,storeTo,0,this.getPoints().size()/2);
+        AffineTransform.getRotateInstance(Math.toRadians(angle), midpointX, midpointY).transform(points, 0, storeTo, 0, this.getPoints().size() / 2);
 
         for (int i = 0; i < this.getPoints().size(); i++) {
-            this.getPoints().set(i,storeTo[i]);
+            this.getPoints().set(i, storeTo[i]);
         }
+
+        storePointsInVector();  //Update vectorPoints
+        calculateMidpoint();    //Update Midpoint
+    }
+
+    //UTIL METHODS
+
+    private void calculateMidpoint() {
+        double midX = (vectorPoints[0].getX() + vectorPoints[1].getX() + vectorPoints[2].getX() + vectorPoints[3].getX()) / vectorPoints.length;
+        double midY = (vectorPoints[0].getY() + vectorPoints[1].getY() + vectorPoints[2].getY() + vectorPoints[3].getY()) / vectorPoints.length;
+
+        midpoint = new Vector2d(midX, midY);
     }
 
     /**
-     * converts a double array with points into a vector array
+     * converts the Observable ArrayList into the Vector2d array. Keeps the vector point array and the Observable List in sync.
      */
-    private void storePointsInVector(){
+    private void storePointsInVector() {
         int indexCounter = 0;
         for (int i = 0; i < this.getPoints().size(); i += 2) {
-            vectorPoints[indexCounter] = new Vector2d(this.getPoints().get(i), this.getPoints().get(i+1));
+            vectorPoints[indexCounter] = new Vector2d(this.getPoints().get(i), this.getPoints().get(i + 1));
             indexCounter++;
         }
     }
 
-    private void storeVectorInPoints(double[] points, Vector2d[] vectorPoints){
-
-    }
-
-    private void updatePolygonPointsArrayList(){
-
+    /**
+     * stores the Vector2d array into the observable point list of the polygon. Keeps the vector point array and the Observable List in sync.
+     */
+    private void storeVectorInPoints() {
+        int indexCounter = 0;
+        for (int i = 0; i < vectorPoints.length; i++) {
+            this.getPoints().set(indexCounter, vectorPoints[i].getX());
+            this.getPoints().set(indexCounter + 1, vectorPoints[i].getY());
+            indexCounter += 2;
+        }
     }
 
     /**
      * converts the points Observable ArrayList into a normal double Array
      */
-    private double[] convertPointsObservableArrayIntoPointsArray(){
+    private double[] convertPointsObservableArrayIntoPointsArray() {
         double[] points = new double[this.getPoints().size()];
 
         for (int i = 0; i < this.getPoints().size(); i++) {
