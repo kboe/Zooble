@@ -4,6 +4,7 @@ package GUI;
  * Created by TheRop on 25/05/17.
  */
 
+import Logic.Collision.BoxCollider;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -40,7 +41,7 @@ public class ZooRect {
     Boolean selected = false;
 
     public ZooRect(){
-
+        /*
         Rectangle rect = new Rectangle();
         {
             rect.setX(coordX);
@@ -49,13 +50,16 @@ public class ZooRect {
             rect.setHeight(height);
             rect.setFill(Color.ORANGE);
         }
+        */
+
+        BoxCollider rect = new BoxCollider(coordX, coordY, width, height, Color.BLUE);
 
         manipulators.setVisible(false);
         updateManipulator();
 
         controlPlus = new Button("+");
         {
-            manipulators.add(controlPlus,1,1);
+            manipulators.add(controlPlus,3,0);
             controlPlus.setOnAction(event -> {
                 if (rect.getWidth() < 400){
                     width += 100;
@@ -70,7 +74,7 @@ public class ZooRect {
 
         controlMinus = new Button("-");
         {
-            manipulators.add(controlMinus,0,1);
+            manipulators.add(controlMinus,0,0);
             controlMinus.setOnAction(event -> {
                 if (rect.getWidth() > 200){
                     width -= 100;
@@ -85,7 +89,7 @@ public class ZooRect {
 
         controlRotPlus = new Button("rot +");
         {
-            manipulators.add(controlRotPlus,1,0);
+            manipulators.add(controlRotPlus,2,0);
             controlRotPlus.setOnAction(event -> {
                 rect.getTransforms().add(new Rotate(22.5,coordX+width/2,coordY+height/2));
                 updateManipulator();
@@ -95,7 +99,7 @@ public class ZooRect {
 
         controlRotMinus = new Button("rot -");
         {
-            manipulators.add(controlRotMinus,0,0);
+            manipulators.add(controlRotMinus,1,0);
             controlRotMinus.setOnAction(event -> {
                 rect.getTransforms().add(new Rotate(-22.5,coordX+width/2,coordY+height/2));
                 updateManipulator();
@@ -155,8 +159,8 @@ public class ZooRect {
     }
 
     public void updateManipulator(){
-        manipulators.setLayoutX(coordX + width/3);
-        manipulators.setLayoutY(coordY + height/2-50);
+        manipulators.setLayoutX(coordX + width/4);
+        manipulators.setLayoutY(coordY + height/4);
     }
 
 }
