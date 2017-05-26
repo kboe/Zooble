@@ -1,0 +1,20 @@
+.root {
+      -fx-background-image: url("Highscorebackground.png");
+      -fx-background-repeat: stretch;
+      -fx-background-size: 1300 750;
+      -fx-background-position: center center;
+         }
+
+
+.backbutton {
+    -fx-background-color: #9d2e4a;
+    -fx-padding: 25 214 25 214;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-background-radius:0;
+    -fx-font-size: 40px;
+    }
+
+    .backbutton:hover{
+    -fx-background-color: #b35c72;
+    }
