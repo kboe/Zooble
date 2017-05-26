@@ -28,7 +28,6 @@ public class MainMenu {
 
         Image image = new Image(getClass().getResource("logo.png").toExternalForm()) {};
 
-        // simple displays ImageView the image as is
         ImageView iv1 = new ImageView();
         iv1.setImage(image);
         iv1.setFitWidth(550);
