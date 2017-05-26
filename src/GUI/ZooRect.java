@@ -41,7 +41,7 @@ public class ZooRect {
     Boolean selected = false;
 
     public ZooRect(){
-/*
+        /*
         Rectangle rect = new Rectangle();
         {
             rect.setX(coordX);
