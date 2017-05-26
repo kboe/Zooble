@@ -16,7 +16,8 @@ public class MainMenu {
 
     public MainMenu(){
 
-
+        //STRG + T -> Updated
+        //STRG + K -> Commiten
 
 
         //GridPane
