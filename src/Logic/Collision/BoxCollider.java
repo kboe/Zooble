@@ -40,14 +40,11 @@ public class BoxCollider extends Polygon {
     }
 
     public void scaleWidth(double newWidth){        //KLAPPT NICHT RICHTIG... vllt. etwas mit Rotiere zurück, skaliere und rotiere wieder hin!
-        double[] points = convertPointsObservableArrayIntoPointsArray();
-        double[] storeTo = new double[this.getPoints().size()];
-
-        AffineTransform.getScaleInstance(1.2,1).transform(points,0,storeTo,0,this.getPoints().size()/2);
-
-        for (int i = 0; i < this.getPoints().size(); i++) {
-            this.getPoints().set(i,storeTo[i]);
-        }
+        int actualAngle = this.angle;
+        rotatePoints(-this.angle);
+        this.getPoints().set(2,this.getPoints().get(2) + newWidth);
+        this.getPoints().set(4,this.getPoints().get(4) + newWidth);
+        rotatePoints(actualAngle);
     }
 
     //METHODS
@@ -58,7 +55,7 @@ public class BoxCollider extends Polygon {
      * @return returns a double[] with the x,y points
      */
     public void rotatePoints(int angle){
-        this.angle = angle;
+        this.angle += angle;
         double midpointX = this.getMidpoint().getX();
         double midpointY = this.getMidpoint().getY();
         double[] points = convertPointsObservableArrayIntoPointsArray();

@@ -83,15 +83,19 @@ public class Main extends Application {
         //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
         root.getChildren().addAll(rect, c2, c);
 
-        /*theScene.setOnKeyPressed(event -> {
+        theScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.A){
                 System.out.println(rect.getPoints().get(2));
-                rect.scaleWidth(10);
+                rect.rotatePoints(-45);
                 System.out.println(rect.getPoints().get(2));
-            } else if (event.getCode() == KeyCode.S){
+            } else if (event.getCode() == KeyCode.D){
                 rect.rotatePoints(45);
+            } else if (event.getCode() == KeyCode.W){
+                rect.scaleWidth(20);
+            } else if (event.getCode() == KeyCode.S){
+                rect.scaleWidth(-20);
             }
-        });*/
+        });
 
 
         //Roberts TESTFACTORY START
