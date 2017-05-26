@@ -88,7 +88,7 @@ public class ZooRect {
             controlRotPlus.setLayoutX((coordY+ width)/2);
             controlRotPlus.setLayoutY(coordY-30);
             controlRotPlus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(45,coordX+100,coordY));
+                rect.getTransforms().add(new Rotate(45,coordX+width/2,coordY+height/2));
             });
         }
 
