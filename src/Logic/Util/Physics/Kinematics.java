@@ -23,7 +23,7 @@ public class Kinematics {
      */
     public static double evenMovementPosition(double velocity, DeltaTime deltaTime, double position0) {
         double pos = velocity * deltaTime.getCurrentTime() + position0;
-        return 0;
+        return pos;
     }
 
     //----------------------------------------------------------------------------------------------------------------
