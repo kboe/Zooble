@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
@@ -20,7 +21,7 @@ public class ZooRect {
     double coordX = 100;
     double coordY = 200;
 
-    Group rectGrp;
+    public Group rectGrp;
 
     Button controlPlus;
     Button controlMinus;
@@ -42,6 +43,7 @@ public class ZooRect {
             rect.setY(coordY);
             rect.setWidth(width);
             rect.setHeight(height);
+            rect.setFill(Color.ORANGE);
         }
 
         controlPlus = new Button("+");

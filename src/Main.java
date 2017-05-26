@@ -1,4 +1,5 @@
 import GUI.MainMenu;
+import GUI.ZooRect;
 import Logic.Collision.BallCollider;
 import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
@@ -18,6 +19,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -78,6 +80,16 @@ public class Main extends Application {
         //  root.getChildren().addAll(stackPane,c2, rect);
         //root.getChildren().addAll(stackPane, rect,stackPane2,c2);
         root.getChildren().addAll(rect, c2, c);
+
+
+        //Roberts TESTFACTORY START
+        ZooRect testRect = new ZooRect();
+        root.getChildren().add(testRect.rectGrp);
+
+
+
+        //Roberts TESTFACTORY END
+
 
         new AnimationTimer() {
 
