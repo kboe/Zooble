@@ -1,27 +1,22 @@
 package GUI;
 
 
-import javafx.application.Application;
+
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
 /**
  *
  * @author Hilli
  */
-public class Highscore extends Application {
+public class Highscore {
 
+    private Scene mainMenuScene;
 
-    Stage window;
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        window = primaryStage;
-        window.setTitle("Highscore");
+    public Highscore(){
 
 
         //GridPane
@@ -35,19 +30,19 @@ public class Highscore extends Application {
         GridPane.setConstraints(backButton, 25, 60, 2, 1);
 
 
-        //Füge alles zum Grid hinzu
         grid.getChildren().addAll(backButton);
 
 
         /**
          * @param args the command line arguments
          */
-        final String look = this.getClass().getResource("look2.css").toExternalForm();
+        final String look = this.getClass().getResource("look.css").toExternalForm();
 
-        Scene scene = new Scene(grid, 1300, 750);
-        scene.getStylesheets().add(look);
-        window.setScene(scene);
-        window.show();
+        mainMenuScene = new Scene(grid, 1300, 750);
+        mainMenuScene.getStylesheets().addAll(this.getClass().getResource("look.css").toExternalForm());
     }
 
+    public Scene getMainMenuScene() {
+        return mainMenuScene;
+    }
 }
