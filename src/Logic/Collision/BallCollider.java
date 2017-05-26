@@ -19,6 +19,8 @@ public class BallCollider extends Circle {
     private double acceleration;
     private double velocityX;
     private double velocityY;
+    private double velocityX2;
+    private double velocityY2;
     //private double currentVelocity;
     //private double lastVelocity;
 
@@ -110,5 +112,21 @@ public class BallCollider extends Circle {
 
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public double getVelocityX2() {
+        return velocityX2;
+    }
+
+    public void setVelocityX2(double velocityX2) {
+        this.velocityX2 = velocityX2;
+    }
+
+    public double getVelocityY2() {
+        return velocityY2;
+    }
+
+    public void setVelocityY2(double velocityY2) {
+        this.velocityY2 = velocityY2;
     }
 }

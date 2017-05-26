@@ -112,7 +112,7 @@ public class Kinematics {
      */
     public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
         double acceleration = (velocity1 - velocity0) / (deltaTime.getLastTime() - deltaTime.getCurrentTime());
-        return 0;
+        return acceleration;
     }
 
     //----------------------------------------------------------------------------------------------------------------
