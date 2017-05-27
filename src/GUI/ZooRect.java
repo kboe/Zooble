@@ -17,33 +17,37 @@ import javafx.scene.transform.Rotate;
 
 public class ZooRect {
 
-    double width = 200;
-    double height = 30;
+    private double width = 200;
+    private double height = 30;
 
-    double coordX = 100;
-    double coordY = 200;
+    private double angle = 0;
+
+    private double coordX = 100;
+    private double coordY = 200;
 
     public Group rectGrp;
 
     private GridPane manipulators = new GridPane();
 
-    Button controlPlus;
-    Button controlMinus;
-    Button controlRotPlus;
-    Button controlRotMinus;
+    private Button controlPlus;
+    private Button controlMinus;
+    private Button controlRotPlus;
+    private Button controlRotMinus;
 
-    double sceneX;
-    double sceneY;
+    private double sceneX;
+    private double sceneY;
 
-    double translateX;
-    double translateY;
+    private double translateX;
+    private double translateY;
 
-    Boolean selected = false;
+    private Boolean selected = false;
 
-    int hitCounterP = 0;
-    int hitCounterM = 3;
+    private int hitCounterP = 0;
+    private int hitCounterM = 3;
+    private int hitCounterRotateP = 0;
+    private int hitCounterRotateM = 3;
 
-    public ZooRect(){
+    public ZooRect() {
         /*
         Rectangle rect = new Rectangle();
         {
@@ -62,15 +66,15 @@ public class ZooRect {
 
         controlPlus = new Button("+");
         {
-            manipulators.add(controlPlus,3,0);
+            manipulators.add(controlPlus, 3, 0);
             controlPlus.setOnAction(event -> {
                 if (hitCounterM > 0)
                     hitCounterM--;
-                if (hitCounterP < 3){
+                if (hitCounterP < 3) {
                     updateManipulator();
                     rect.scaleWidth(50);
                     hitCounterP++;
-                }else{
+                } else {
                     System.out.println("nope");
                 }
 
@@ -79,16 +83,16 @@ public class ZooRect {
 
         controlMinus = new Button("-");
         {
-            manipulators.add(controlMinus,0,0);
+            manipulators.add(controlMinus, 0, 0);
             controlMinus.setOnAction(event -> {
                 if (hitCounterP > 0)
                     hitCounterP--;
 
-                if (hitCounterM < 3){
+                if (hitCounterM < 3) {
                     updateManipulator();
                     rect.scaleWidth(-50);
                     hitCounterM++;
-                }else{
+                } else {
                     System.out.println("nope");
                 }
 
@@ -97,23 +101,35 @@ public class ZooRect {
 
         controlRotPlus = new Button("rot +");
         {
-            manipulators.add(controlRotPlus,2,0);
+            manipulators.add(controlRotPlus, 2, 0);
             controlRotPlus.setOnAction(event -> {
-                rect.rotatePoints(22.5);
-                updateManipulator();
+                if (angle < 67.5) {
+                    rect.rotatePoints(22.5);
+                    angle += 22.5;
+                    updateManipulator();
+                    hitCounterRotateP++;
+                } else {
+                    System.out.println("nope");
+                }
+
             });
         }
 
 
         controlRotMinus = new Button("rot -");
         {
-            manipulators.add(controlRotMinus,1,0);
+            manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
-                rect.rotatePoints(22.5);
-                updateManipulator();
+                if (angle > -67.5) {
+                    rect.rotatePoints(-22.5);
+                    angle -= 22.5;
+                    updateManipulator();
+                } else {
+                    System.out.println("nope");
+                }
+
             });
         }
-
 
 
         rectGrp = new Group();
@@ -130,14 +146,14 @@ public class ZooRect {
             sceneX = event.getSceneX();
             sceneY = event.getSceneY();
 
-            translateX = ((Group)(event.getSource())).getTranslateX();
-            translateY = ((Group)(event.getSource())).getTranslateY();
+            translateX = ((Group) (event.getSource())).getTranslateX();
+            translateY = ((Group) (event.getSource())).getTranslateY();
 
-            if (!selected){
+            if (!selected) {
                 selected = true;
                 showManipulator(selected);
 
-            }else{
+            } else {
                 selected = false;
                 showManipulator(selected);
             }
@@ -156,19 +172,19 @@ public class ZooRect {
             double nTranslateX = translateX + offsetX;
             double nTranslateY = translateY + offsetY;
 
-            ((Group)(event.getSource())).setTranslateX(nTranslateX);
-            ((Group)(event.getSource())).setTranslateY(nTranslateY);
+            ((Group) (event.getSource())).setTranslateX(nTranslateX);
+            ((Group) (event.getSource())).setTranslateY(nTranslateY);
 
         }
     };
 
-    public void showManipulator(Boolean b){
+    public void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 
-    public void updateManipulator(){
-        manipulators.setLayoutX(coordX + width/4);
-        manipulators.setLayoutY(coordY + height/4);
+    public void updateManipulator() {
+        manipulators.setLayoutX(coordX + width / 4);
+        manipulators.setLayoutY(coordY + height / 4);
     }
 
 }
