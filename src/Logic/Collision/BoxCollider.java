@@ -66,7 +66,7 @@ public class BoxCollider extends Polygon {
      * @param angle the angle you want the Box to be rotated
      * @return returns a double[] with the x,y points
      */
-    public void rotatePoints(int angle) {
+    public void rotatePoints(double angle) {
         this.angle += angle;
         double midpointX = this.getMidpoint().getX();
         double midpointY = this.getMidpoint().getY();

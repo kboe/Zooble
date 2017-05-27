@@ -40,6 +40,9 @@ public class ZooRect {
 
     Boolean selected = false;
 
+    int hitCounterP = 0;
+    int hitCounterM = 0;
+
     public ZooRect(){
         /*
         Rectangle rect = new Rectangle();
@@ -61,10 +64,11 @@ public class ZooRect {
         {
             manipulators.add(controlPlus,3,0);
             controlPlus.setOnAction(event -> {
-                if (rect.getWidth() < 400){
-                    width += 100;
+
+                if (hitCounterP < 3){
                     updateManipulator();
-                    rect.setWidth(width);
+                    rect.scaleWidth(50);
+                    hitCounterP++;
                 }else{
                     System.out.println("nope");
                 }
@@ -76,10 +80,10 @@ public class ZooRect {
         {
             manipulators.add(controlMinus,0,0);
             controlMinus.setOnAction(event -> {
-                if (rect.getWidth() > 200){
-                    width -= 100;
+                if (hitCounterM < 3){
                     updateManipulator();
-                    rect.setWidth(width);
+                    rect.scaleWidth(-50);
+                    hitCounterM++;
                 }else{
                     System.out.println("nope");
                 }
@@ -91,7 +95,7 @@ public class ZooRect {
         {
             manipulators.add(controlRotPlus,2,0);
             controlRotPlus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(22.5,coordX+width/2,coordY+height/2));
+                rect.rotatePoints(22.5);
                 updateManipulator();
             });
         }
@@ -101,7 +105,7 @@ public class ZooRect {
         {
             manipulators.add(controlRotMinus,1,0);
             controlRotMinus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(-22.5,coordX+width/2,coordY+height/2));
+                rect.rotatePoints(22.5);
                 updateManipulator();
             });
         }
