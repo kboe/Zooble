@@ -179,7 +179,7 @@ public class ZooRect {
     }
 
     private void updateManipulator() {
-        manipulators.setLayoutX(rect.getMidpoint().getX() - 70);
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 85);
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
