@@ -88,8 +88,11 @@ public class ZooRect {
             });
         }
 
-        controlRotPlus = new Button("rot +");
+        controlRotPlus = new Button();
         {
+            controlRotPlus.setStyle("-fx-background-image: url('/GUI/addrot.jpg')");
+            controlRotPlus.setMinWidth(25);
+
             manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
@@ -104,8 +107,11 @@ public class ZooRect {
         }
 
 
-        controlRotMinus = new Button("rot -");
+        controlRotMinus = new Button();
         {
+            controlRotMinus.setStyle("-fx-background-image: url('/GUI/removerot.jpg')");
+            controlRotMinus.setMinWidth(25);
+
             manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
@@ -126,6 +132,8 @@ public class ZooRect {
                 allRectsGrp.getChildren().remove(rectGrp);
             });
         }
+
+
 
 
         rectGrp = new Group();
@@ -179,7 +187,7 @@ public class ZooRect {
     }
 
     private void updateManipulator() {
-        manipulators.setLayoutX(rect.getMidpoint().getX() - 85);
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 60);
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
