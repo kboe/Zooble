@@ -1,0 +1,29 @@
+.root {
+      -fx-background-color: #9d2e4a;
+ }
+
+ .button-restart {
+    -fx-background-color: #7CAFC2;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius:0;
+    }
+
+    .button-restart:hover{
+    -fx-background-color: #1278C4;
+    }
+
+    .button-home {
+    -fx-background-color: #7CAFC2;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius:0;
+    }
+
+    .button-home:hover{
+    -fx-background-color: #1278C4;
+    }
+
+    .gameover {
+      -fx-text-fill: #FFFFFF;
+      -fx-font-weight: bold;
+      -fx-font-size: 53px;
+        }
