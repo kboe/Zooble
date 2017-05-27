@@ -1,5 +1,6 @@
 package Logic.Util.Physics;
 
+import Logic.Collision.BallCollider;
 import Logic.Util.DeltaTime;
 
 /**
@@ -7,7 +8,9 @@ import Logic.Util.DeltaTime;
  */
 public class Kinematics {
 
-    public static final double GRAVITY = 9.81;
+    //public static final double GRAVITY = 9.81;
+    public static final double GRAVITY =9.81;
+
 
 
     //---------------------------------------------------------------------------------
@@ -210,6 +213,11 @@ public class Kinematics {
         return velocity;
     }
 
+    public static double elasticPushVelocity1Collider(BallCollider ballCollider, BallCollider ballCollider2) {
+        double velocity = ((ballCollider.getMass()-ballCollider2.getMass())*ballCollider.getVelocityX()+(2*ballCollider2.getMass()*ballCollider2.getVelocityX()))/(ballCollider.getMass()+ballCollider2.getMass());
+        return velocity;
+    }
+
     /**
      * Calculates starting velocity of object that is pushed
      *
@@ -221,6 +229,12 @@ public class Kinematics {
      */
     public static double elasticPushVelocity2(double mass0, double mass1, double velocity0, double velocity1) {
         double velocity = ((mass1 - mass0) * velocity1 + 2 * mass1 * velocity1) / (mass0 + mass1);
+        return velocity;
+    }
+
+
+    public static double elasticPushVelocity2Collider(BallCollider ballCollider, BallCollider ballCollider2) {
+        double velocity = ((ballCollider2.getMass()-ballCollider.getMass())*ballCollider2.getVelocityX()+(2*ballCollider.getMass()*ballCollider.getVelocityX()))/(ballCollider.getMass()+ballCollider2.getMass());
         return velocity;
     }
 
