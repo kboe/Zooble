@@ -93,7 +93,7 @@ public class ZooRect {
             manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
-                    rect.rotatePoints(addAngle);
+                    rect.rotateBox(addAngle);
                     angle += addAngle;
                     updateManipulator();
                 } else {
@@ -109,7 +109,7 @@ public class ZooRect {
             manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
-                    rect.rotatePoints(-addAngle);
+                    rect.rotateBox(-addAngle);
                     angle -= addAngle;
                     updateManipulator();
                 } else {
@@ -167,6 +167,7 @@ public class ZooRect {
             double offsetY = event.getSceneY() - sceneY;
             double nTranslateX = translateX + offsetX;
             double nTranslateY = translateY + offsetY;
+
 
             ((Group) (event.getSource())).setTranslateX(nTranslateX);
             ((Group) (event.getSource())).setTranslateY(nTranslateY);

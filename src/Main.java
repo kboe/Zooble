@@ -70,8 +70,6 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
-        final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
-
         c.setVelocityX(25);
         c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
@@ -87,27 +85,10 @@ public class Main extends Application {
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
 
-      /*  root.setOnMouseMoved(event -> {
-            rect.setX(event.getX() - rect.getWidth() / 2);
-            rect.setY(event.getY() - rect.getHeight() / 2);
-        });*/
 
         root.getChildren().add(canvas);
-        root.getChildren().addAll(rect, c2, c);
+        root.getChildren().addAll(c2, c);
         root.getChildren().add(c3);
-
-        theScene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.A) {
-                rect.rotatePoints(-45);
-            } else if (event.getCode() == KeyCode.D) {
-                rect.rotatePoints(45);
-            } else if (event.getCode() == KeyCode.W) {
-                rect.scaleWidth(20);
-            } else if (event.getCode() == KeyCode.S) {
-                rect.scaleWidth(-20);
-            }
-        });
-
 
         //Roberts TESTFACTORY START
 
@@ -142,7 +123,6 @@ public class Main extends Application {
         allRectsGrp.getChildren().add(gridPane);
 
         root.getChildren().add(allRectsGrp);
-
 
         //Roberts TESTFACTORY END
 
@@ -350,11 +330,6 @@ public class Main extends Application {
 
                 }
                 //KAREN CODE ENDING
-
-                else if (CollisionChecker.checkCollision(c, rect)) {
-                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c, rect);
-                    System.out.println("collision Point with Rectangle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                }
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 i++;

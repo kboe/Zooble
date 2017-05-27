@@ -4,7 +4,6 @@ import Logic.Util.Vector2d;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
-import javafx.scene.transform.Affine;
 
 import java.awt.geom.AffineTransform;
 
@@ -15,6 +14,7 @@ public class BoxCollider extends Polygon {
 
     private Vector2d midpoint;              //Center of the Box
     private Vector2d[] vectorPoints = new Vector2d[this.getPoints().size() / 2];              //upper left corner of the box
+    private Vector2d[] normals = new Vector2d[this.getPoints().size() / 2];
     private double width;
     private double height;
     private double mass = 0;
@@ -37,26 +37,19 @@ public class BoxCollider extends Polygon {
             this.setFill(paint);
         }
         calculateMidpoint();
+        calculateNormals();
     }
 
     //METHODS
     //TRANSFORM METHODS
 
-    //TODO define a method for moving the whole Rectangle
 
-   /* public void translateBox(){
-        double[] points = convertPointsObservableArrayIntoPointsArray();
-        double[] storeTo = new double[this.getPoints().size()];
-
-        //AffineTransform.getTranslateInstance(1,1).transform();
-
-        for (int i = 0; i < this.getPoints().size(); i++) {
-            this.getPoints().set(i, storeTo[i]);
-        }
-
-        storePointsInVector();  //Update vectorPoints
-        calculateMidpoint();    //Update Midpoint
-    }*/
+    /**
+     * translates the points of the box by a specific Vector
+     */
+    public void translateBox(Vector2d translationVector){
+        //TODO implement translation Method.
+    }
 
     /**
      * Scales the Box with a specified value
@@ -66,22 +59,22 @@ public class BoxCollider extends Polygon {
     public void scaleWidth(double newWidth) {
         int actualAngle = this.angle;
 
-        rotatePoints(-this.angle);
+        rotateBox(-this.angle);
         this.getPoints().set(2, this.getPoints().get(2) + newWidth);
         this.getPoints().set(4, this.getPoints().get(4) + newWidth);
-        rotatePoints(actualAngle);
+        rotateBox(actualAngle);
 
         storePointsInVector();      //update vectorPoints
         calculateMidpoint();
     }
 
     /**
-     * rotates the points array of the BoxCollider
+     * rotates the points array of the BoxCollider. Always rotates around the current midpoint!
      *
      * @param angle the angle you want the Box to be rotated
      * @return returns a double[] with the x,y points
      */
-    public void rotatePoints(double angle) {
+    public void rotateBox(double angle) {
         this.angle += angle;
         double midpointX = this.getMidpoint().getX();
         double midpointY = this.getMidpoint().getY();
@@ -95,17 +88,36 @@ public class BoxCollider extends Polygon {
         }
 
         storePointsInVector();  //Update vectorPoints
+        calculateNormals();     //Update normals
         calculateMidpoint();    //Update Midpoint
         validateAngle();        //Keep angle between 0 and 359
     }
 
     //UTIL METHODS
 
+    /**
+     * (re-)calculates the midpoint of the box shape
+     */
     private void calculateMidpoint() {
         double midX = (vectorPoints[0].getX() + vectorPoints[1].getX() + vectorPoints[2].getX() + vectorPoints[3].getX()) / vectorPoints.length;
         double midY = (vectorPoints[0].getY() + vectorPoints[1].getY() + vectorPoints[2].getY() + vectorPoints[3].getY()) / vectorPoints.length;
 
         midpoint = new Vector2d(midX, midY);
+    }
+
+    /**
+     * (re-)calculates normals of a box shape
+     */
+    private void calculateNormals() {
+        for (int i = 0; i < this.vectorPoints.length; i++) {
+            if (i < this.vectorPoints.length-1){
+                normals[i] = Vector2d.orthoCCW(Vector2d.subtract(this.vectorPoints[i + 1], this.vectorPoints[i]));
+                normals[i].normalize();
+            } else {
+                normals[i] = Vector2d.orthoCCW(Vector2d.subtract(this.vectorPoints[0], vectorPoints[i]));
+                normals[i].normalize();
+            }
+        }
     }
 
     /**
@@ -147,7 +159,7 @@ public class BoxCollider extends Polygon {
     /**
      * keeps the angle of an object between 0 and 359 (0 == 360)
      */
-    private void validateAngle(){
+    private void validateAngle() {
         this.angle %= 360;
     }
 
@@ -196,5 +208,9 @@ public class BoxCollider extends Polygon {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    public Vector2d[] getNormals() {
+        return normals;
     }
 }
