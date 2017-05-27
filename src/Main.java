@@ -73,8 +73,8 @@ public class Main extends Application {
         c.setVelocityX(25);
         c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
-        c.setMass(6);
-        c2.setMass(2);
+        c.setMass(9);
+        c2.setMass(3);
         c2.setVelocityX(0);
         c.setAcceleration(1);
 
@@ -107,7 +107,6 @@ public class Main extends Application {
         //Roberts TESTFACTORY START
 
 
-
         Group allRectsGrp = new Group();
         ZooRect testRect = new ZooRect(allRectsGrp);
         allRectsGrp.getChildren().add(testRect.rectGrp);
@@ -123,22 +122,21 @@ public class Main extends Application {
         {
             GridPane uiGrid = new GridPane();
             {
-                uiGrid.add(new Label("Test"),0,0);
-                uiGrid.add(addRect,0,1);
+                uiGrid.add(new Label("Test"), 0, 0);
+                uiGrid.add(addRect, 0, 1);
             }
-            gridPane.add(uiGrid,0,0);
+            gridPane.add(uiGrid, 0, 0);
 
             RowConstraints ui = new RowConstraints();
             ui.setMinHeight(500);
             gridPane.getRowConstraints().addAll(ui);
             gridPane.getStyleClass().add("gridpane");
-            gridPane.setLayoutX(500-50);
+            gridPane.setLayoutX(500 - 50);
         }
 
         allRectsGrp.getChildren().add(gridPane);
 
         root.getChildren().add(allRectsGrp);
-
 
 
         //Roberts TESTFACTORY END
@@ -182,11 +180,14 @@ public class Main extends Application {
                         if (!collided_2) {
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         } else {
-                            if ((c.getVelocity().getX() == 0)) {
-                                c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            if (!(c.getVelocity().getX() == 0)) {
+                                c2.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
 
-                            }
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                                c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                                c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
+
+                            } else
+                                c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
 
                         }
                         break;
@@ -203,14 +204,26 @@ public class Main extends Application {
 
                     //KAREN CODE BEGINNING
                     //collided = true;
+
+                    //BASISEFFEKT 2
                     if (b == 0) {
-                        b = 1;
+                        double p = c2.getCenterX() - c.getCenterX();
                         collided_2 = true;
-                        c.setS0(collPoint.getX() - 2 * c.getRadius());
                         c2.setS0(c2.getCenterX());
-                        c.setVelocity(new Vector2d(Kinematics.elasticPushVelocity1(c.getMass(), c2.getMass(), c.getVelocityX(), c2.getVelocityX()), c.getCenterY()));
-                        c2.setVelocityX(Kinematics.elasticPushVelocity2(c.getMass(), c2.getMass(), c.getVelocityX(), c2.getVelocityX()));
-                        System.out.println("C2: " + c2.getVelocity().getX());
+                        c.setS0(collPoint.getX()-2*c.getRadius());
+                        //c.setS0(collPoint.getX());
+
+
+
+                        //c.setVelocity(new Vector2d(Kinematics.elasticPushVelocity1(c.getMass(), c2.getMass(), c.getVelocityX(), c2.getVelocityX()), c.getCenterY()));
+                        //c.setVelocityX((Kinematics.elasticPushVelocity1(c.getMass(), c2.getMass(), c.getVelocityX(), c2.getVelocityX())));
+                        //c2.setVelocityX(Kinematics.elasticPushVelocity2(c.getMass(), c2.getMass(), c.getVelocityX(), c2.getVelocityX()));
+                        c.setVelocityX(Kinematics.elasticPushVelocity1Collider(c,c2));
+                        c2.setVelocityX(Kinematics.elasticPushVelocity2Collider(c,c2));
+                        System.out.println("V1: " + c.getVelocityX());
+                        b=1;
+                        //System.out.println("V2: " + c2.getVelocityX());
+
                     }
                     //KAREN CODE ENDING
                 } else if (CollisionChecker.checkCollision(c, rect)) {
