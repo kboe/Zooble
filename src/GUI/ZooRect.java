@@ -20,8 +20,8 @@ public class ZooRect {
     private double angle = 0;
     private double addAngle = 22.5;
 
-    private double coordX = 100;
-    private double coordY = 200;
+    private static  final double startCoordX = 100;
+    private static final double startCoordY = 200;
 
     BoxCollider rect;
 
@@ -47,7 +47,7 @@ public class ZooRect {
 
     public ZooRect() {
 
-        rect = new BoxCollider(coordX, coordY, width, height, Color.ORANGE);
+        rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -165,11 +165,11 @@ public class ZooRect {
         }
     };
 
-    public void showManipulator(Boolean b) {
+    private void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 
-    public void updateManipulator() {
+    private void updateManipulator() {
         manipulators.setLayoutX(rect.getMidpoint().getX() - 70);
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
