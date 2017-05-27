@@ -11,62 +11,60 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
-
 
 public class ZooRect {
 
-    double width = 200;
-    double height = 30;
+    private double width = 200;
+    private double height = 35;
 
-    double coordX = 100;
-    double coordY = 200;
+    private double angle = 0;
+    private double addAngle = 22.5;
+
+    private static  final double startCoordX = 100;
+    private static final double startCoordY = 200;
+
+    BoxCollider rect;
 
     public Group rectGrp;
 
     private GridPane manipulators = new GridPane();
 
-    Button controlPlus;
-    Button controlMinus;
-    Button controlRotPlus;
-    Button controlRotMinus;
+    private Button controlPlus;
+    private Button controlMinus;
+    private Button controlRotPlus;
+    private Button controlRotMinus;
+    private Button controlDelete;
 
-    double sceneX;
-    double sceneY;
+    private double sceneX;
+    private double sceneY;
 
-    double translateX;
-    double translateY;
+    private double translateX;
+    private double translateY;
 
-    Boolean selected = false;
+    private Boolean selected = false;
 
-    public ZooRect(){
-        /*
-        Rectangle rect = new Rectangle();
-        {
-            rect.setX(coordX);
-            rect.setY(coordY);
-            rect.setWidth(width);
-            rect.setHeight(height);
-            rect.setFill(Color.ORANGE);
-        }
-        */
+    private int hitCounterP = 0;
+    private int hitCounterM = 3;
 
-        BoxCollider rect = new BoxCollider(coordX, coordY, width, height, Color.BLUE);
+    public ZooRect(Group allRectsGrp) {
+
+        rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
         manipulators.setVisible(false);
         updateManipulator();
 
         controlPlus = new Button("+");
         {
-            manipulators.add(controlPlus,3,0);
+            manipulators.add(controlPlus, 4, 0);
             controlPlus.setOnAction(event -> {
-                if (rect.getWidth() < 400){
-                    width += 100;
+                if (hitCounterM > 0)
+                    hitCounterM--;
+                if (hitCounterP < 3) {
+                    rect.scaleWidth(50);
                     updateManipulator();
-                    rect.setWidth(width);
-                }else{
-                    System.out.println("nope");
+                    hitCounterP++;
+                } else {
+                    System.out.println("max length");
                 }
 
             });
@@ -74,37 +72,67 @@ public class ZooRect {
 
         controlMinus = new Button("-");
         {
-            manipulators.add(controlMinus,0,0);
+            manipulators.add(controlMinus, 0, 0);
             controlMinus.setOnAction(event -> {
-                if (rect.getWidth() > 200){
-                    width -= 100;
+                if (hitCounterP > 0)
+                    hitCounterP--;
+
+                if (hitCounterM < 3) {
+                    rect.scaleWidth(-50);
                     updateManipulator();
-                    rect.setWidth(width);
-                }else{
-                    System.out.println("nope");
+                    hitCounterM++;
+                } else {
+                    System.out.println("min length");
                 }
 
             });
         }
 
-        controlRotPlus = new Button("rot +");
+        controlRotPlus = new Button();
         {
-            manipulators.add(controlRotPlus,2,0);
+            controlRotPlus.setStyle("-fx-background-image: url('/GUI/addrot.jpg')");
+            controlRotPlus.setMinWidth(25);
+
+            manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(22.5,coordX+width/2,coordY+height/2));
-                updateManipulator();
+                if (angle < 67.5) {
+                    rect.rotatePoints(addAngle);
+                    angle += addAngle;
+                    updateManipulator();
+                } else {
+                    System.out.println("max angle");
+                }
+
             });
         }
 
 
-        controlRotMinus = new Button("rot -");
+        controlRotMinus = new Button();
         {
-            manipulators.add(controlRotMinus,1,0);
+            controlRotMinus.setStyle("-fx-background-image: url('/GUI/removerot.jpg')");
+            controlRotMinus.setMinWidth(25);
+
+            manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
-                rect.getTransforms().add(new Rotate(-22.5,coordX+width/2,coordY+height/2));
-                updateManipulator();
+                if (angle > -67.5) {
+                    rect.rotatePoints(-addAngle);
+                    angle -= addAngle;
+                    updateManipulator();
+                } else {
+                    System.out.println("min angle");
+                }
+
             });
         }
+
+        controlDelete = new Button("X");
+        {
+            manipulators.add(controlDelete,2,1);
+            controlDelete.setOnAction(event -> {
+                allRectsGrp.getChildren().remove(rectGrp);
+            });
+        }
+
 
 
 
@@ -122,14 +150,14 @@ public class ZooRect {
             sceneX = event.getSceneX();
             sceneY = event.getSceneY();
 
-            translateX = ((Group)(event.getSource())).getTranslateX();
-            translateY = ((Group)(event.getSource())).getTranslateY();
+            translateX = ((Group) (event.getSource())).getTranslateX();
+            translateY = ((Group) (event.getSource())).getTranslateY();
 
-            if (!selected){
+            if (!selected) {
                 selected = true;
                 showManipulator(selected);
 
-            }else{
+            } else {
                 selected = false;
                 showManipulator(selected);
             }
@@ -148,19 +176,19 @@ public class ZooRect {
             double nTranslateX = translateX + offsetX;
             double nTranslateY = translateY + offsetY;
 
-            ((Group)(event.getSource())).setTranslateX(nTranslateX);
-            ((Group)(event.getSource())).setTranslateY(nTranslateY);
+            ((Group) (event.getSource())).setTranslateX(nTranslateX);
+            ((Group) (event.getSource())).setTranslateY(nTranslateY);
 
         }
     };
 
-    public void showManipulator(Boolean b){
+    private void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 
-    public void updateManipulator(){
-        manipulators.setLayoutX(coordX + width/4);
-        manipulators.setLayoutY(coordY + height/4);
+    private void updateManipulator() {
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 60);
+        manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
 }

@@ -12,7 +12,7 @@ public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
     private Vector2d lastPosition;
-    private Vector2d velocity=new Vector2d(2,0);
+    private Vector2d velocity = new Vector2d(2, 0);
     private Vector2d currentVelocity;
     private Vector2d lastVelocity;
     private double mass = 1;
@@ -21,24 +21,27 @@ public class BallCollider extends Circle {
     private double velocityY;
     private double velocityX2;
     private double velocityY2;
-    //private double currentVelocity;
-    //private double lastVelocity;
-
+    private double s0;
+    private double s1;
 
 
     //CONSTRUCTOR
 
-    public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint){
+    public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint) {
         super(centerX, centerY, radius, paint);
-        position = new Vector2d(centerX,centerY);
-        if (paint != null){
+        position = new Vector2d(centerX, centerY);
+        if (paint != null) {
             this.setFill(paint);
         }
     }
 
 
-
     //GETTER & SETTER
+
+    public void position(Vector2d vector2d) {
+        setCenterX(vector2d.getX());
+        setCenterY(vector2d.getY());
+    }
 
     public Vector2d getPosition() {
         return position;
@@ -128,5 +131,21 @@ public class BallCollider extends Circle {
 
     public void setVelocityY2(double velocityY2) {
         this.velocityY2 = velocityY2;
+    }
+
+    public double getS0() {
+        return s0;
+    }
+
+    public void setS0(double s0) {
+        this.s0 = s0;
+    }
+
+    public double getS1() {
+        return s1;
+    }
+
+    public void setS1(double s1) {
+        this.s1 = s1;
     }
 }

@@ -4,6 +4,7 @@ import Logic.Util.Vector2d;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Affine;
 
 import java.awt.geom.AffineTransform;
 
@@ -43,6 +44,20 @@ public class BoxCollider extends Polygon {
 
     //TODO define a method for moving the whole Rectangle
 
+   /* public void translateBox(){
+        double[] points = convertPointsObservableArrayIntoPointsArray();
+        double[] storeTo = new double[this.getPoints().size()];
+
+        //AffineTransform.getTranslateInstance(1,1).transform();
+
+        for (int i = 0; i < this.getPoints().size(); i++) {
+            this.getPoints().set(i, storeTo[i]);
+        }
+
+        storePointsInVector();  //Update vectorPoints
+        calculateMidpoint();    //Update Midpoint
+    }*/
+
     /**
      * Scales the Box with a specified value
      *
@@ -66,7 +81,7 @@ public class BoxCollider extends Polygon {
      * @param angle the angle you want the Box to be rotated
      * @return returns a double[] with the x,y points
      */
-    public void rotatePoints(int angle) {
+    public void rotatePoints(double angle) {
         this.angle += angle;
         double midpointX = this.getMidpoint().getX();
         double midpointY = this.getMidpoint().getY();
@@ -81,6 +96,7 @@ public class BoxCollider extends Polygon {
 
         storePointsInVector();  //Update vectorPoints
         calculateMidpoint();    //Update Midpoint
+        validateAngle();        //Keep angle between 0 and 359
     }
 
     //UTIL METHODS
@@ -126,6 +142,13 @@ public class BoxCollider extends Polygon {
         }
 
         return points;
+    }
+
+    /**
+     * keeps the angle of an object between 0 and 359 (0 == 360)
+     */
+    private void validateAngle(){
+        this.angle %= 360;
     }
 
     //GETTER & SETTER
