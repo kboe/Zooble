@@ -12,7 +12,7 @@ public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
     private Vector2d lastPosition;
-    private Vector2d velocity=new Vector2d(2,0);
+    private Vector2d velocity = new Vector2d(2, 0);
     private Vector2d currentVelocity;
     private Vector2d lastVelocity;
     private double mass = 1;
@@ -25,20 +25,23 @@ public class BallCollider extends Circle {
     private double s1;
 
 
-
     //CONSTRUCTOR
 
-    public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint){
+    public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint) {
         super(centerX, centerY, radius, paint);
-        position = new Vector2d(centerX,centerY);
-        if (paint != null){
+        position = new Vector2d(centerX, centerY);
+        if (paint != null) {
             this.setFill(paint);
         }
     }
 
 
-
     //GETTER & SETTER
+
+    public void position(Vector2d vector2d) {
+        setCenterX(vector2d.getX());
+        setCenterY(vector2d.getY());
+    }
 
     public Vector2d getPosition() {
         return position;
