@@ -20,8 +20,8 @@ public class ZooRect {
     private double angle = 0;
     private double addAngle = 22.5;
 
-    private double coordX = 100;
-    private double coordY = 200;
+    private static  final double startCoordX = 100;
+    private static final double startCoordY = 200;
 
     BoxCollider rect;
 
@@ -33,6 +33,7 @@ public class ZooRect {
     private Button controlMinus;
     private Button controlRotPlus;
     private Button controlRotMinus;
+    private Button controlDelete;
 
     private double sceneX;
     private double sceneY;
@@ -45,16 +46,16 @@ public class ZooRect {
     private int hitCounterP = 0;
     private int hitCounterM = 3;
 
-    public ZooRect() {
+    public ZooRect(Group allRectsGrp) {
 
-        rect = new BoxCollider(coordX, coordY, width, height, Color.ORANGE);
+        rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
         manipulators.setVisible(false);
         updateManipulator();
 
         controlPlus = new Button("+");
         {
-            manipulators.add(controlPlus, 3, 0);
+            manipulators.add(controlPlus, 4, 0);
             controlPlus.setOnAction(event -> {
                 if (hitCounterM > 0)
                     hitCounterM--;
@@ -89,7 +90,7 @@ public class ZooRect {
 
         controlRotPlus = new Button("rot +");
         {
-            manipulators.add(controlRotPlus, 2, 0);
+            manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
                     rect.rotatePoints(addAngle);
@@ -115,6 +116,14 @@ public class ZooRect {
                     System.out.println("min angle");
                 }
 
+            });
+        }
+
+        controlDelete = new Button("X");
+        {
+            manipulators.add(controlDelete,2,1);
+            controlDelete.setOnAction(event -> {
+                allRectsGrp.getChildren().remove(rectGrp);
             });
         }
 
@@ -165,12 +174,12 @@ public class ZooRect {
         }
     };
 
-    public void showManipulator(Boolean b) {
+    private void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 
-    public void updateManipulator() {
-        manipulators.setLayoutX(rect.getMidpoint().getX() - 70);
+    private void updateManipulator() {
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 85);
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 

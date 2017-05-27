@@ -30,8 +30,12 @@ public class GameUI extends Application {
 
         Button addRect = new Button("add");
         addRect.setOnAction(event -> {
-            allRectsGrp.getChildren().add(new ZooRect().rectGrp);
+            allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
         });
+
+        Button removeRect = new Button("remove");
+        removeRect.setOnAction(event ->{
+        } );
 
 
         GridPane gridPane = new GridPane();

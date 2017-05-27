@@ -16,12 +16,15 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -102,8 +105,40 @@ public class Main extends Application {
 
 
         //Roberts TESTFACTORY START
-        ZooRect testRect = new ZooRect();
-        root.getChildren().add(testRect.rectGrp);
+
+
+
+        Group allRectsGrp = new Group();
+        ZooRect testRect = new ZooRect(allRectsGrp);
+        allRectsGrp.getChildren().add(testRect.rectGrp);
+
+        Button addRect = new Button("add");
+        addRect.setOnAction(event -> {
+            allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
+        });
+
+
+        GridPane gridPane = new GridPane();
+
+        {
+            GridPane uiGrid = new GridPane();
+            {
+                uiGrid.add(new Label("Test"),0,0);
+                uiGrid.add(addRect,0,1);
+            }
+            gridPane.add(uiGrid,0,0);
+
+            RowConstraints ui = new RowConstraints();
+            ui.setMinHeight(500);
+            gridPane.getRowConstraints().addAll(ui);
+            gridPane.getStyleClass().add("gridpane");
+            gridPane.setLayoutX(500-50);
+        }
+
+        allRectsGrp.getChildren().add(gridPane);
+
+        root.getChildren().add(allRectsGrp);
+
 
 
         //Roberts TESTFACTORY END
