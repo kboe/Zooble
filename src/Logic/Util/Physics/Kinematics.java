@@ -90,12 +90,11 @@ public class Kinematics {
      *
      * @param pos0
      * @param pos1
-     * @param deltaTime0
-     * @param deltaTime1
+     * @param deltaTime
      * @return
      */
-    public static double effectiveSpeed(double pos0, double pos1, DeltaTime deltaTime0, DeltaTime deltaTime1) {
-        double velocity = ((pos1 - pos0) / (deltaTime1.getCurrentTime() - deltaTime0.getCurrentTime()));
+    public static double effectiveSpeed(double pos0, double pos1, DeltaTime deltaTime) {
+        double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
         return velocity;
     }
 
@@ -111,9 +110,18 @@ public class Kinematics {
      * @return
      */
     public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
-        double acceleration = (velocity1 - velocity0) / (deltaTime.getLastTime() - deltaTime.getCurrentTime());
+        double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
         return acceleration;
     }
+
+    //----------------------------------------------------------------------------------------------------------------
+    //Durchschnittszeit
+
+    public static double effectiveTime(double t0, double t1) {
+        double t = t1 - t0;
+        return t;
+    }
+
 
     //----------------------------------------------------------------------------------------------------------------
     //Freier Fall
@@ -173,14 +181,15 @@ public class Kinematics {
 
     /**
      * Calculates new velocity after an unelastic push
+     *
      * @param mass0
      * @param mass1
      * @param velocity0
      * @param velocity1
      * @return
      */
-    public static double unelasticPushVelocity(double mass0, double mass1, double velocity0, double velocity1){
-        double velocity = (mass0*velocity0+mass1*velocity1)/(mass0+mass1);
+    public static double unelasticPushVelocity(double mass0, double mass1, double velocity0, double velocity1) {
+        double velocity = (mass0 * velocity0 + mass1 * velocity1) / (mass0 + mass1);
         return velocity;
     }
 
@@ -189,27 +198,29 @@ public class Kinematics {
 
     /**
      * Calculates new velocity of first colliding object
+     *
      * @param mass0
      * @param mass1
      * @param velocity0
      * @param velocity1
      * @return
      */
-    public static double elasticPushVelocity1(double mass0, double mass1, double velocity0, double velocity1){
-        double velocity =((mass0-mass1)*(velocity0*velocity0)+2*mass1*velocity1)/(mass0+mass1);
+    public static double elasticPushVelocity1(double mass0, double mass1, double velocity0, double velocity1) {
+        double velocity = ((mass0 - mass1) * (velocity0 * velocity0) + 2 * mass1 * velocity1) / (mass0 + mass1);
         return velocity;
     }
 
     /**
      * Calculates starting velocity of object that is pushed
+     *
      * @param mass0
      * @param mass1
      * @param velocity0
      * @param velocity1
      * @return
      */
-    public static double elasticPushVelocity2(double mass0, double mass1, double velocity0, double velocity1){
-        double velocity =((mass1-mass0)*velocity1+2*mass1*velocity1)/(mass0+mass1);
+    public static double elasticPushVelocity2(double mass0, double mass1, double velocity0, double velocity1) {
+        double velocity = ((mass1 - mass0) * velocity1 + 2 * mass1 * velocity1) / (mass0 + mass1);
         return velocity;
     }
 
@@ -218,12 +229,13 @@ public class Kinematics {
 
     /**
      * Radial acceleration
+     *
      * @param velocity
      * @param radius
      * @return
      */
-    public static double radialAcceleration(double velocity, double radius){
-        double acceleration=(velocity*velocity)/radius;
+    public static double radialAcceleration(double velocity, double radius) {
+        double acceleration = (velocity * velocity) / radius;
 
         return acceleration;
     }

@@ -67,8 +67,9 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(300, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BoxCollider rect = new BoxCollider(231, 231, 100, 50, Color.BLACK);
 
-        c.setVelocityX(15);
-        c.setMass(0.0002);
+        c.setVelocityX(10);
+        c.setMass(2);
+        c.setAcceleration(1);
 
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
@@ -112,9 +113,7 @@ public class Main extends Application {
             double sp = c.getCenterX();
             double v0 = 0;
             double v1=0;
-            boolean notFirstFrame = false;
-            boolean notSecondFrame =false;
-            boolean contact = false;
+            int i=0;
 
             @Override
             public void handle(long now) {
@@ -123,9 +122,21 @@ public class Main extends Application {
                     System.out.println("stopped");
                     stop();
                 }
+                if(i==0){
+                    c.setVelocityX(c.getAcceleration()*dt.getCurrentTime());
+                    c.setS0(c.getCenterX());
+                    System.out.println("S0: "+c.getS0());
+                }
+                if(i==5){
+                    c.setVelocityX2(c.getAcceleration()*dt.getCurrentTime());
+                    c.setS1(c.getCenterX());
+                    c.setAcceleration(Kinematics.effectiveAcceleration(c.getVelocityX(),c.getVelocityX2(),dt));
+                    System.out.println("Acceleration: "+c.getAcceleration());
+                    System.out.println("MEAN STRECKE: "+(c.getS1()-c.getS0()));
+                    i=-1;
+                }
                 dt.setLastTime(dt.getCurrentTime());
-                dt.setCurrentTime(now);
-               // dt.setCurrentTime(dt.getCurrentTime() + deltatime);
+                dt.setCurrentTime(dt.getLastTime()+deltatime);
 
                 //KAREN CODE BEGINNING
 
@@ -133,35 +144,9 @@ public class Main extends Application {
 
                 //TODO Collison and Contact with rotated Rectangle
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-
-                if(notFirstFrame==false){
-                   // c.setCenterX(Kinematics.evenMovementPosition(100,dt,sp));
-                    notFirstFrame=true;
-                    c.setAcceleration(c.getVelocityX()/dt.getCurrentTime());
-                    c.setCenterX(c.getVelocityX()*dt.getCurrentTime()+0.5*(c.getAcceleration())*(dt.getCurrentTime()*dt.getCurrentTime()));
-                    c.setVelocityX(Kinematics.acceleratedMovementVelocityWithStartingVelocity(c.getAcceleration(),dt,0));
-
-                    if(!contact){
-                        c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
-                    }
-                    else {
-
-                    }
-
-
-                    //notFirstFrame=true;
-                }
-                else {
-                    c.setVelocityX2(c.getVelocityX());
-                    c.setVelocityX(c.getAcceleration()*dt.getCurrentTime());
-                    c.setAcceleration(c.getVelocityX()/dt.getCurrentTime());
-                    c.setCenterX(c.getVelocityX()*dt.getCurrentTime()+0.5*(c.getAcceleration())*(dt.getCurrentTime()*dt.getCurrentTime()));
-
-                    if(!contact){
-                        c.setCenterY(c.getCenterY()+(c.getMass()*GRAVITY));
-                    }
-                }
-
+                //c.setCenterX(c.getVelocityX()*dt.getCurrentTime());
+                c.setCenterX(0.5*20*(dt.getCurrentTime()*dt.getCurrentTime()));
+                x++;
                 /*
                 c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));*/
 
@@ -195,6 +180,7 @@ public class Main extends Application {
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
 
                 //dt.setLastTime(dt.getCurrentTime());
+                i++;
 
             }
         }.start();
