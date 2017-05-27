@@ -21,9 +21,12 @@ public class ZooRect {
     private double height = 30;
 
     private double angle = 0;
+    private double setAngle = 22.5;
 
     private double coordX = 100;
     private double coordY = 200;
+
+    BoxCollider rect;
 
     public Group rectGrp;
 
@@ -59,7 +62,7 @@ public class ZooRect {
         }
         */
 
-        BoxCollider rect = new BoxCollider(coordX, coordY, width, height, Color.BLUE);
+        rect = new BoxCollider(coordX, coordY, width, height, Color.BLUE);
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -71,8 +74,8 @@ public class ZooRect {
                 if (hitCounterM > 0)
                     hitCounterM--;
                 if (hitCounterP < 3) {
-                    updateManipulator();
                     rect.scaleWidth(50);
+                    updateManipulator();
                     hitCounterP++;
                 } else {
                     System.out.println("nope");
@@ -89,8 +92,8 @@ public class ZooRect {
                     hitCounterP--;
 
                 if (hitCounterM < 3) {
-                    updateManipulator();
                     rect.scaleWidth(-50);
+                    updateManipulator();
                     hitCounterM++;
                 } else {
                     System.out.println("nope");
@@ -104,8 +107,8 @@ public class ZooRect {
             manipulators.add(controlRotPlus, 2, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
-                    rect.rotatePoints(22.5);
-                    angle += 22.5;
+                    rect.rotatePoints(setAngle);
+                    angle += setAngle;
                     updateManipulator();
                     hitCounterRotateP++;
                 } else {
@@ -121,8 +124,8 @@ public class ZooRect {
             manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
-                    rect.rotatePoints(-22.5);
-                    angle -= 22.5;
+                    rect.rotatePoints(-setAngle);
+                    angle -= setAngle;
                     updateManipulator();
                 } else {
                     System.out.println("nope");
@@ -183,8 +186,8 @@ public class ZooRect {
     }
 
     public void updateManipulator() {
-        manipulators.setLayoutX(coordX + width / 4);
-        manipulators.setLayoutY(coordY + height / 4);
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 65);
+        manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
 }
