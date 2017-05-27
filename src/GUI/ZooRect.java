@@ -41,7 +41,7 @@ public class ZooRect {
     Boolean selected = false;
 
     int hitCounterP = 0;
-    int hitCounterM = 0;
+    int hitCounterM = 3;
 
     public ZooRect(){
         /*
@@ -64,7 +64,8 @@ public class ZooRect {
         {
             manipulators.add(controlPlus,3,0);
             controlPlus.setOnAction(event -> {
-
+                if (hitCounterM > 0)
+                    hitCounterM--;
                 if (hitCounterP < 3){
                     updateManipulator();
                     rect.scaleWidth(50);
@@ -80,6 +81,9 @@ public class ZooRect {
         {
             manipulators.add(controlMinus,0,0);
             controlMinus.setOnAction(event -> {
+                if (hitCounterP > 0)
+                    hitCounterP--;
+
                 if (hitCounterM < 3){
                     updateManipulator();
                     rect.scaleWidth(-50);
