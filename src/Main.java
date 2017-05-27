@@ -101,14 +101,16 @@ public class Main extends Application {
 
 
         //Roberts TESTFACTORY START
-        ZooRect testRect = new ZooRect();
-        root.getChildren().add(testRect.rectGrp);
+
+
 
         Group allRectsGrp = new Group();
+        ZooRect testRect = new ZooRect(allRectsGrp);
+        allRectsGrp.getChildren().add(testRect.rectGrp);
 
         Button addRect = new Button("add");
         addRect.setOnAction(event -> {
-            allRectsGrp.getChildren().add(new ZooRect().rectGrp);
+            allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
         });
 
 

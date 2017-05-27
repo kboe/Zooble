@@ -33,6 +33,7 @@ public class ZooRect {
     private Button controlMinus;
     private Button controlRotPlus;
     private Button controlRotMinus;
+    private Button controlDelete;
 
     private double sceneX;
     private double sceneY;
@@ -45,7 +46,7 @@ public class ZooRect {
     private int hitCounterP = 0;
     private int hitCounterM = 3;
 
-    public ZooRect() {
+    public ZooRect(Group allRectsGrp) {
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
@@ -54,7 +55,7 @@ public class ZooRect {
 
         controlPlus = new Button("+");
         {
-            manipulators.add(controlPlus, 3, 0);
+            manipulators.add(controlPlus, 4, 0);
             controlPlus.setOnAction(event -> {
                 if (hitCounterM > 0)
                     hitCounterM--;
@@ -89,7 +90,7 @@ public class ZooRect {
 
         controlRotPlus = new Button("rot +");
         {
-            manipulators.add(controlRotPlus, 2, 0);
+            manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
                     rect.rotatePoints(addAngle);
@@ -115,6 +116,14 @@ public class ZooRect {
                     System.out.println("min angle");
                 }
 
+            });
+        }
+
+        controlDelete = new Button("X");
+        {
+            manipulators.add(controlDelete,2,1);
+            controlDelete.setOnAction(event -> {
+                allRectsGrp.getChildren().remove(rectGrp);
             });
         }
 
