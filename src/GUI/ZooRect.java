@@ -11,17 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
-
 
 public class ZooRect {
 
     private double width = 200;
-    private double height = 30;
+    private double height = 35;
 
     private double angle = 0;
-    private double setAngle = 22.5;
+    private double addAngle = 22.5;
 
     private double coordX = 100;
     private double coordY = 200;
@@ -47,22 +44,10 @@ public class ZooRect {
 
     private int hitCounterP = 0;
     private int hitCounterM = 3;
-    private int hitCounterRotateP = 0;
-    private int hitCounterRotateM = 3;
 
     public ZooRect() {
-        /*
-        Rectangle rect = new Rectangle();
-        {
-            rect.setX(coordX);
-            rect.setY(coordY);
-            rect.setWidth(width);
-            rect.setHeight(height);
-            rect.setFill(Color.ORANGE);
-        }
-        */
 
-        rect = new BoxCollider(coordX, coordY, width, height, Color.BLUE);
+        rect = new BoxCollider(coordX, coordY, width, height, Color.ORANGE);
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -78,7 +63,7 @@ public class ZooRect {
                     updateManipulator();
                     hitCounterP++;
                 } else {
-                    System.out.println("nope");
+                    System.out.println("max length");
                 }
 
             });
@@ -96,7 +81,7 @@ public class ZooRect {
                     updateManipulator();
                     hitCounterM++;
                 } else {
-                    System.out.println("nope");
+                    System.out.println("min length");
                 }
 
             });
@@ -107,12 +92,11 @@ public class ZooRect {
             manipulators.add(controlRotPlus, 2, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
-                    rect.rotatePoints(setAngle);
-                    angle += setAngle;
+                    rect.rotatePoints(addAngle);
+                    angle += addAngle;
                     updateManipulator();
-                    hitCounterRotateP++;
                 } else {
-                    System.out.println("nope");
+                    System.out.println("max angle");
                 }
 
             });
@@ -124,11 +108,11 @@ public class ZooRect {
             manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
-                    rect.rotatePoints(-setAngle);
-                    angle -= setAngle;
+                    rect.rotatePoints(-addAngle);
+                    angle -= addAngle;
                     updateManipulator();
                 } else {
-                    System.out.println("nope");
+                    System.out.println("min angle");
                 }
 
             });
@@ -186,7 +170,7 @@ public class ZooRect {
     }
 
     public void updateManipulator() {
-        manipulators.setLayoutX(rect.getMidpoint().getX() - 65);
+        manipulators.setLayoutX(rect.getMidpoint().getX() - 70);
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
