@@ -46,6 +46,11 @@ public class ZooRect {
     private int hitCounterP = 0;
     private int hitCounterM = 3;
 
+    private double startX;
+    private double startY;
+    private double endX;
+    private double endY;
+
     public ZooRect(Group allRectsGrp) {
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
@@ -141,6 +146,7 @@ public class ZooRect {
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
+        rectGrp.setOnMouseReleased(rectMouseReleaseEvent);
 
     }
 
@@ -152,6 +158,12 @@ public class ZooRect {
 
             translateX = ((Group) (event.getSource())).getTranslateX();
             translateY = ((Group) (event.getSource())).getTranslateY();
+
+            startX = sceneX;
+            startY = sceneY;
+
+            System.out.println("start x: "+ startX);
+            System.out.println("start y: "+ startY);
 
             if (!selected) {
                 selected = true;
@@ -179,6 +191,21 @@ public class ZooRect {
 
             ((Group) (event.getSource())).setTranslateX(nTranslateX);
             ((Group) (event.getSource())).setTranslateY(nTranslateY);
+
+
+        }
+    };
+
+    EventHandler<MouseEvent> rectMouseReleaseEvent = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            endX = event.getSceneX();
+            endY = event.getSceneY();
+
+            System.out.println("end x: " + endX);
+            System.out.println("end y: " + endY);
+
+            // insert vector translation HERE (startX,startY | endX, endY)
 
         }
     };
