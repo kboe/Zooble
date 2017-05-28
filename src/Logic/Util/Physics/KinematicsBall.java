@@ -25,9 +25,9 @@ public class KinematicsBall {
      * @param deltaTime
      * @param bc
      */
-    public static void evenMovementPosition(double velocity, DeltaTime deltaTime, BallCollider bc) {
-        double pos = velocity * deltaTime.getCurrentTime() + bc.getLayoutX();
-        bc.setLayoutX(pos);
+    public static void evenMovementPosition( DeltaTime deltaTime, BallCollider bc) {
+        double pos = bc.getVelocityX() * deltaTime.getCurrentTime() + bc.getCenterX();
+        bc.setCenterX(pos);
     }
 
     //----------------------------------------------------------------------------------------------------------------

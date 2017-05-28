@@ -61,6 +61,8 @@ public class Main extends Application {
 
         primaryStage.setScene(theScene);
 
+        //Favicon
+        primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(75, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
@@ -96,7 +98,7 @@ public class Main extends Application {
 
         Group allRectsGrp = new Group();
         ZooRect testRect = new ZooRect(allRectsGrp);
-        zooRectList.add(0,testRect);
+        zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
         Button addRect = new Button();
@@ -104,10 +106,10 @@ public class Main extends Application {
         addRect.setMinWidth(125);
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
-                int i = 1;
-                zooRectList.add(i,new ZooRect(allRectsGrp));
-                allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
-                i++;
+            int i = 1;
+            zooRectList.add(i, new ZooRect(allRectsGrp));
+            allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
+            i++;
         });
 
 
@@ -136,9 +138,7 @@ public class Main extends Application {
         }
 
 
-
         allRectsGrp.getChildren().add(gridPane);
-
 
 
         root.getChildren().add(allRectsGrp);
@@ -150,15 +150,19 @@ public class Main extends Application {
 
             DeltaTime dt = new DeltaTime();
             DeltaTime dt2 = new DeltaTime();
-            DeltaTime dt3 = new DeltaTime();
+
 
             int i = 0;
-            int x_switch = 2;
+            int x_switch = 1;
             int b = 0;
             int b2 = 0;
+            int b3 = 0;
+            boolean now_counting = false;
             boolean collided_2 = false;
             boolean collided_3 = false;
             boolean collided_5 = false;
+            boolean collided_Rectangle = false;
+            boolean leaving = false;
 
             @Override
             public void handle(long now) {
@@ -166,21 +170,16 @@ public class Main extends Application {
                 if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
                     Highscore.setH1(dt.getCurrentTime());
-                    System.out.println("Highscore: "+Highscore.getH1());
+                    System.out.println("Highscore: " + Highscore.getH1());
                     stop();
                 }
 
                 dt.setLastTime(dt.getCurrentTime());
                 dt.setCurrentTime(dt.getLastTime() + deltatime);
-                if (collided_2) {
-                    dt2.setLastTime(dt.getCurrentTime());
-                    dt2.setCurrentTime(dt.getLastTime() + deltatime);
-                }
-                if (collided_3) {
 
-                    dt3.setLastTime(dt.getCurrentTime());
-                    dt3.setCurrentTime(dt.getLastTime() + deltatime);
-
+                if (now_counting) {
+                    dt2.setLastTime(dt2.getCurrentTime());
+                    dt2.setCurrentTime(dt2.getLastTime() + deltatime);
                 }
 
 
@@ -191,26 +190,48 @@ public class Main extends Application {
                 switch (x_switch) {
                     //BASISEFFEKT 1
                     case 1:
-                        c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY() + Kinematics.freeFallHeight(dt)));
+                        c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+
+                        if (CollisionChecker.checkCollision(c, testRect.getRect())) {
+                            double xPos = CollisionChecker.getCollisionPoint(c, testRect.getRect()).getX();
+                            double yPos = CollisionChecker.getCollisionPoint(c, testRect.getRect()).getY();
+                            if (xPos >= testRect.getEndX()) {
+                                System.out.println("NOW HERE");
+                                now_counting = true;
+                            }
+                            if (xPos >= testRect.getStartX()) {
+                                c.setS0(xPos);
+                                c.setPosition(new Vector2d(c.getVelocityX()*dt.getCurrentTime()+xPos, yPos - 0.5 * c.getRadius()));
+                                //c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), yPos - 0.5 * c.getRadius()));
+                            }
+                        } else if (now_counting = true) {
+                            c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt2), c.getCenterY() + Kinematics.freeFallHeight(dt2)));
+
+                        } else {
+
+                            c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
+
+                        }
+
 
                         break;
                     case 2:
 
                         if (!collided_2) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         } else if (collided_2 & !collided_3) {
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else if (collided_3 | (collided_3 & !collided_2)) {
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                             c3.setRotate(c3.getRotate() + KinematicsBall.radialAcceleration(c3));
-                            c3.position(new Vector2d(c3.getVelocityX() * dt.getCurrentTime() + c3.getS0(), c3.getCenterY()));
+                            c3.setPosition(new Vector2d(c3.getVelocityX() * dt.getCurrentTime() + c3.getS0(), c3.getCenterY()));
                         }
                         break;
 
@@ -220,26 +241,26 @@ public class Main extends Application {
 
                         if (!collided_2) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         } else {
                             if (!(c.getVelocity().getX() == 0)) {
                                 c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                                 if (c2.getVelocityX() <= 0) {
                                     c.setRotate(c.getRotate() - KinematicsBall.radialAcceleration(c));
 
-                                    c.position(new Vector2d(c.getS0() + c.getVelocityX() * dt.getCurrentTime(), c.getCenterY()));
+                                    c.setPosition(new Vector2d(c.getS0() + c.getVelocityX() * dt.getCurrentTime(), c.getCenterY()));
                                     //Vom Denken her ist das richtig, aber von der Physik bin  ich mir nicht sicher
-                                    c2.position(new Vector2d(-c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
+                                    c2.setPosition(new Vector2d(-c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
 
                                 } else {
                                     c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
 
-                                    c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                                    c2.position(new Vector2d(c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
+                                    c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                                    c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
                                 }
 
                             } else
-                                c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                                c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
 
                         }
                         break;
@@ -248,12 +269,12 @@ public class Main extends Application {
                     case 5:
                         if (collided_3) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         }
 
 
@@ -269,7 +290,7 @@ public class Main extends Application {
 
                     //WAAGRECHTER WURF
                     case 12:
-                        c.position(KinematicsBall.levelThrowVector(c, dt));
+                        c.setPosition(KinematicsBall.levelThrowVector(c, dt));
                         break;
 
 
@@ -372,6 +393,22 @@ public class Main extends Application {
                     }
 
                 }
+               /* if (CollisionChecker.checkCollision(c, testRect.getRect())) {
+                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c, testRect.getRect());
+                    System.out.println("collision Point RECTANGLE with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
+                    double p = c.getCenterX() - collPoint.getX();
+                    if(b3!=0){
+                        if (p > 0.5 * c.getRadius()) {
+                            collided_Rectangle = true;
+                        } else {
+                            leaving = true;
+                        }
+                    }
+
+                    b3 = 1;
+
+
+                }*/
                 //KAREN CODE ENDING
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
@@ -384,7 +421,7 @@ public class Main extends Application {
                 playSim.setStyle("-fx-background-image: url('/GUI/playBTN.jpg');" + "-fx-background-size: 50px;");
                 playSim.setMinWidth(50);
                 playSim.setMinHeight(50);
-                gameControlGrid.add(playSim,0,0);
+                gameControlGrid.add(playSim, 0, 0);
                 playSim.setOnAction(event -> {
                     this.start();
                     for (int j = 0; j < zooRectList.size(); j++) {
@@ -399,28 +436,37 @@ public class Main extends Application {
                 pauseSim.setMinHeight(50);
 
 
-                gameControlGrid.add(pauseSim,1,0);
+                gameControlGrid.add(pauseSim, 1, 0);
                 pauseSim.setOnAction(event -> {
                     this.stop();
                     running = false;
                 });
             }
 
-        }.start();
+        }.
 
-        gameControlGrid.setLayoutX(WIDTH/2 -75);
-        gameControlGrid.setLayoutY(HEIGHT-50);
+                start();
 
-        root.getChildren().add(gameControlGrid);
+        gameControlGrid.setLayoutX(WIDTH / 2 - 75);
+        gameControlGrid.setLayoutY(HEIGHT - 50);
 
-        theScene.getStylesheets().addAll(this.getClass().getResource("/GUI/gameUI.css").toExternalForm());
+        root.getChildren().
+
+                add(gameControlGrid);
+
+        theScene.getStylesheets().
+
+                addAll(this.getClass().
+
+                        getResource("/GUI/gameUI.css").
+
+                        toExternalForm());
 
 
         primaryStage.show();
 
         //ROBIN CODE ENDING
     }
-
 
 
     public static void main(String[] args) {

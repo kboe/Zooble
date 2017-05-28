@@ -38,7 +38,7 @@ public class BallCollider extends Circle {
 
     //GETTER & SETTER
 
-    public void position(Vector2d vector2d) {
+    private void position(Vector2d vector2d) {
         setCenterX(vector2d.getX());
         setCenterY(vector2d.getY());
     }
@@ -49,6 +49,7 @@ public class BallCollider extends Circle {
 
     public void setPosition(Vector2d position) {
         this.position = position;
+        position(position);
     }
 
     public Vector2d getVelocity() {
@@ -69,9 +70,6 @@ public class BallCollider extends Circle {
 
     //TODO wo sollen wir das hintun?
 
-    public Vector2d getCurrentVelocity() {
-        return currentVelocity;
-    }
 
     public void setCurrentVelocity(Vector2d currentVelocity) {
         this.currentVelocity = currentVelocity;
@@ -81,20 +79,9 @@ public class BallCollider extends Circle {
         return lastVelocity;
     }
 
-    public void setLastVelocity(Vector2d lastVelocity) {
-        this.lastVelocity = lastVelocity;
-    }
 
     public Vector2d getLastPosition() {
         return lastPosition;
-    }
-
-    public void setLastPosition(Vector2d lastPosition) {
-        this.lastPosition = lastPosition;
-    }
-
-    public double getAcceleration() {
-        return acceleration;
     }
 
     public void setAcceleration(double acceleration) {
@@ -113,26 +100,6 @@ public class BallCollider extends Circle {
         return velocityY;
     }
 
-    public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
-    }
-
-    public double getVelocityX2() {
-        return velocityX2;
-    }
-
-    public void setVelocityX2(double velocityX2) {
-        this.velocityX2 = velocityX2;
-    }
-
-    public double getVelocityY2() {
-        return velocityY2;
-    }
-
-    public void setVelocityY2(double velocityY2) {
-        this.velocityY2 = velocityY2;
-    }
-
     public double getS0() {
         return s0;
     }
@@ -141,11 +108,5 @@ public class BallCollider extends Circle {
         this.s0 = s0;
     }
 
-    public double getS1() {
-        return s1;
-    }
 
-    public void setS1(double s1) {
-        this.s1 = s1;
-    }
 }

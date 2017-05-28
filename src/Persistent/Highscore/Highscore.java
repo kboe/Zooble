@@ -4,11 +4,11 @@ package Persistent.Highscore;
  * Created by ${kboe} on 28.05.2017.
  */
 public class Highscore {
-    public static double h1;
-    public static double h2;
-    public static double h3;
-    public static double h4;
-    public static double h5;
+    private static double h1;
+    private static double h2;
+    private static double h3;
+    private static double h4;
+    private static double h5;
 
     public static double getH1() {
         return h1;

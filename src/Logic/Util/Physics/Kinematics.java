@@ -9,7 +9,7 @@ import Logic.Util.DeltaTime;
 public class Kinematics {
 
     //public static final double GRAVITY = 9.81;
-    public static final double GRAVITY = 9.81;
+    public static final double GRAVITY = 0.981;
 
 
     //---------------------------------------------------------------------------------
@@ -25,6 +25,12 @@ public class Kinematics {
      */
     public static double evenMovementPosition(double velocity, DeltaTime deltaTime, double position0) {
         double pos = velocity * deltaTime.getCurrentTime() + position0;
+        return pos;
+    }
+
+    public static double evenMovementPositionCollider(BallCollider bc, DeltaTime deltaTime) {
+        //double pos = velocity * deltaTime.getCurrentTime() + position0;
+        double pos = bc.getVelocityX() * deltaTime.getCurrentTime() + bc.getS0();
         return pos;
     }
 
