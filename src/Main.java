@@ -71,7 +71,7 @@ public class Main extends Application {
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
         //KAREN TESTLAB
-        c.setVelocityX(40);
+        c.setVelocityX(15);
         c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
         c.setMass(15);
@@ -138,11 +138,12 @@ public class Main extends Application {
             DeltaTime dt3 = new DeltaTime();
 
             int i = 0;
-            int x_switch = 12;
+            int x_switch = 5;
             int b = 0;
             int b2 = 0;
             boolean collided_2 = false;
             boolean collided_3 = false;
+            boolean collided_5 = false;
 
             @Override
             public void handle(long now) {
@@ -166,7 +167,6 @@ public class Main extends Application {
                 }
 
 
-                //BASISEFFEKT 1
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
@@ -227,9 +227,24 @@ public class Main extends Application {
                         }
                         break;
 
+                        //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
+                    case 5:
+                        if (collided_3) {
+                            c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.setRotate(c2.getRotate()+KinematicsBall.radialAcceleration(c2));
+                            c2.position(new Vector2d(c2.getVelocityX()*dt.getCurrentTime()+c2.getS0(),c2.getCenterY()));
+                        } else {
+                            c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                        }
+
+
+                        break;
+
                     //WAAGRECHTER WURF
                     case 12:
-                        c.position(KinematicsBall.levelThrowVector(c,dt));
+                        c.position(KinematicsBall.levelThrowVector(c, dt));
                         break;
 
 
@@ -283,6 +298,20 @@ public class Main extends Application {
                                 b = -1;
                             }
                             b++;
+                            break;
+                        //BASISEFFEKT 5
+                        case 5:
+                            if (!collided_3) {
+                               // c.setS0(c.getCenterX() - c.getRadius());
+                              //  c2.setS0(c2.getCenterX() + c2.getRadius());
+                                c.setS0(c.getCenterX());
+                                c2.setS0(c2.getCenterX());
+                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c,c2));
+                                c2.setVelocityX(c.getVelocityX());
+                                collided_3 = true;
+                            }
+
+
                             break;
                     }
 
