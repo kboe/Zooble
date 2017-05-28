@@ -48,7 +48,11 @@ public class BoxCollider extends Polygon {
      * translates the points of the box by a specific Vector
      */
     public void translateBox(Vector2d translationVector){
-        //TODO implement translation Method.
+        for (int i = 0; i < vectorPoints.length; i++) {
+            vectorPoints[i] = Vector2d.add(vectorPoints[i], translationVector);
+        }
+        storeVectorInPoints();
+        calculateMidpoint();
     }
 
     /**

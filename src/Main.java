@@ -138,7 +138,7 @@ public class Main extends Application {
             DeltaTime dt3 = new DeltaTime();
 
             int i = 0;
-            int x_switch = 5;
+            int x_switch = 2;
             int b = 0;
             int b2 = 0;
             boolean collided_2 = false;
