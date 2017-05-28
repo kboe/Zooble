@@ -1,4 +1,4 @@
-package Persistent;
+package Persistent.Highscore;
 
 /**
  * Created by ${kboe} on 28.05.2017.

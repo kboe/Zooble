@@ -53,9 +53,12 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
+    Boolean noEventPerm;
+
     public ZooRect(Group allRectsGrp) {
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
+
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -141,8 +144,6 @@ public class ZooRect {
         }
 
 
-
-
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
         rectGrp.getChildren().add(manipulators);
@@ -153,28 +154,35 @@ public class ZooRect {
     }
 
     EventHandler<MouseEvent> rectMousePressEvent = new EventHandler<MouseEvent>() {
+
         @Override
         public void handle(MouseEvent event) {
-            sceneX = event.getSceneX();
-            sceneY = event.getSceneY();
-
-            translateX = ((Group) (event.getSource())).getTranslateX();
-            translateY = ((Group) (event.getSource())).getTranslateY();
-
-            startX = sceneX;
-            startY = sceneY;
-
-            System.out.println("start: "+ startX + " " + startY);
 
 
-            if (!selected) {
-                selected = true;
-                showManipulator(selected);
+                sceneX = event.getSceneX(); //x coordinates of node in the scene
+                sceneY = event.getSceneY(); //y coordinates of node in the scene
 
-            } else {
-                selected = false;
-                showManipulator(selected);
-            }
+                translateX = ((Group) (event.getSource())).getTranslateX();
+                translateY = ((Group) (event.getSource())).getTranslateY();
+
+                startX = sceneX;
+                startY = sceneY;
+
+                System.out.println("start: "+ startX + " " + startY);
+
+
+                if (!selected) {
+                    selected = true;
+                    showManipulator(selected);
+
+                } else {
+                    selected = false;
+                    showManipulator(selected);
+                }
+
+
+
+
         }
     };
 
@@ -185,9 +193,9 @@ public class ZooRect {
             selected = false;
             showManipulator(selected);
 
-            double offsetX = event.getSceneX() - sceneX;
+            double offsetX = event.getSceneX() - sceneX;    //determine offset between new and old position
             double offsetY = event.getSceneY() - sceneY;
-            double nTranslateX = translateX + offsetX;
+            double nTranslateX = translateX + offsetX;      //translate node to new position
             double nTranslateY = translateY + offsetY;
 
 
@@ -207,12 +215,18 @@ public class ZooRect {
            // System.out.println("end: "+ endX + " " + endY);
 
 
+            //Verschiebe die Punkte des BoxColliders
             if (hasBeenTranslated){
                 Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
                 rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
 
+                //invertiere Vector um LayoutBounds zu korrigieren
+                translationVector.invert();
+                //verschiebe die LayoutBounds um translationVector.getX und translationVector.getY
+                ((Group) (event.getSource())).setTranslateX(((Group) (event.getSource())).getTranslateX() + translationVector.getX());
+                ((Group) (event.getSource())).setTranslateY(((Group) (event.getSource())).getTranslateY() + translationVector.getY());
 
-
+                updateManipulator();        //Update Manipulator auf die neuen Punkte
                 hasBeenTranslated = false;
             }
         }

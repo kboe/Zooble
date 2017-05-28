@@ -42,7 +42,7 @@ public final class CollisionChecker {
    /* }public static void checkSceneBoundsCollision(Canvas canvas, BallCollider ball){
         if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()){
             System.out.println("ball outside of Bounds (right)");
-            System.out.println("Out od bounds at: ("+ball.getCenterX()+","+ball.getCenterY()+")" );
+            System.out.println("Out of bounds at: ("+ball.getCenterX()+","+ball.getCenterY()+")" );
 
             LoopStopped.setOut_of_bounds(true);
             //return Vector2D(-1,0)     //TODO maybe return normal vector depending of the length and height of the scene and velocity of ball? idk

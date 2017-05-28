@@ -1,4 +1,4 @@
-import Persistent.Highscore;
+import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
 import Logic.Collision.CollisionChecker;
@@ -25,6 +25,9 @@ import javafx.stage.Stage;
 import static Logic.Util.DeltaTime.deltatime;
 
 public class Main extends Application {
+
+    public GridPane gameControlGrid = new GridPane();
+    Boolean running = true;
 
 
     @Override
@@ -111,7 +114,11 @@ public class Main extends Application {
             gridPane.setLayoutX(500 - 50);
         }
 
+
+
         allRectsGrp.getChildren().add(gridPane);
+
+
 
         root.getChildren().add(allRectsGrp);
 
@@ -350,12 +357,38 @@ public class Main extends Application {
                 i++;
 
             }
+
+            {
+                Button playSim = new Button("play");
+                gameControlGrid.add(playSim,0,0);
+                playSim.setOnAction(event -> {
+                    this.start();
+                    running = true;
+                });
+
+                Button pauseSim = new Button("pause");
+                gameControlGrid.add(pauseSim,1,0);
+
+                pauseSim.setOnAction(event -> {
+                    this.stop();
+                    running = false;
+                });
+            }
+
         }.start();
+
+        gameControlGrid.setLayoutX(500/2 -50);
+        gameControlGrid.setLayoutY(450);
+
+        root.getChildren().add(gameControlGrid);
+
+
 
         primaryStage.show();
 
         //ROBIN CODE ENDING
     }
+
 
 
     public static void main(String[] args) {
