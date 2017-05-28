@@ -207,12 +207,18 @@ public class ZooRect {
            // System.out.println("end: "+ endX + " " + endY);
 
 
+            //Verschiebe die Punkte des BoxColliders
             if (hasBeenTranslated){
                 Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
                 rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
 
+                //invertiere Vector um LayoutBounds zu korrigieren
+                translationVector.invert();
+                //verschiebe die LayoutBounds um translationVector.getX und translationVector.getY
+                ((Group) (event.getSource())).setTranslateX(((Group) (event.getSource())).getTranslateX() + translationVector.getX());
+                ((Group) (event.getSource())).setTranslateY(((Group) (event.getSource())).getTranslateY() + translationVector.getY());
 
-
+                updateManipulator();
                 hasBeenTranslated = false;
             }
         }
