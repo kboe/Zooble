@@ -1,7 +1,6 @@
-import GUI.MainMenu;
+import Persistent.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
-import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
 import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
@@ -10,8 +9,6 @@ import Logic.Util.Physics.KinematicsBall;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,23 +16,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 import static Logic.Util.DeltaTime.deltatime;
-import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 public class Main extends Application {
 
@@ -144,7 +131,7 @@ public class Main extends Application {
             DeltaTime dt3 = new DeltaTime();
 
             int i = 0;
-            int x_switch = 5;
+            int x_switch = 2;
             int b = 0;
             int b2 = 0;
             boolean collided_2 = false;
@@ -156,6 +143,8 @@ public class Main extends Application {
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
+                    Highscore.setH1(dt.getCurrentTime());
+                    System.out.println("Highscore: "+Highscore.getH1());
                     stop();
                 }
 
@@ -233,19 +222,27 @@ public class Main extends Application {
                         }
                         break;
 
-                        //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
+                    //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
                     case 5:
                         if (collided_3) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.setRotate(c2.getRotate()+KinematicsBall.radialAcceleration(c2));
-                            c2.position(new Vector2d(c2.getVelocityX()*dt.getCurrentTime()+c2.getS0(),c2.getCenterY()));
+                            c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
+                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         }
 
 
+                        break;
+
+                    //BASISEFFEKT 9??????
+                    case 9:
+                        break;
+
+                    //BASISEFFEKT 10??????
+                    case 10:
                         break;
 
                     //WAAGRECHTER WURF
@@ -308,17 +305,18 @@ public class Main extends Application {
                         //BASISEFFEKT 5
                         case 5:
                             if (!collided_3) {
-                               // c.setS0(c.getCenterX() - c.getRadius());
-                              //  c2.setS0(c2.getCenterX() + c2.getRadius());
+                                // c.setS0(c.getCenterX() - c.getRadius());
+                                //  c2.setS0(c2.getCenterX() + c2.getRadius());
                                 c.setS0(c.getCenterX());
                                 c2.setS0(c2.getCenterX());
-                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c,c2));
+                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c, c2));
                                 c2.setVelocityX(c.getVelocityX());
                                 collided_3 = true;
                             }
 
 
                             break;
+
                     }
 
                 }

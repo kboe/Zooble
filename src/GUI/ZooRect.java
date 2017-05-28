@@ -5,6 +5,7 @@ package GUI;
  */
 
 import Logic.Collision.BoxCollider;
+import Logic.Util.Vector2d;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -50,6 +51,7 @@ public class ZooRect {
     private double startY;
     private double endX;
     private double endY;
+    private boolean hasBeenTranslated;
 
     public ZooRect(Group allRectsGrp) {
 
@@ -139,13 +141,14 @@ public class ZooRect {
         }
 
 
+
+
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
         rectGrp.setOnMouseReleased(rectMouseReleaseEvent);
-
 
     }
 
@@ -187,9 +190,11 @@ public class ZooRect {
             double nTranslateX = translateX + offsetX;
             double nTranslateY = translateY + offsetY;
 
+
             ((Group) (event.getSource())).setTranslateX(nTranslateX);
             ((Group) (event.getSource())).setTranslateY(nTranslateY);
 
+            hasBeenTranslated = true;               //if box has been moved -> hasBeenTranslated = true
         }
     };
 
@@ -199,11 +204,17 @@ public class ZooRect {
             endX = event.getSceneX();
             endY = event.getSceneY();
 
-            System.out.println("end: "+ endX + " " + endY);
+           // System.out.println("end: "+ endX + " " + endY);
 
 
-            // insert vector translation HERE (startX,startY | endX, endY)
+            if (hasBeenTranslated){
+                Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
+                rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
 
+
+
+                hasBeenTranslated = false;
+            }
         }
     };
 
