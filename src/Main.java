@@ -150,6 +150,7 @@ public class Main extends Application {
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
+
                     stop();
                 }
 
@@ -227,19 +228,27 @@ public class Main extends Application {
                         }
                         break;
 
-                        //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
+                    //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
                     case 5:
                         if (collided_3) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.setRotate(c2.getRotate()+KinematicsBall.radialAcceleration(c2));
-                            c2.position(new Vector2d(c2.getVelocityX()*dt.getCurrentTime()+c2.getS0(),c2.getCenterY()));
+                            c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
+                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         }
 
 
+                        break;
+
+                    //BASISEFFEKT 9??????
+                    case 9:
+                        break;
+
+                    //BASISEFFEKT 10??????
+                    case 10:
                         break;
 
                     //WAAGRECHTER WURF
@@ -302,17 +311,18 @@ public class Main extends Application {
                         //BASISEFFEKT 5
                         case 5:
                             if (!collided_3) {
-                               // c.setS0(c.getCenterX() - c.getRadius());
-                              //  c2.setS0(c2.getCenterX() + c2.getRadius());
+                                // c.setS0(c.getCenterX() - c.getRadius());
+                                //  c2.setS0(c2.getCenterX() + c2.getRadius());
                                 c.setS0(c.getCenterX());
                                 c2.setS0(c2.getCenterX());
-                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c,c2));
+                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c, c2));
                                 c2.setVelocityX(c.getVelocityX());
                                 collided_3 = true;
                             }
 
 
                             break;
+
                     }
 
                 }
