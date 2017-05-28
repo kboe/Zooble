@@ -377,6 +377,9 @@ public class Main extends Application {
 
         }.start();
 
+        gameControlGrid.setLayoutX(500/2 -50);
+        gameControlGrid.setLayoutY(450);
+
         root.getChildren().add(gameControlGrid);
 
 

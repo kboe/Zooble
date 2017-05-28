@@ -144,8 +144,6 @@ public class ZooRect {
         }
 
 
-
-
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
         rectGrp.getChildren().add(manipulators);
@@ -161,8 +159,8 @@ public class ZooRect {
         public void handle(MouseEvent event) {
 
 
-                sceneX = event.getSceneX();
-                sceneY = event.getSceneY();
+                sceneX = event.getSceneX(); //x coordinates of node in the scene
+                sceneY = event.getSceneY(); //y coordinates of node in the scene
 
                 translateX = ((Group) (event.getSource())).getTranslateX();
                 translateY = ((Group) (event.getSource())).getTranslateY();
@@ -195,9 +193,9 @@ public class ZooRect {
             selected = false;
             showManipulator(selected);
 
-            double offsetX = event.getSceneX() - sceneX;
+            double offsetX = event.getSceneX() - sceneX;    //determine offset between new and old position
             double offsetY = event.getSceneY() - sceneY;
-            double nTranslateX = translateX + offsetX;
+            double nTranslateX = translateX + offsetX;      //translate node to new position
             double nTranslateY = translateY + offsetY;
 
 
