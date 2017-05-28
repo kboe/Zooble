@@ -139,14 +139,13 @@ public class ZooRect {
         }
 
 
-
-
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
         rectGrp.setOnMouseReleased(rectMouseReleaseEvent);
+
 
     }
 
@@ -188,10 +187,8 @@ public class ZooRect {
             double nTranslateX = translateX + offsetX;
             double nTranslateY = translateY + offsetY;
 
-
             ((Group) (event.getSource())).setTranslateX(nTranslateX);
             ((Group) (event.getSource())).setTranslateY(nTranslateY);
-
 
         }
     };

@@ -39,6 +39,8 @@ import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 public class Main extends Application {
 
+    public GridPane gameControlGrid = new GridPane();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -124,7 +126,11 @@ public class Main extends Application {
             gridPane.setLayoutX(500 - 50);
         }
 
+
+
         allRectsGrp.getChildren().add(gridPane);
+
+
 
         root.getChildren().add(allRectsGrp);
 
@@ -352,12 +358,33 @@ public class Main extends Application {
                 i++;
 
             }
+
+            {
+                Button playSim = new Button("play");
+                gameControlGrid.add(playSim,0,0);
+                playSim.setOnAction(event -> {
+                    this.start();
+                });
+
+                Button pauseSim = new Button("pause");
+                gameControlGrid.add(pauseSim,1,0);
+
+                pauseSim.setOnAction(event -> {
+                    this.stop();
+                });
+            }
+
         }.start();
+
+        root.getChildren().add(gameControlGrid);
+
+
 
         primaryStage.show();
 
         //ROBIN CODE ENDING
     }
+
 
 
     public static void main(String[] args) {
