@@ -38,7 +38,7 @@ public class BallCollider extends Circle {
 
     //GETTER & SETTER
 
-    public void position(Vector2d vector2d) {
+    private void position(Vector2d vector2d) {
         setCenterX(vector2d.getX());
         setCenterY(vector2d.getY());
     }
@@ -49,6 +49,7 @@ public class BallCollider extends Circle {
 
     public void setPosition(Vector2d position) {
         this.position = position;
+        position(position);
     }
 
     public Vector2d getVelocity() {

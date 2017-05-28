@@ -201,15 +201,15 @@ public class Main extends Application {
                             }
                             if (xPos >= testRect.getStartX()) {
                                 c.setS0(xPos);
-                                c.position(new Vector2d(c.getVelocityX()*dt.getCurrentTime()+xPos, yPos - 0.5 * c.getRadius()));
+                                c.setPosition(new Vector2d(c.getVelocityX()*dt.getCurrentTime()+xPos, yPos - 0.5 * c.getRadius()));
                                 //c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), yPos - 0.5 * c.getRadius()));
                             }
                         } else if (now_counting = true) {
-                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt2), c.getCenterY() + Kinematics.freeFallHeight(dt2)));
+                            c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt2), c.getCenterY() + Kinematics.freeFallHeight(dt2)));
 
                         } else {
 
-                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
+                            c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
 
                         }
 
@@ -219,19 +219,19 @@ public class Main extends Application {
 
                         if (!collided_2) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         } else if (collided_2 & !collided_3) {
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else if (collided_3 | (collided_3 & !collided_2)) {
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                             c3.setRotate(c3.getRotate() + KinematicsBall.radialAcceleration(c3));
-                            c3.position(new Vector2d(c3.getVelocityX() * dt.getCurrentTime() + c3.getS0(), c3.getCenterY()));
+                            c3.setPosition(new Vector2d(c3.getVelocityX() * dt.getCurrentTime() + c3.getS0(), c3.getCenterY()));
                         }
                         break;
 
@@ -241,26 +241,26 @@ public class Main extends Application {
 
                         if (!collided_2) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         } else {
                             if (!(c.getVelocity().getX() == 0)) {
                                 c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                                 if (c2.getVelocityX() <= 0) {
                                     c.setRotate(c.getRotate() - KinematicsBall.radialAcceleration(c));
 
-                                    c.position(new Vector2d(c.getS0() + c.getVelocityX() * dt.getCurrentTime(), c.getCenterY()));
+                                    c.setPosition(new Vector2d(c.getS0() + c.getVelocityX() * dt.getCurrentTime(), c.getCenterY()));
                                     //Vom Denken her ist das richtig, aber von der Physik bin  ich mir nicht sicher
-                                    c2.position(new Vector2d(-c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
+                                    c2.setPosition(new Vector2d(-c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
 
                                 } else {
                                     c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
 
-                                    c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                                    c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
+                                    c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                                    c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
                                 }
 
                             } else
-                                c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                                c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
 
                         }
                         break;
@@ -269,12 +269,12 @@ public class Main extends Application {
                     case 5:
                         if (collided_3) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
-                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c2.setPosition(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
                         } else {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
                         }
 
 
@@ -290,7 +290,7 @@ public class Main extends Application {
 
                     //WAAGRECHTER WURF
                     case 12:
-                        c.position(KinematicsBall.levelThrowVector(c, dt));
+                        c.setPosition(KinematicsBall.levelThrowVector(c, dt));
                         break;
 
 
