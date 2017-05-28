@@ -1,7 +1,6 @@
-import GUI.MainMenu;
+import Persistent.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
-import Logic.Collision.BoxCollider;
 import Logic.Collision.CollisionChecker;
 import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
@@ -10,8 +9,6 @@ import Logic.Util.Physics.KinematicsBall;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,25 +16,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 import static Logic.Util.DeltaTime.deltatime;
-import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 public class Main extends Application {
+
+    public GridPane gameControlGrid = new GridPane();
 
 
     @Override
@@ -124,7 +113,11 @@ public class Main extends Application {
             gridPane.setLayoutX(500 - 50);
         }
 
+
+
         allRectsGrp.getChildren().add(gridPane);
+
+
 
         root.getChildren().add(allRectsGrp);
 
@@ -150,7 +143,8 @@ public class Main extends Application {
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
-
+                    Highscore.setH1(dt.getCurrentTime());
+                    System.out.println("Highscore: "+Highscore.getH1());
                     stop();
                 }
 
@@ -362,12 +356,33 @@ public class Main extends Application {
                 i++;
 
             }
+
+            {
+                Button playSim = new Button("play");
+                gameControlGrid.add(playSim,0,0);
+                playSim.setOnAction(event -> {
+                    this.start();
+                });
+
+                Button pauseSim = new Button("pause");
+                gameControlGrid.add(pauseSim,1,0);
+
+                pauseSim.setOnAction(event -> {
+                    this.stop();
+                });
+            }
+
         }.start();
+
+        root.getChildren().add(gameControlGrid);
+
+
 
         primaryStage.show();
 
         //ROBIN CODE ENDING
     }
+
 
 
     public static void main(String[] args) {
