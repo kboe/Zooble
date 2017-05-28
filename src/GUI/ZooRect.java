@@ -218,7 +218,7 @@ public class ZooRect {
                 ((Group) (event.getSource())).setTranslateX(((Group) (event.getSource())).getTranslateX() + translationVector.getX());
                 ((Group) (event.getSource())).setTranslateY(((Group) (event.getSource())).getTranslateY() + translationVector.getY());
 
-                updateManipulator();
+                updateManipulator();        //Update Manipulator auf die neuen Punkte
                 hasBeenTranslated = false;
             }
         }
