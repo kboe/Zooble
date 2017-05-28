@@ -359,16 +359,23 @@ public class Main extends Application {
             }
 
             {
-                Button playSim = new Button("play");
+                Button playSim = new Button();
+                playSim.setStyle("-fx-background-image: url('/GUI/playBTN.jpg');" + "-fx-background-size: 50px;");
+                playSim.setMinWidth(50);
+                playSim.setMinHeight(50);
                 gameControlGrid.add(playSim,0,0);
                 playSim.setOnAction(event -> {
                     this.start();
                     running = true;
                 });
 
-                Button pauseSim = new Button("pause");
-                gameControlGrid.add(pauseSim,1,0);
+                Button pauseSim = new Button();
+                pauseSim.setStyle("-fx-background-image: url('/GUI/pauseBTN.jpg');" + "-fx-background-size: 50px;");
+                pauseSim.setMinWidth(50);
+                pauseSim.setMinHeight(50);
 
+
+                gameControlGrid.add(pauseSim,1,0);
                 pauseSim.setOnAction(event -> {
                     this.stop();
                     running = false;
