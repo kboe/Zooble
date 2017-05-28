@@ -70,7 +70,8 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
-        c.setVelocityX(25);
+        //KAREN TESTLAB
+        c.setVelocityX(40);
         c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
         c.setMass(15);
@@ -80,7 +81,10 @@ public class Main extends Application {
         c.setAcceleration(1);
         c3.setMass(5);
         c3.setCenterX(400);
+        c3.setRotate(15);
         c3.setS0(c3.getCenterX());
+
+        //KAREN TESTLAB ENDING
 
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
         //StackPane stackPane = new StackPane(c, imageView);      //Circle (collider) AND Image are in one "Group"
@@ -134,8 +138,9 @@ public class Main extends Application {
             DeltaTime dt3 = new DeltaTime();
 
             int i = 0;
-            int x_switch = 2;
+            int x_switch = 12;
             int b = 0;
+            int b2 = 0;
             boolean collided_2 = false;
             boolean collided_3 = false;
 
@@ -149,11 +154,11 @@ public class Main extends Application {
 
                 dt.setLastTime(dt.getCurrentTime());
                 dt.setCurrentTime(dt.getLastTime() + deltatime);
-                if(collided_2){
+                if (collided_2) {
                     dt2.setLastTime(dt.getCurrentTime());
                     dt2.setCurrentTime(dt.getLastTime() + deltatime);
                 }
-                if(collided_3){
+                if (collided_3) {
 
                     dt3.setLastTime(dt.getCurrentTime());
                     dt3.setCurrentTime(dt.getLastTime() + deltatime);
@@ -173,57 +178,25 @@ public class Main extends Application {
 
                         break;
                     case 2:
+
                         if (!collided_2) {
                             c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                             c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-                        } else {
-                            c3.setRotate(c3.getRotate()+KinematicsBall.radialAcceleration(c3));
-
+                        } else if (collided_2 & !collided_3) {
                             c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
-                                if (c2.getVelocityX() <= 0) {
-                                    c.setRotate(c.getRotate() - KinematicsBall.radialAcceleration(c));
-
-                                    c.position(new Vector2d(c.getS0() + c.getVelocityX() * dt.getCurrentTime(), c.getCenterY()));
-                                    //Vom Denken her ist das richtig, aber von der Physik bin  ich mir nicht sicher
-
-                                    if(collided_3){
-                                        c2.position(new Vector2d(-c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
-                                        c3.setRotate(c3.getRotate()+KinematicsBall.radialAcceleration(c3));
-                                        System.out.println("TRUE: "+collided_3);
-                                        //c3.position(new Vector2d(c3.getVelocityX() * dt3.getCurrentTime() + c3.getS0(), c3.getCenterY()));
-                                        c3.position(new Vector2d(5* dt3.getCurrentTime() + c3.getS0(), c3.getCenterY()));
-
-                                    }
-                                    else {
-                                        c2.position(new Vector2d(-c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
-
-                                    }
-
-
-                                } else {
-                                    c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                                   c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
-
-                                    if(collided_3){
-                                        c3.setRotate(c3.getRotate()+KinematicsBall.radialAcceleration(c3));
-                                        //c3.position(new Vector2d(c3.getVelocityX() * dt3.getCurrentTime() + c3.getS0(), c3.getCenterY()));
-                                        c3.position(new Vector2d(5* dt3.getCurrentTime() + c3.getS0(), c3.getCenterY()));
-
-                                        c2.position(new Vector2d(c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
-
-
-                                    }
-                                    else {
-                                        c2.position(new Vector2d(c2.getVelocityX() * dt2.getCurrentTime() + c2.getS0() - c2.getRadius(), c2.getCenterY()));
-
-                                    }
-                                }
-
-
-
-
+                            c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                        } else if (collided_3 | (collided_3 & !collided_2)) {
+                            c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
+                            c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+                            c.position(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), c.getCenterY()));
+                            c2.position(new Vector2d(c2.getVelocityX() * dt.getCurrentTime() + c2.getS0(), c2.getCenterY()));
+                            c3.setRotate(c3.getRotate() + KinematicsBall.radialAcceleration(c3));
+                            c3.position(new Vector2d(c3.getVelocityX() * dt.getCurrentTime() + c3.getS0(), c3.getCenterY()));
                         }
                         break;
+
                     //BASISEFFEKT 3
                     case 3:
 
@@ -254,6 +227,11 @@ public class Main extends Application {
                         }
                         break;
 
+                    //WAAGRECHTER WURF
+                    case 12:
+                        c.position(KinematicsBall.levelThrowVector(c,dt));
+                        break;
+
 
                 }
 
@@ -282,7 +260,7 @@ public class Main extends Application {
 
                             }
                             if (b == 5) {
-                                collided_3 = false;
+                                collided_2 = false;
                                 b = -1;
                             }
                             b++;
@@ -291,7 +269,6 @@ public class Main extends Application {
                         case 3:
                             //BASISEFFEKT 3
                             if (b == 0) {
-                                double p = c2.getCenterX() - c.getCenterX();
                                 collided_2 = true;
                                 c2.setS0(c2.getCenterX() + c2.getRadius());
                                 c.setS0(c.getCenterX());
@@ -312,27 +289,30 @@ public class Main extends Application {
                 }
                 if (CollisionChecker.checkCollision(c2, c3)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c2, c3);
-                    collided_3=true;
+                    collided_3 = true;
+                    //c3.setRotate(c3.getRotate() + KinematicsBall.radialAcceleration(c3));
+
                     System.out.println("collision Point with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
 
 
                     switch (x_switch) {
                         case 2:
                             //BASISEFFEKT 2
-                            if (b == 0) {
+                            if (b2 == 0) {
                                 c3.setS0(c3.getCenterX() + c3.getRadius());
                                 c2.setS0(c2.getCenterX());
                                 c2.setVelocityX(Kinematics.elasticPushVelocity1Collider(c2, c3));
+
                                 c3.setVelocityX(Kinematics.elasticPushVelocity2Collider(c2, c3));
                                 System.out.println("V2: " + c2.getVelocityX());
                                 System.out.println("V3: " + c3.getVelocityX());
 
                             }
-                            if (b == 5) {
-                                collided_2 = false;
-                                b = -1;
+                            if (b2 == 5) {
+                                collided_3 = false;
+                                b2 = -1;
                             }
-                            b++;
+                            b2++;
                             break;
                     }
 
