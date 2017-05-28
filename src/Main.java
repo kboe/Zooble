@@ -22,6 +22,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 import static Logic.Util.DeltaTime.deltatime;
 
 public class Main extends Application {
@@ -31,6 +33,8 @@ public class Main extends Application {
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 500;
+
+    ArrayList<ZooRect> zooRectList = new ArrayList<>();
 
 
     @Override
@@ -92,6 +96,7 @@ public class Main extends Application {
 
         Group allRectsGrp = new Group();
         ZooRect testRect = new ZooRect(allRectsGrp);
+        zooRectList.add(0,testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
         Button addRect = new Button();
@@ -99,7 +104,10 @@ public class Main extends Application {
         addRect.setMinWidth(125);
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
-            allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
+                int i = 1;
+                zooRectList.add(i,new ZooRect(allRectsGrp));
+                allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
+                i++;
         });
 
 
@@ -379,6 +387,9 @@ public class Main extends Application {
                 gameControlGrid.add(playSim,0,0);
                 playSim.setOnAction(event -> {
                     this.start();
+                    for (int j = 0; j < zooRectList.size(); j++) {
+                        zooRectList.get(j).showManipulator(false);
+                    }
                     running = true;
                 });
 

@@ -231,7 +231,7 @@ public class ZooRect {
         }
     };
 
-    private void showManipulator(Boolean b) {
+    public void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 
