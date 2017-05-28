@@ -53,9 +53,12 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
+    Boolean noEventPerm;
+
     public ZooRect(Group allRectsGrp) {
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
+
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -153,28 +156,35 @@ public class ZooRect {
     }
 
     EventHandler<MouseEvent> rectMousePressEvent = new EventHandler<MouseEvent>() {
+
         @Override
         public void handle(MouseEvent event) {
-            sceneX = event.getSceneX();
-            sceneY = event.getSceneY();
-
-            translateX = ((Group) (event.getSource())).getTranslateX();
-            translateY = ((Group) (event.getSource())).getTranslateY();
-
-            startX = sceneX;
-            startY = sceneY;
-
-            System.out.println("start: "+ startX + " " + startY);
 
 
-            if (!selected) {
-                selected = true;
-                showManipulator(selected);
+                sceneX = event.getSceneX();
+                sceneY = event.getSceneY();
 
-            } else {
-                selected = false;
-                showManipulator(selected);
-            }
+                translateX = ((Group) (event.getSource())).getTranslateX();
+                translateY = ((Group) (event.getSource())).getTranslateY();
+
+                startX = sceneX;
+                startY = sceneY;
+
+                System.out.println("start: "+ startX + " " + startY);
+
+
+                if (!selected) {
+                    selected = true;
+                    showManipulator(selected);
+
+                } else {
+                    selected = false;
+                    showManipulator(selected);
+                }
+
+
+
+
         }
     };
 
