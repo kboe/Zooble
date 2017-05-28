@@ -91,7 +91,10 @@ public class Main extends Application {
         ZooRect testRect = new ZooRect(allRectsGrp);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
-        Button addRect = new Button("add");
+        Button addRect = new Button();
+        addRect.setStyle("-fx-background-image: url('/GUI/newRect.jpg');" + "-fx-background-size: 100px;");
+        addRect.setMinWidth(100);
+        addRect.setMinHeight(50);
         addRect.setOnAction(event -> {
             allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
         });
@@ -102,7 +105,7 @@ public class Main extends Application {
         {
             GridPane uiGrid = new GridPane();
             {
-                uiGrid.add(new Label("Test"), 0, 0);
+                uiGrid.add(new Label("add:"), 0, 0);
                 uiGrid.add(addRect, 0, 1);
             }
             gridPane.add(uiGrid, 0, 0);
