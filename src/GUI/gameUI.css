@@ -5,6 +5,10 @@
 .label {
             -fx-text-fill: #FFFFFF;
             -fx-padding: 0 0 0 5;
+            -fx-font-weight: bold;
+            -fx-font-size: 15;
+
+
 
 
         }

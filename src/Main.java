@@ -95,9 +95,9 @@ public class Main extends Application {
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
         Button addRect = new Button();
-        addRect.setStyle("-fx-background-image: url('/GUI/newRect.jpg');" + "-fx-background-size: 100px;");
-        addRect.setMinWidth(100);
-        addRect.setMinHeight(50);
+        addRect.setStyle("-fx-background-image: url('/GUI/newRect.jpg');" + "-fx-background-size: 125px;");
+        addRect.setMinWidth(125);
+        addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             allRectsGrp.getChildren().add(new ZooRect(allRectsGrp).rectGrp);
         });
@@ -397,7 +397,7 @@ public class Main extends Application {
 
         }.start();
 
-        gameControlGrid.setLayoutX(WIDTH/2 -25);
+        gameControlGrid.setLayoutX(WIDTH/2 -75);
         gameControlGrid.setLayoutY(HEIGHT-50);
 
         root.getChildren().add(gameControlGrid);
