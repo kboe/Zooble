@@ -1,4 +1,4 @@
-import Persistent.Highscore;
+import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
 import Logic.Collision.CollisionChecker;
