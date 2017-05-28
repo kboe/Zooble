@@ -27,6 +27,7 @@ import static Logic.Util.DeltaTime.deltatime;
 public class Main extends Application {
 
     public GridPane gameControlGrid = new GridPane();
+    Boolean running = true;
 
 
     @Override
@@ -362,6 +363,7 @@ public class Main extends Application {
                 gameControlGrid.add(playSim,0,0);
                 playSim.setOnAction(event -> {
                     this.start();
+                    running = true;
                 });
 
                 Button pauseSim = new Button("pause");
@@ -369,6 +371,7 @@ public class Main extends Application {
 
                 pauseSim.setOnAction(event -> {
                     this.stop();
+                    running = false;
                 });
             }
 
