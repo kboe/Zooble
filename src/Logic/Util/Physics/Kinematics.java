@@ -28,6 +28,12 @@ public class Kinematics {
         return pos;
     }
 
+    public static double evenMovementPositionCollider(BallCollider bc, DeltaTime deltaTime) {
+        //double pos = velocity * deltaTime.getCurrentTime() + position0;
+        double pos = bc.getVelocityX() * deltaTime.getCurrentTime() + bc.getS0();
+        return pos;
+    }
+
     //----------------------------------------------------------------------------------------------------------------
     //Beschleunigte Bewegung
 
