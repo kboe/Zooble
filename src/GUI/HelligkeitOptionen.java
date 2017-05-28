@@ -14,6 +14,12 @@ package GUI;
         import javafx.scene.paint.Color;
         import javafx.stage.Stage;
 
+
+/**
+ *
+ * @author Hilli
+ */
+
 public class HelligkeitOptionen extends Application {
 
     final Slider helligkeit = new Slider(0, 1, 1);
