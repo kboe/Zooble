@@ -146,14 +146,14 @@ public class KinematicsBall {
     //Waagrechter Wurf
 
     public static void levelThrow(BallCollider bc, DeltaTime deltaTime) {
-        double x = levelThrowXPos(bc.getVelocity().getX(), deltaTime);
+        double x = levelThrowXPos(bc, deltaTime);
         double y = levelThrowYPos(bc.getVelocity().getY(), deltaTime);
         bc.setPosition(new Vector2d(x, y));
 
     }
 
     public static Vector2d levelThrowVector(BallCollider bc, DeltaTime deltaTime) {
-        double x = levelThrowXPos(bc.getVelocity().getX(), deltaTime);
+        double x = levelThrowXPos(bc, deltaTime);
         double y = levelThrowYPos(bc.getVelocity().getY(), deltaTime);
         return new Vector2d(x, y);
 
@@ -162,12 +162,11 @@ public class KinematicsBall {
     /**
      * Calculates the x-Position of a level throw
      *
-     * @param velocityX
      * @param deltaTime
      * @return
      */
-    public static double levelThrowXPos(double velocityX, DeltaTime deltaTime) {
-        double xPos = velocityX * deltaTime.getCurrentTime();
+    public static double levelThrowXPos(BallCollider bc, DeltaTime deltaTime) {
+        double xPos = bc.getVelocityX() * deltaTime.getCurrentTime()+bc.getS0();
         return xPos;
     }
 
@@ -180,7 +179,7 @@ public class KinematicsBall {
      */
 
     public static double levelThrowYPos(double height, DeltaTime deltaTime) {
-        double yPos = height - 0.5 * GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        double yPos =height - 0.5 *- GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return yPos;
     }
 

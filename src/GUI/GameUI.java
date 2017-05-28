@@ -25,6 +25,7 @@ public class GameUI extends Application {
     public void start(Stage primaryStage) throws Exception{
 
 
+        Boolean running = false;
 
         Group allRectsGrp = new Group();
 

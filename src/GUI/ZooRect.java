@@ -5,6 +5,7 @@ package GUI;
  */
 
 import Logic.Collision.BoxCollider;
+import Logic.Util.Vector2d;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -46,9 +47,17 @@ public class ZooRect {
     private int hitCounterP = 0;
     private int hitCounterM = 3;
 
+    private double startX;
+    private double startY;
+    private double endX;
+    private double endY;
+    private boolean hasBeenTranslated;
+
+
     public ZooRect(Group allRectsGrp) {
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
+
 
         manipulators.setVisible(false);
         updateManipulator();
@@ -96,7 +105,7 @@ public class ZooRect {
             manipulators.add(controlRotPlus, 3, 0);
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
-                    rect.rotatePoints(addAngle);
+                    rect.rotateBox(addAngle);
                     angle += addAngle;
                     updateManipulator();
                 } else {
@@ -115,7 +124,7 @@ public class ZooRect {
             manipulators.add(controlRotMinus, 1, 0);
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
-                    rect.rotatePoints(-addAngle);
+                    rect.rotateBox(-addAngle);
                     angle -= addAngle;
                     updateManipulator();
                 } else {
@@ -134,33 +143,45 @@ public class ZooRect {
         }
 
 
-
-
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
+        rectGrp.setOnMouseReleased(rectMouseReleaseEvent);
 
     }
 
     EventHandler<MouseEvent> rectMousePressEvent = new EventHandler<MouseEvent>() {
+
         @Override
         public void handle(MouseEvent event) {
-            sceneX = event.getSceneX();
-            sceneY = event.getSceneY();
 
-            translateX = ((Group) (event.getSource())).getTranslateX();
-            translateY = ((Group) (event.getSource())).getTranslateY();
 
-            if (!selected) {
-                selected = true;
-                showManipulator(selected);
+                sceneX = event.getSceneX(); //x coordinates of node in the scene
+                sceneY = event.getSceneY(); //y coordinates of node in the scene
 
-            } else {
-                selected = false;
-                showManipulator(selected);
-            }
+                translateX = ((Group) (event.getSource())).getTranslateX();
+                translateY = ((Group) (event.getSource())).getTranslateY();
+
+                startX = sceneX;
+                startY = sceneY;
+
+                System.out.println("start: "+ startX + " " + startY);
+
+
+                if (!selected) {
+                    selected = true;
+                    showManipulator(selected);
+
+                } else {
+                    selected = false;
+                    showManipulator(selected);
+                }
+
+
+
+
         }
     };
 
@@ -171,18 +192,46 @@ public class ZooRect {
             selected = false;
             showManipulator(selected);
 
-            double offsetX = event.getSceneX() - sceneX;
+            double offsetX = event.getSceneX() - sceneX;    //determine offset between new and old position
             double offsetY = event.getSceneY() - sceneY;
-            double nTranslateX = translateX + offsetX;
+            double nTranslateX = translateX + offsetX;      //translate node to new position
             double nTranslateY = translateY + offsetY;
+
 
             ((Group) (event.getSource())).setTranslateX(nTranslateX);
             ((Group) (event.getSource())).setTranslateY(nTranslateY);
 
+            hasBeenTranslated = true;               //if box has been moved -> hasBeenTranslated = true
         }
     };
 
-    private void showManipulator(Boolean b) {
+    EventHandler<MouseEvent> rectMouseReleaseEvent = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            endX = event.getSceneX();
+            endY = event.getSceneY();
+
+           // System.out.println("end: "+ endX + " " + endY);
+
+
+            //Verschiebe die Punkte des BoxColliders
+            if (hasBeenTranslated){
+                Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
+                rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
+
+                //invertiere Vector um LayoutBounds zu korrigieren
+                translationVector.invert();
+                //verschiebe die LayoutBounds um translationVector.getX und translationVector.getY
+                ((Group) (event.getSource())).setTranslateX(((Group) (event.getSource())).getTranslateX() + translationVector.getX());
+                ((Group) (event.getSource())).setTranslateY(((Group) (event.getSource())).getTranslateY() + translationVector.getY());
+
+                updateManipulator();        //Update Manipulator auf die neuen Punkte
+                hasBeenTranslated = false;
+            }
+        }
+    };
+
+    public void showManipulator(Boolean b) {
         manipulators.setVisible(b);
     }
 

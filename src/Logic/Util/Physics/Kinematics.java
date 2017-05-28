@@ -9,8 +9,7 @@ import Logic.Util.DeltaTime;
 public class Kinematics {
 
     //public static final double GRAVITY = 9.81;
-    public static final double GRAVITY =9.81;
-
+    public static final double GRAVITY = 9.81;
 
 
     //---------------------------------------------------------------------------------
@@ -196,6 +195,10 @@ public class Kinematics {
         return velocity;
     }
 
+    public static double unelasticPushVelocityCollider(BallCollider ballCollider, BallCollider ballCollider2) {
+        double velocity = (ballCollider.getMass() * ballCollider.getVelocityX() + ballCollider2.getMass() * ballCollider2.getVelocityX()) / (ballCollider.getMass() + ballCollider2.getMass());
+        return velocity;
+    }
     //---------------------------------------------------------------------------------
     //elastischer Stoß
 
@@ -214,7 +217,7 @@ public class Kinematics {
     }
 
     public static double elasticPushVelocity1Collider(BallCollider ballCollider, BallCollider ballCollider2) {
-        double velocity = ((ballCollider.getMass()-ballCollider2.getMass())*ballCollider.getVelocityX()+(2*ballCollider2.getMass()*ballCollider2.getVelocityX()))/(ballCollider.getMass()+ballCollider2.getMass());
+        double velocity = ((ballCollider.getMass() - ballCollider2.getMass()) * ballCollider.getVelocityX() + (2 * ballCollider2.getMass() * ballCollider2.getVelocityX())) / (ballCollider.getMass() + ballCollider2.getMass());
         return velocity;
     }
 
@@ -234,7 +237,7 @@ public class Kinematics {
 
 
     public static double elasticPushVelocity2Collider(BallCollider ballCollider, BallCollider ballCollider2) {
-        double velocity = ((ballCollider2.getMass()-ballCollider.getMass())*ballCollider2.getVelocityX()+(2*ballCollider.getMass()*ballCollider.getVelocityX()))/(ballCollider.getMass()+ballCollider2.getMass());
+        double velocity = ((ballCollider2.getMass() - ballCollider.getMass()) * ballCollider2.getVelocityX() + (2 * ballCollider.getMass() * ballCollider.getVelocityX())) / (ballCollider.getMass() + ballCollider2.getMass());
         return velocity;
     }
 
