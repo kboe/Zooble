@@ -162,8 +162,8 @@ public class ZooRect {
             startX = sceneX;
             startY = sceneY;
 
-            System.out.println("start x: "+ startX);
-            System.out.println("start y: "+ startY);
+            System.out.println("start: "+ startX + " " + startY);
+
 
             if (!selected) {
                 selected = true;
@@ -202,8 +202,8 @@ public class ZooRect {
             endX = event.getSceneX();
             endY = event.getSceneY();
 
-            System.out.println("end x: " + endX);
-            System.out.println("end y: " + endY);
+            System.out.println("end: "+ endX + " " + endY);
+
 
             // insert vector translation HERE (startX,startY | endX, endY)
 
