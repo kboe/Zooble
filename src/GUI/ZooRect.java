@@ -53,7 +53,6 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
-    Boolean noEventPerm;
 
     public ZooRect(Group allRectsGrp) {
 

@@ -29,6 +29,9 @@ public class Main extends Application {
     public GridPane gameControlGrid = new GridPane();
     Boolean running = true;
 
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -46,7 +49,7 @@ public class Main extends Application {
         /*TAMARA CODE ENDE*/
 
         Group root = new Group();
-        Canvas canvas = new Canvas(500, 500);
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
@@ -105,16 +108,23 @@ public class Main extends Application {
         {
             GridPane uiGrid = new GridPane();
             {
-                uiGrid.add(new Label("add:"), 0, 0);
-                uiGrid.add(addRect, 0, 1);
+                Label levelname = new Label("Level 1");
+                Label add = new Label("add");
+                uiGrid.add(levelname, 0, 1);
+                uiGrid.add(add, 0, 3);
+                uiGrid.add(addRect, 0, 4);
+                uiGrid.setVgap(5);
+                uiGrid.getStyleClass().add("uiGrid");
+                levelname.getStyleClass().add("label");
+
             }
             gridPane.add(uiGrid, 0, 0);
 
             RowConstraints ui = new RowConstraints();
-            ui.setMinHeight(500);
+            ui.setMinHeight(HEIGHT);
             gridPane.getRowConstraints().addAll(ui);
             gridPane.getStyleClass().add("gridpane");
-            gridPane.setLayoutX(500 - 50);
+            gridPane.setLayoutX(WIDTH - 50);
         }
 
 
@@ -387,11 +397,12 @@ public class Main extends Application {
 
         }.start();
 
-        gameControlGrid.setLayoutX(500/2 -50);
-        gameControlGrid.setLayoutY(450);
+        gameControlGrid.setLayoutX(WIDTH/2 -25);
+        gameControlGrid.setLayoutY(HEIGHT-50);
 
         root.getChildren().add(gameControlGrid);
 
+        theScene.getStylesheets().addAll(this.getClass().getResource("/GUI/gameUI.css").toExternalForm());
 
 
         primaryStage.show();

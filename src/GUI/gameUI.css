@@ -1,0 +1,10 @@
+.uiGrid {
+             -fx-background-color: #353737;
+         }
+
+.label {
+            -fx-text-fill: #FFFFFF;
+            -fx-padding: 0 0 0 5;
+
+
+        }
