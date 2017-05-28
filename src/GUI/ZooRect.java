@@ -240,44 +240,7 @@ public class ZooRect {
         manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
     }
 
-    //GETTER AND SETTER
     public BoxCollider getRect() {
         return rect;
-    }
-
-    public void setRect(BoxCollider rect) {
-        this.rect = rect;
-    }
-
-    public double getStartX() {
-        return startX;
-    }
-
-    public void setStartX(double startX) {
-        this.startX = startX;
-    }
-
-    public double getStartY() {
-        return startY;
-    }
-
-    public void setStartY(double startY) {
-        this.startY = startY;
-    }
-
-    public double getEndX() {
-        return endX;
-    }
-
-    public void setEndX(double endX) {
-        this.endX = endX;
-    }
-
-    public double getEndY() {
-        return endY;
-    }
-
-    public void setEndY(double endY) {
-        this.endY = endY;
     }
 }

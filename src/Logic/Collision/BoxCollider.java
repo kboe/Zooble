@@ -36,8 +36,8 @@ public class BoxCollider extends Polygon {
         if (paint != null) {
             this.setFill(paint);
         }
-        calculateMidpoint();
-        calculateNormals();
+        calculateMidpoint();        //update Midpoint
+        calculateNormals();         //update normals
     }
 
     //METHODS
@@ -51,12 +51,12 @@ public class BoxCollider extends Polygon {
         for (int i = 0; i < vectorPoints.length; i++) {
             vectorPoints[i] = Vector2d.add(vectorPoints[i], translationVector);
         }
-        storeVectorInPoints();
-        calculateMidpoint();
+        storeVectorInPoints();      //update polygon points
+        calculateMidpoint();        //Update Midpoint
     }
 
     /**
-     * Scales the Box with a specified value
+     * Scales the Box by a specified value
      *
      * @param newWidth the value you want to add to the width of the Box
      */
@@ -69,14 +69,13 @@ public class BoxCollider extends Polygon {
         rotateBox(actualAngle);
 
         storePointsInVector();      //update vectorPoints
-        calculateMidpoint();
+        calculateMidpoint();        //Update Midpoint
     }
 
     /**
      * rotates the points array of the BoxCollider. Always rotates around the current midpoint!
      *
      * @param angle the angle you want the Box to be rotated
-     * @return returns a double[] with the x,y points
      */
     public void rotateBox(double angle) {
         this.angle += angle;
@@ -140,9 +139,9 @@ public class BoxCollider extends Polygon {
      */
     private void storeVectorInPoints() {
         int indexCounter = 0;
-        for (int i = 0; i < vectorPoints.length; i++) {
-            this.getPoints().set(indexCounter, vectorPoints[i].getX());
-            this.getPoints().set(indexCounter + 1, vectorPoints[i].getY());
+        for (Vector2d vectorPoint : vectorPoints) {
+            this.getPoints().set(indexCounter, vectorPoint.getX());
+            this.getPoints().set(indexCounter + 1, vectorPoint.getY());
             indexCounter += 2;
         }
     }
