@@ -149,6 +149,7 @@ public class Main extends Application {
         new AnimationTimer() {
 
             DeltaTime dt = new DeltaTime();
+            DeltaTime dt2 = new DeltaTime();
 
 
             int i = 0;
@@ -156,6 +157,7 @@ public class Main extends Application {
             int b = 0;
             int b2 = 0;
             int b3 = 0;
+            boolean now_counting = false;
             boolean collided_2 = false;
             boolean collided_3 = false;
             boolean collided_5 = false;
@@ -175,6 +177,11 @@ public class Main extends Application {
                 dt.setLastTime(dt.getCurrentTime());
                 dt.setCurrentTime(dt.getLastTime() + deltatime);
 
+                if (now_counting) {
+                    dt2.setLastTime(dt2.getCurrentTime());
+                    dt2.setCurrentTime(dt2.getLastTime() + deltatime);
+                }
+
 
                 //TODO Collision and Contact with rotated Rectangle
 
@@ -184,29 +191,24 @@ public class Main extends Application {
                     //BASISEFFEKT 1
                     case 1:
                         c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
-                       /* if (!collided_Rectangle) {
-                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c,dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
-
-
-                        } else if (collided_Rectangle) {
-                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c,dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
-                        }
-                        if (leaving) {
-                            c.setVelocityX(-c.getVelocityX());
-                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c,dt), c.getCenterY()));
-
-                        }*/
 
                         if (CollisionChecker.checkCollision(c, testRect.getRect())) {
                             double xPos = CollisionChecker.getCollisionPoint(c, testRect.getRect()).getX();
+                            double yPos = CollisionChecker.getCollisionPoint(c, testRect.getRect()).getY();
                             if (xPos >= testRect.getEndX()) {
-                                c.setS0(xPos);
-                                c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
-                            } else {
-                                c.setS0(xPos);
-                                c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY()));
+                                System.out.println("NOW HERE");
+                                now_counting = true;
                             }
+                            if (xPos >= testRect.getStartX()) {
+                                c.setS0(xPos);
+                                c.position(new Vector2d(c.getVelocityX()*dt.getCurrentTime()+xPos, yPos - 0.5 * c.getRadius()));
+                                //c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), yPos - 0.5 * c.getRadius()));
+                            }
+                        } else if (now_counting = true) {
+                            c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt2), c.getCenterY() + Kinematics.freeFallHeight(dt2)));
+
                         } else {
+
                             c.position(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
 
                         }

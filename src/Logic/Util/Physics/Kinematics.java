@@ -9,7 +9,7 @@ import Logic.Util.DeltaTime;
 public class Kinematics {
 
     //public static final double GRAVITY = 9.81;
-    public static final double GRAVITY = 9.81;
+    public static final double GRAVITY = 0.981;
 
 
     //---------------------------------------------------------------------------------
