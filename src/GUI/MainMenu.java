@@ -41,9 +41,7 @@ public class MainMenu extends Application {
         Button playButton = new Button("PLAY");
         playButton.getStyleClass().add("play-red");
         GridPane.setConstraints(playButton,1,5);
-        playButton.setOnAction(e -> {
-            Platform.exit();
-        });
+
 
         //Options
         Button optionsButton = new Button("OPTIONS");
