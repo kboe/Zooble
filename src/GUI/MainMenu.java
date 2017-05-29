@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -7,18 +8,19 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * Created by Hilli on 24.05.2017.
  */
-public class MainMenu {
+public class MainMenu extends Application {
 
-    private Scene mainMenuScene;
+    Stage window;
 
-    public MainMenu(){
-
-        //STRG + T -> Updated
-        //STRG + K -> Commiten
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        window.setTitle("Zooble");
 
 
         //GridPane
@@ -76,11 +78,10 @@ public class MainMenu {
          */
         final String look = this.getClass().getResource("look.css").toExternalForm();
 
-        mainMenuScene = new Scene(grid, 1300, 750);
-        mainMenuScene.getStylesheets().addAll(this.getClass().getResource("look.css").toExternalForm());
+        Scene scene = new Scene(grid, 1300, 750);
+        scene.getStylesheets().add(look);
+        window.setScene(scene);
+        window.show();
     }
 
-    public Scene getMainMenuScene() {
-        return mainMenuScene;
-    }
 }

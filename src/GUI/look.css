@@ -14,7 +14,7 @@
     -fx-background-radius:0;
     -fx-font-size: 40px;
     }
-    
+
  .options-blue {
     -fx-background-color: #2d7ec1;
    -fx-padding: 25 55 25 55;
@@ -23,41 +23,40 @@
        -fx-background-radius:0;
        -fx-font-size: 40px;
     }
-    
+
     .highscore-gray {
     -fx-background-color: #5a5e5f;
-    -fx-padding: 25 30 25 170;
+    -fx-padding: 25 25 25 25;
            -fx-text-fill: #FFFFFF;
            -fx-font-weight: bold;
            -fx-background-radius:0;
            -fx-font-size: 40px;
     }
 
-   .exit-black {
-         -fx-background-color: #000000;
-         -fx-padding: 25 101 25 101;
-                -fx-text-fill: #FFFFFF;
-                -fx-font-weight: bold;
-                -fx-background-radius:0;
-                -fx-font-size: 40px;
-         }
+    .exit-black {
+      -fx-background-color: #000000;
+      -fx-padding: 25 101 25 101;
+             -fx-text-fill: #FFFFFF;
+             -fx-font-weight: bold;
+             -fx-background-radius:0;
+             -fx-font-size: 40px;
+      }
 
-       .exit-black:hover{
-           -fx-background-color: #363636;
-           }
-    
+    .exit-black:hover{
+        -fx-background-color: #363636;
+        }
+
     .play-red:hover{
     -fx-background-color: #b35c72;
     }
-    
+
     .options-blue:hover{
     -fx-background-color: #6697c0;
     }
-    
+
     .highscore-gray:hover{
     -fx-background-color: #818586;
     }
-       
 
-        
-       
+
+
