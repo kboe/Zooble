@@ -147,7 +147,6 @@ public class Main extends Application {
 
         //Roberts TESTFACTORY END
 
-
         new AnimationTimer() {
 
             DeltaTime dt = new DeltaTime();
@@ -167,6 +166,8 @@ public class Main extends Application {
             boolean leaving = false;
             boolean first_contact = false;
 
+
+
             public boolean isNow_counting() {
                 return now_counting;
             }
@@ -177,6 +178,7 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
                     System.out.println("stopped");
