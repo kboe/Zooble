@@ -20,11 +20,11 @@ public class ZooRect {
 
     private double angle = 0;
     private double addAngle = 22.5;
+    BoxCollider rect;
 
-    private static  final double startCoordX = 100;
+    public static  final double startCoordX = 100;
     private static final double startCoordY = 200;
 
-    BoxCollider rect;
 
     public Group rectGrp;
 
@@ -52,6 +52,9 @@ public class ZooRect {
     private double endX;
     private double endY;
     private boolean hasBeenTranslated;
+
+    public static final double endCoordX= startCoordX+ 200; //exchange 200 through width
+
 
 
     public ZooRect(Group allRectsGrp) {
@@ -258,5 +261,25 @@ public class ZooRect {
 
     public double getEndY() {
         return endY;
+    }
+
+    public static double getStartCoordX() {
+        return startCoordX;
+    }
+
+    public static double getStartCoordY() {
+        return startCoordY;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public static double getEndCoordX() {
+        return endCoordX;
     }
 }
