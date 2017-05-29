@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,9 +36,12 @@ public class MainMenu {
         iv1.setCache(true);
 
         //Play
-        Button loginButton = new Button("PLAY");
-        loginButton.getStyleClass().add("play-red");
-        GridPane.setConstraints(loginButton,1,5);
+        Button playButton = new Button("PLAY");
+        playButton.getStyleClass().add("play-red");
+        GridPane.setConstraints(playButton,1,5);
+        playButton.setOnAction(e -> {
+            Platform.exit();
+        });
 
         //Options
         Button optionsButton = new Button("OPTIONS");
@@ -45,21 +49,27 @@ public class MainMenu {
         GridPane.setConstraints(optionsButton,2,5);
 
         //Filler
-        Button fillButton = new Button();
-        fillButton.getStyleClass().add("fill-gray");
-        GridPane.setConstraints(fillButton, 1, 6, 2, 1);
+        // Button fillButton = new Button();
+        //fillButton.getStyleClass().add("fill-gray");
+        //GridPane.setConstraints(fillButton, 1, 6, 2, 1);
 
         //Highscore
         Button highscoreButton = new Button("HIGHSCORE");
         highscoreButton.getStyleClass().add("highscore-gray");
-        GridPane.setConstraints(highscoreButton, 1, 6, 2, 1);
+        GridPane.setConstraints(highscoreButton, 1, 6);
 
-
+        //EXIT
+        Button exitButton = new Button("EXIT");
+        exitButton.getStyleClass().add("exit-black");
+        GridPane.setConstraints(exitButton, 2, 6);
+        exitButton.setOnAction(e -> {
+            Platform.exit();
+        });
 
 
         //Füge alles zum Grid hinzu
         grid.getStylesheets().addAll(getClass().getResource("look.css").toExternalForm(),"https://fonts.googleapis.com/css?family=Quicksand");
-        grid.getChildren().addAll(loginButton,optionsButton,highscoreButton, fillButton, iv1);
+        grid.getChildren().addAll(playButton,optionsButton,highscoreButton, exitButton, iv1);
 
         /**
          * @param args the command line arguments

@@ -33,14 +33,18 @@
            -fx-font-size: 40px;
     }
 
-    .fill-gray {
-        -fx-background-color: #a4e8fb;
-        -fx-padding: 25 70 25 70;
-               -fx-text-fill: #FFFFFF;
-               -fx-font-weight: bold;
-               -fx-background-radius:0;
-               -fx-font-size: 40px;
-        }
+   .exit-black {
+         -fx-background-color: #000000;
+         -fx-padding: 25 101 25 101;
+                -fx-text-fill: #FFFFFF;
+                -fx-font-weight: bold;
+                -fx-background-radius:0;
+                -fx-font-size: 40px;
+         }
+
+       .exit-black:hover{
+           -fx-background-color: #363636;
+           }
     
     .play-red:hover{
     -fx-background-color: #b35c72;
