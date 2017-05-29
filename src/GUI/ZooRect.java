@@ -244,42 +244,13 @@ public class ZooRect {
         return rect;
     }
 
-    public double getStartX() {
-        return startX;
-    }
-
-    public double getStartY() {
-        return startY;
-    }
-
-    public double getEndX() {
-        return endX;
-    }
-
-    public double getEndY() {
-        return endY;
-    }
-
     public double getStartCoordX() {
         return startCoordX;
-    }
-
-    public double getStartCoordY() {
-        return startCoordY;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
     }
 
     public double getEndCoordX() {
         return endCoordX;
     }
-
 
 
 }
