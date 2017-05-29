@@ -39,11 +39,13 @@ public final class CollisionChecker {
     }
 
     /**
+     * NOT YET READY, DO NOT USE FOR BOX COLLIDERS
      * gives the normal which can be added to the Velocity of the Ball, depending of the Collision Point of the colliders
      * @param playerBall    the Ball of the player
      * @param Collider      any collider in the scene (check for collision before using this)
      * @return              a new normalized Vector which can be modified and added to the current Velocity of the playerBall
      */
+    @Deprecated
     public static Vector2d getNormalOfCollider(BallCollider playerBall, Shape Collider){
         if (Collider instanceof BallCollider){
             BallCollider ballCollider = (BallCollider) Collider;
