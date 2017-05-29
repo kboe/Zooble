@@ -21,7 +21,7 @@ public class KinematicsBall {
     /**
      * Sets position with with velocity, time and position
      *
-     * @param velocity
+     * @param
      * @param deltaTime
      * @param bc
      */

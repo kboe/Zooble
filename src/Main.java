@@ -70,7 +70,7 @@ public class Main extends Application {
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
         //KAREN TESTLAB
-        int x_switch = 5;
+        int x_switch = 12;
 
         c.setVelocityX(20);
         c.setVelocity(new Vector2d(25, c.getCenterY()));
@@ -317,6 +317,7 @@ public class Main extends Application {
                     //WAAGRECHTER WURF
                     case 12:
                         c.setPosition(KinematicsBall.levelThrowVector(c, dt));
+                        c.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c));
                         break;
 
 

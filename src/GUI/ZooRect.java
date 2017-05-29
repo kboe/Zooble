@@ -22,7 +22,7 @@ public class ZooRect {
     private double addAngle = 22.5;
     BoxCollider rect;
 
-    public static  final double startCoordX = 100;
+    private static final double startCoordX = 100;
     private static final double startCoordY = 200;
 
 
@@ -53,8 +53,7 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
-    public static final double endCoordX= startCoordX+ 200; //exchange 200 through width
-
+    public final double endCoordX = getStartCoordX() + 200; //exchange 200 through width
 
 
     public ZooRect(Group allRectsGrp) {
@@ -139,7 +138,7 @@ public class ZooRect {
 
         controlDelete = new Button("X");
         {
-            manipulators.add(controlDelete,2,1);
+            manipulators.add(controlDelete, 2, 1);
             controlDelete.setOnAction(event -> {
                 allRectsGrp.getChildren().remove(rectGrp);
             });
@@ -161,28 +160,26 @@ public class ZooRect {
         public void handle(MouseEvent event) {
 
 
-                sceneX = event.getSceneX(); //x coordinates of node in the scene
-                sceneY = event.getSceneY(); //y coordinates of node in the scene
+            sceneX = event.getSceneX(); //x coordinates of node in the scene
+            sceneY = event.getSceneY(); //y coordinates of node in the scene
 
-                translateX = ((Group) (event.getSource())).getTranslateX();
-                translateY = ((Group) (event.getSource())).getTranslateY();
+            translateX = ((Group) (event.getSource())).getTranslateX();
+            translateY = ((Group) (event.getSource())).getTranslateY();
 
-                startX = sceneX;
-                startY = sceneY;
+            startX = sceneX;
+            startY = sceneY;
 
-                System.out.println("start: "+ startX + " " + startY);
-
-
-                if (!selected) {
-                    selected = true;
-                    showManipulator(selected);
-
-                } else {
-                    selected = false;
-                    showManipulator(selected);
-                }
+            System.out.println("start: " + startX + " " + startY);
 
 
+            if (!selected) {
+                selected = true;
+                showManipulator(selected);
+
+            } else {
+                selected = false;
+                showManipulator(selected);
+            }
 
 
         }
@@ -214,11 +211,11 @@ public class ZooRect {
             endX = event.getSceneX();
             endY = event.getSceneY();
 
-           // System.out.println("end: "+ endX + " " + endY);
+            // System.out.println("end: "+ endX + " " + endY);
 
 
             //Verschiebe die Punkte des BoxColliders
-            if (hasBeenTranslated){
+            if (hasBeenTranslated) {
                 Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
                 rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
 
@@ -240,7 +237,7 @@ public class ZooRect {
 
     private void updateManipulator() {
         manipulators.setLayoutX(rect.getMidpoint().getX() - 60);
-        manipulators.setLayoutY(rect.getMidpoint().getY()- 10);
+        manipulators.setLayoutY(rect.getMidpoint().getY() - 10);
     }
 
     public BoxCollider getRect() {
@@ -263,11 +260,11 @@ public class ZooRect {
         return endY;
     }
 
-    public static double getStartCoordX() {
+    public double getStartCoordX() {
         return startCoordX;
     }
 
-    public static double getStartCoordY() {
+    public double getStartCoordY() {
         return startCoordY;
     }
 
@@ -279,7 +276,10 @@ public class ZooRect {
         this.width = width;
     }
 
-    public static double getEndCoordX() {
+    public double getEndCoordX() {
         return endCoordX;
     }
+
+
+
 }
