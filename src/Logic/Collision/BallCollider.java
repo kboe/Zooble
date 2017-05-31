@@ -11,13 +11,23 @@ import javafx.scene.shape.Circle;
 public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
-    private Vector2d lastPosition;
+    //private Vector2d lastPosition;
+    private double lastPosition;
+    private double lastLastPosition;
     private Vector2d velocity = new Vector2d(2, 0);
+    private Vector2d accelerationV=new Vector2d(1,0);
     private Vector2d currentVelocity;
     private Vector2d lastVelocity;
+    private Vector2d startingPoint;
+    private Vector2d velocity0;
+    private Vector2d lastPos = new Vector2d(0,0);
+    private Vector2d lastLastPos= new Vector2d(0,0);
+    private double lastSpeed;
+    private double lastLastSpeed;
     private double mass = 1;
-    private double acceleration;
+    private double acceleration=0;
     private double velocityX;
+
     private double velocityY;
     private double velocityX2;
     private double velocityY2;
@@ -80,8 +90,12 @@ public class BallCollider extends Circle {
     }
 
 
-    public Vector2d getLastPosition() {
+   /* public Vector2d getLastPosition() {
         return lastPosition;
+    }*/
+
+    public double getAcceleration() {
+        return acceleration;
     }
 
     public void setAcceleration(double acceleration) {
@@ -108,5 +122,75 @@ public class BallCollider extends Circle {
         this.s0 = s0;
     }
 
+    public void setLastLastPosition(double lastLastPosition) {
+        this.lastLastPosition = lastLastPosition;
+    }
 
+    public void setLastPosition(double lastPosition) {
+        this.lastPosition = lastPosition;
+    }
+
+    public double getLastPosition() {
+        return lastPosition;
+    }
+
+    public double getLastLastPosition() {
+        return lastLastPosition;
+    }
+
+    public double getLastSpeed() {
+        return lastSpeed;
+    }
+
+    public void setLastSpeed(double lastSpeed) {
+        this.lastSpeed = lastSpeed;
+    }
+
+    public double getLastLastSpeed() {
+        return lastLastSpeed;
+    }
+
+    public void setLastLastSpeed(double lastLastSpeed) {
+        this.lastLastSpeed = lastLastSpeed;
+    }
+
+    public Vector2d getVelocity0() {
+        return velocity0;
+    }
+
+    public void setVelocity0(Vector2d velocity0) {
+        this.velocity0 = velocity0;
+    }
+
+    public Vector2d getStartingPoint() {
+        return startingPoint;
+    }
+
+    public void setStartingPoint(Vector2d startingPoint) {
+        this.startingPoint = startingPoint;
+    }
+
+    public Vector2d getAccelerationV() {
+        return accelerationV;
+    }
+
+    public void setAccelerationV(Vector2d accelerationV) {
+        this.accelerationV = accelerationV;
+    }
+
+    public Vector2d getLastPos() {
+        return lastPos;
+    }
+
+    public void setLastPos(Vector2d lastPos) {
+        this.lastPos = lastPos;
+    }
+
+    public Vector2d getLastLastPos() {
+        return lastLastPos;
+    }
+
+    public void setLastLastPos(Vector2d lastLastPos) {
+        this.lastLastPos = lastLastPos;
+    }
 }

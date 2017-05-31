@@ -21,6 +21,46 @@ public final class CollisionChecker {
         return intersection.getLayoutBounds().getHeight() > 0 || intersection.getLayoutBounds().getWidth() > 0;         //if the 2 Shapes Collide...
     }
 
+    /**
+     * Checks if the ball an the Collider have a contact or not.
+     * Would recommend this order: if checkCollision == true -> if checkContact == true -> contact -> else -> collision
+     * @param movementOfBall the current movement Vector of the Ball
+     * @param normalOfBoxCollider the normal Vector of side of the box, where the ball collides with it
+     * @return true if contact has been found or false if not
+     */
+    public static boolean checkContact(Vector2d movementOfBall, Vector2d normalOfBoxCollider){
+        if (Vector2d.dot(movementOfBall, normalOfBoxCollider) <= 0.05 && Vector2d.dot(movementOfBall, normalOfBoxCollider) >= -0.05){       // ... == 0 maybe better?
+            System.out.println("Contact!");
+            return true;
+        } else {
+            System.out.println("no Contact, maybe collision");
+            return false;
+        }
+    }
+
+    /**
+     * NOT YET READY, DO NOT USE FOR BOX COLLIDERS
+     * gives the normal which can be added to the Velocity of the Ball, depending of the Collision Point of the colliders
+     * @param playerBall    the Ball of the player
+     * @param Collider      any collider in the scene (check for collision before using this)
+     * @return              a new normalized Vector which can be modified and added to the current Velocity of the playerBall
+     */
+    @Deprecated
+    public static Vector2d getNormalOfCollider(BallCollider playerBall, Shape Collider){
+        if (Collider instanceof BallCollider){
+            BallCollider ballCollider = (BallCollider) Collider;
+            Vector2d normal = Vector2d.subtract(playerBall.getPosition(),ballCollider.getPosition());
+            normal.normalize();
+            return normal;
+
+        } else if (Collider instanceof BoxCollider){
+            //TODO find Side of the Box Collider where the Ball is colliding -> give normal of that side
+            return null;
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Returns the CollisionPoint of the 2 Shapes, could lead to bugs, if the shapes intersect too far

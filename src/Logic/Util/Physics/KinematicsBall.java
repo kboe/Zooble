@@ -21,7 +21,7 @@ public class KinematicsBall {
     /**
      * Sets position with with velocity, time and position
      *
-     * @param velocity
+     * @param
      * @param deltaTime
      * @param bc
      */
@@ -98,8 +98,9 @@ public class KinematicsBall {
      * @param deltaTime
      */
     public static void effectiveSpeed(BallCollider bc, DeltaTime deltaTime) {
-        double velocity = ((bc.getPosition().getX() - bc.getLastPosition().getX())) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
-        bc.setVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
+        //double velocity = ((bc.getPosition().getX() - bc.getLastPosition().getX())) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
+        //bc.setVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
+
     }
 
     //----------------------------------------------------------------------------------------------------------------
@@ -251,6 +252,7 @@ public class KinematicsBall {
         double velocity = ((mass1 - mass0) * velocity1 + 2 * mass1 * velocity1) / (mass0 + mass1);
         return velocity;
     }
+
 
     //------------------------------------------------------------------------------------------------------------------
     //Radialbeschleunigung

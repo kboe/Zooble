@@ -6,8 +6,11 @@ package Logic.Util;
 public class DeltaTime {
 
     public static double deltatime = 0.0167;
-    private double currentTime = 0.0167;
-    private  double lastTime;
+    //private double currentTime = 0.0167;
+    private double currentTime = 0;
+
+    private double lastTime;
+    private double lastLastTime;
 
     public double getCurrentTime() {
         return currentTime;
@@ -23,5 +26,13 @@ public class DeltaTime {
 
     public void setLastTime(double lastTime) {
         this.lastTime = lastTime;
+    }
+
+    public double getLastLastTime() {
+        return lastLastTime;
+    }
+
+    public void setLastLastTime(double lastLastTime) {
+        this.lastLastTime = lastLastTime;
     }
 }
