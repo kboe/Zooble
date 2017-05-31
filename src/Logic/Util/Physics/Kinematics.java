@@ -61,6 +61,13 @@ public class Kinematics {
         return s;
     }
 
+    public static double accleratedMovementPositionCollider(BallCollider ballCollider, DeltaTime deltaTime) {
+        ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime));
+        //double s = 0.5 * ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime)) * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        double s = 0.5*ballCollider.getAcceleration()*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime());
+        return s;
+    }
+
     //----------------------------------------------------------------------------------------------------------------
     //Beschleunigte Bewegung mit Anfangsgeschwindigkeit
 
@@ -89,27 +96,39 @@ public class Kinematics {
         double position = position0 + velocity0 * deltaTime.getCurrentTime() + 0.5 * acceleration * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return position;
     }
-
+    public static double acceleratedMovementPositionWithStartingSpeedAndPositionCollider(BallCollider ballCollider, DeltaTime deltaTime) {
+        ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime));
+        double position = ballCollider.getS0() + ballCollider.getVelocityX() * deltaTime.getCurrentTime() + 0.5 * ballCollider.getAcceleration() * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        return position;
+    }
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittsgeschwindigkeit
 
     /**
      * Mean speed
      *
-     * @param pos0
-     * @param pos1
      * @param deltaTime
      * @return
      */
-    public static double effectiveSpeed(double pos0, double pos1, DeltaTime deltaTime) {
-        double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
+    /*public static double effectiveSpeed(double pos0, double pos1, DeltaTime deltaTime) {
+        //double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
+       // return velocity;
+        return 0;
+    }*/
+
+    public static double effectiveSpeed(BallCollider ballCollider, DeltaTime deltaTime) {
+        //double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
+        // return velocity;
+        //double velocity =(ballCollider.getLastPosition()-ballCollider.getLastLastPosition())/(effectiveTime(deltaTime));
+        double velocity =(ballCollider.getLastPosition()-ballCollider.getLastLastPosition());
+
         return velocity;
     }
 
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittsbeschleunigung
 
-    /**
+   /* /**
      * Mean acceleration
      *
      * @param velocity0
@@ -117,16 +136,32 @@ public class Kinematics {
      * @param deltaTime
      * @return
      */
-    public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
-        double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
-        return acceleration;
+    /*public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
+        //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
+        //return acceleration;
+        return 0;
+    }*/
+    public static double effectiveAcceleration(BallCollider ballCollider, DeltaTime deltaTime) {
+        //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
+        //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/effectiveTime(deltaTime);
+        //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/DeltaTime.deltatime;
+        double accleration = effectiveSpeed(ballCollider,deltaTime)/60;
+
+        //without this it goes really early negative
+        if(accleration<0){
+            accleration=-accleration;
+        }
+        System.out.println("Acceleration: "+accleration);
+        return accleration;
     }
 
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittszeit
 
-    public static double effectiveTime(double t0, double t1) {
-        double t = t1 - t0;
+    public static double effectiveTime(DeltaTime deltaTime) {
+        //double t = t1 - t0;
+        double t = deltaTime.getLastTime()-deltaTime.getLastLastTime();
+        System.out.println("T: "+t);
         return t;
     }
 

@@ -98,8 +98,8 @@ public class KinematicsBall {
      * @param deltaTime
      */
     public static void effectiveSpeed(BallCollider bc, DeltaTime deltaTime) {
-        double velocity = ((bc.getPosition().getX() - bc.getLastPosition().getX())) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
-        bc.setVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
+        //double velocity = ((bc.getPosition().getX() - bc.getLastPosition().getX())) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
+        //bc.setVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
     }
 
     //----------------------------------------------------------------------------------------------------------------

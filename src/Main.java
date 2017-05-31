@@ -1,3 +1,4 @@
+import Logic.Util.BooleansMovement;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
@@ -70,20 +71,22 @@ public class Main extends Application {
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
         //KAREN TESTLAB
-        int x_switch = 12;
+        int x_switch = 0;
 
-        c.setVelocityX(20);
-        c.setVelocity(new Vector2d(25, c.getCenterY()));
+        c.setVelocityX(1);
+        //c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
-        c.setMass(5);
         c2.setRotate(90);
         c2.setMass(9);
         c2.setVelocityX(0);
-        c.setAcceleration(1);
         c3.setMass(15);
         c3.setCenterX(400);
-        c3.setRotate(15);
         c3.setS0(c3.getCenterX());
+        c.setVelocity0(c.getVelocityX());
+        c.setLastSpeed(10);
+        c.setLastLastSpeed(8);
+        // c.setLastLastPosition(0);
+        // c.setLastPosition(c.getCenterX()-1);
 
         //KAREN TESTLAB ENDING
 
@@ -150,30 +153,26 @@ public class Main extends Application {
         new AnimationTimer() {
 
             DeltaTime dt = new DeltaTime();
-            DeltaTime dt2 = new DeltaTime();
 
 
-            int i = 0;
-            int b = 0;
-            int b2 = 0;
-            int b3 = 0;
+            int h = 0;
+
             boolean now_counting = false;
             boolean collided = false;
-            boolean collided_2 = false;
             boolean collided_3 = false;
-            boolean collided_5 = false;
-            boolean collided_Rectangle = false;
-            boolean leaving = false;
             boolean first_contact = false;
 
 
+            public int getH() {
+                return h;
+            }
+
+            public void setH(int h) {
+                this.h = h;
+            }
 
             public boolean isNow_counting() {
                 return now_counting;
-            }
-
-            public void setNow_counting(boolean now_counting) {
-                this.now_counting = now_counting;
             }
 
             @Override
@@ -186,8 +185,27 @@ public class Main extends Application {
                     System.out.println("Highscore: " + Highscore.getH1());
                     stop();
                 }
+
+
+                dt.setLastLastTime(dt.getLastTime());
                 dt.setLastTime(dt.getCurrentTime());
                 dt.setCurrentTime(dt.getLastTime() + deltatime);
+                // }
+
+                //for BallCollider c
+                c.setLastLastPosition(c.getLastPosition());
+                c.setLastPosition(c.getPosition().getX());
+
+
+                c.setLastLastSpeed(c.getLastSpeed());
+                c.setLastSpeed(c.getVelocity().getX());
+
+
+                System.out.println("LLS: " + c.getLastLastSpeed());
+                System.out.println("LS: " + c.getLastSpeed());
+
+                System.out.println("LP: " + c.getLastPosition());
+                System.out.println("LLP: " + c.getLastLastPosition());
 
 
                 //TODO Collision and Contact with rotated Rectangle
@@ -196,7 +214,26 @@ public class Main extends Application {
 
                 switch (x_switch) {
                     //BASISEFFEKT 1
+                    case 0: {
+                        c.setRotate(c.getRotate() + Kinematics.radialAcceleration(c.getVelocity().getX(), dt.getCurrentTime()));
+
+                        //System.out.println("Effective Acceleration: "+Kinematics.effectiveAcceleration(c,dt));
+                       /* System.out.println("Effective Velocity: "+Kinematics.effectiveSpeed(c,dt));
+
+                        //c.setPosition(new Vector2d(Kinematics.accleratedMovementPositionCollider(c,dt),c.getCenterY()));
+                        //c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c,dt),c.getCenterY()));
+                        //c.setPosition(new Vector2d(Kinematics.accleratedMovementPositionCollider(c,dt),c.getCenterY()));
+                        c.setAcceleration(Kinematics.effectiveAcceleration(c,dt));
+                        System.out.println("Acc: "+c.getAcceleration());
+                        c.setPosition(new Vector2d(c.getAcceleration()+dt.getCurrentTime()+c.getS0(),c.getCenterY()));
+                        BooleansMovement.setNow_moving(true);*/
+                        c.setPosition(new Vector2d(Kinematics.acceleratedMovementPositionWithStartingSpeedAndPositionCollider(c, dt), c.getCenterY()));
+                        break;
+                    }
                     case 1:
+                        System.out.println("Mean Time: " + Kinematics.effectiveTime(dt));
+                        System.out.println("Effective Velocity: " + Kinematics.effectiveSpeed(c, dt));
+                        System.out.println("Effective Acceleration: " + Kinematics.effectiveAcceleration(c, dt));
                         c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                         if (((CollisionChecker.checkCollision(c, testRect.getRect())) == true) & (isNow_counting() == false)) {
 
@@ -204,6 +241,7 @@ public class Main extends Application {
                             double yPos = CollisionChecker.getCollisionPoint(c, testRect.getRect()).getY();
                             System.out.println(xPos);
                             if (xPos >= testRect.getEndCoordX() - c.getRadius() - 1) {
+                                c.setPosition(new Vector2d(c.getVelocityX() * dt.getCurrentTime() + c.getS0(), yPos - 0.5 * c.getRadius()));
                                 c.setS0(testRect.getEndCoordX());
                                 dt.setCurrentTime(0);
                                 now_counting = true;
@@ -285,8 +323,8 @@ public class Main extends Application {
 
                     //BASISEFFEKT 5 (ähnelt vielleicht ein bisschen daran)
                     case 5:
-                        if(!collided)
-                        c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
+                        if (!collided)
+                            c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
 
                         if (CollisionChecker.checkCollision(c, c2) & !collided) {
                             collided = true;
@@ -299,8 +337,8 @@ public class Main extends Application {
                             System.out.println("V2: " + c2.getVelocityX());
 
                         } else {
-                            if(!collided)
-                            c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY()));
+                            if (!collided)
+                                c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY()));
                             if (collided) {
                                 c2.setRotate(c2.getRotate() + KinematicsBall.radialAcceleration(c2));
                                 c2.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c2, dt), c.getCenterY()));
@@ -319,81 +357,13 @@ public class Main extends Application {
                     //WAAGRECHTER WURF
                     case 12:
                         c.setPosition(KinematicsBall.levelThrowVector(c, dt));
-                        c.setRotate(c.getRotate()+KinematicsBall.radialAcceleration(c));
+                        c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                         break;
 
 
                 }
 
 
-                //KAREN CODE ENDING
-                /*
-                  if (CollisionChecker.checkCollision(c, c2)) {
-                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c, c2);
-
-                    System.out.println("collision Point with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-
-                    //KAREN CODE BEGINNING
-                    //collided = true;
-                    switch (x_switch) {
-                        case 2:
-                            //BASISEFFEKT 2
-
-                            if (b == 0) {
-                                double p = c2.getCenterX() - c.getCenterX();
-                                collided_2 = true;
-                                c2.setS0(c2.getCenterX() + c2.getRadius());
-                                c.setS0(c.getCenterX());
-                                c.setVelocityX(Kinematics.elasticPushVelocity1Collider(c, c2));
-                                c2.setVelocityX(Kinematics.elasticPushVelocity2Collider(c, c2));
-                                System.out.println("V1: " + c.getVelocityX());
-                                System.out.println("V2: " + c2.getVelocityX());
-
-                            }
-                            if (b == 5) {
-                                collided_2 = false;
-                                b = -1;
-                            }
-                            b++;
-                            break;
-
-                        case 3:
-                            //BASISEFFEKT 3
-                            if (b == 0) {
-                                collided_2 = true;
-                                c2.setS0(c2.getCenterX() + c2.getRadius());
-                                c.setS0(c.getCenterX());
-                                c.setVelocityX(Kinematics.elasticPushVelocity1Collider(c, c2));
-                                c2.setVelocityX(Kinematics.elasticPushVelocity2Collider(c, c2));
-                                System.out.println("V1: " + c.getVelocityX());
-                                System.out.println("V2: " + c2.getVelocityX());
-
-                            }
-                            if (b == 5) {
-                                collided_2 = false;
-                                b = -1;
-                            }
-                            b++;
-                            break;
-                        //BASISEFFEKT 5
-                        case 5:
-                            if (!collided_3) {
-                                // c.setS0(c.getCenterX() - c.getRadius());
-                                //  c2.setS0(c2.getCenterX() + c2.getRadius());
-                                c.setS0(c.getCenterX());
-                                c2.setS0(c2.getCenterX());
-                                c.setVelocityX(Kinematics.unelasticPushVelocityCollider(c, c2));
-                                c2.setVelocityX(c.getVelocityX());
-                                collided_3 = true;
-                            }
-
-
-                            break;
-
-                    }
-
-                }
-                 */
 /*
 if (CollisionChecker.checkCollision(c2, c3)) {
                     Vector2d collPoint = CollisionChecker.getCollisionPoint(c2, c3);
@@ -447,7 +417,7 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                 //KAREN CODE ENDING
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
-                i++;
+                //i++;
 
             }
 
