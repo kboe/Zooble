@@ -3,27 +3,35 @@ package GUI;
 /**
  * Created by Hilli on 26.05.2017.
  */
+
+import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.stage.Stage;
+import javafx.scene.layout.GridPane;
+
 
 /**
  *
  * @author Hilli
  */
-public class Options {
+public class Options extends Application {
 
-    private Scene mainMenuScene;
 
-    public Options(){
 
+    Stage window;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        window.setTitle("Options");
 
         //GridPane
         GridPane grid = new GridPane();
@@ -107,17 +115,15 @@ public class Options {
         grid.getChildren().addAll(label1, label2, helligkeit, sound, helligkeitswert, backButton, soundvolume);
 
 
-
         /**
          * @param args the command line arguments
          */
-        final String look = this.getClass().getResource("look.css").toExternalForm();
+        final String look = this.getClass().getResource("look2.css").toExternalForm();
 
-        mainMenuScene = new Scene(grid, 1300, 750);
-        mainMenuScene.getStylesheets().addAll(this.getClass().getResource("look2.css").toExternalForm());
+        Scene scene = new Scene(grid, 1300, 750);
+        scene.getStylesheets().add(look);
+        window.setScene(scene);
+        window.show();
     }
 
-    public Scene getMainMenuScene() {
-        return mainMenuScene;
-    }
 }
