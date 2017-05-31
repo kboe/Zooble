@@ -20,8 +20,8 @@ public class BallCollider extends Circle {
     private Vector2d lastVelocity;
     private Vector2d startingPoint;
     private Vector2d velocity0;
-    private Vector2d lastPos;
-    private Vector2d lastLastPos;
+    private Vector2d lastPos = new Vector2d(0,0);
+    private Vector2d lastLastPos= new Vector2d(0,0);
     private double lastSpeed;
     private double lastLastSpeed;
     private double mass = 1;

@@ -74,9 +74,10 @@ public class Main extends Application {
         //KAREN TESTLAB
 
         //with Vectors
-        c.setStartingPoint(new Vector2d(c.getCenterX(),c.getCenterY()));
-        c.setVelocity(new Vector2d(5,0));
+        c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
+        c.setVelocity(new Vector2d(5, 0));
         c.setVelocity0(c.getVelocity());
+        c.setAccelerationV(new Vector2d(1,0));
 
 
         c.setVelocityX(10);
@@ -227,15 +228,21 @@ public class Main extends Application {
                 switch (x_switch) {
                     //Vectors
                     case -1:
-                        //KinematicsVectors.averageTime(dt);
                         //KinematicsVectors.averageSpeed(c,dt);
-                        KinematicsVectors.averageAcceleration(c,dt);
+
+                        //KinematicsVectors.averageTime(dt);
+                        //KinematicsVectors.averageAcceleration(c,dt);
                         KinematicsVectors.acceleratedMovementVelocity(dt,c);
-                        //KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
-                        KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt,c);
+                        //KinematicsVectors.freeFallVelocity(c);
+                       // KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
+                        //KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt,c);
                         KinematicsVectors.radialAcceleration(c);
-                        //KinematicsVectors.evenMovementPosition(c,dt);
-                        //KinematicsVectors.accleratedMovementPosition(dt,c);
+                       // KinematicsVectors.evenMovementPosition(c,dt);
+                       // KinematicsVectors.freeFallHeight(dt,c);
+                        KinematicsVectors.levelThrow(c,dt);
+
+
+                        //KinematicsVectors.accleratedMovementPosition(dt, c);
                         break;
                     case 0: {
                         c.setRotate(c.getRotate() + Kinematics.radialAcceleration(c.getVelocity().getX(), dt.getCurrentTime()));

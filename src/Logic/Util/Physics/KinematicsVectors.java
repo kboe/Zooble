@@ -4,6 +4,8 @@ import Logic.Collision.BallCollider;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 
+import static Logic.Util.Physics.Kinematics.GRAVITY;
+
 /**
  * Created by ${kboe} on 31.05.2017.
  */
@@ -77,19 +79,6 @@ public class KinematicsVectors {
      * @param deltaTime
      * @return
      */
-    /*public static double effectiveSpeed(double pos0, double pos1, DeltaTime deltaTime) {
-        //double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
-       // return velocity;
-        return 0;
-    }*/
-    public static double effectiveSpeed(BallCollider ballCollider, DeltaTime deltaTime) {
-        //double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
-        // return velocity;
-        //double velocity =(ballCollider.getLastPosition()-ballCollider.getLastLastPosition())/(effectiveTime(deltaTime));
-        double velocity = (ballCollider.getLastPosition() - ballCollider.getLastLastPosition());
-
-        return velocity;
-    }
 
     public static Vector2d averageSpeed(BallCollider bc, DeltaTime deltaTime) {
         Vector2d averageSpeed = (bc.getVelocity().subtract(bc.getLastPos(), bc.getLastLastPos()));
@@ -101,32 +90,6 @@ public class KinematicsVectors {
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittsbeschleunigung
 
-    /* /**
-      * Mean acceleration
-      *
-      * @param velocity0
-      * @param velocity1
-      * @param deltaTime
-      * @return
-      */
-    /*public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
-        //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
-        //return acceleration;
-        return 0;
-    }*/
-    public static double effectiveAcceleration(BallCollider ballCollider, DeltaTime deltaTime) {
-        //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
-        //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/effectiveTime(deltaTime);
-        //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/DeltaTime.deltatime;
-        double accleration = effectiveSpeed(ballCollider, deltaTime) / 60;
-
-        //without this it goes really early negative
-        if (accleration < 0) {
-            accleration = -accleration;
-        }
-        System.out.println("Acceleration: " + accleration);
-        return accleration;
-    }
 
     //TODO die Beschleunigung steigt viel viel zu schnell an. Wäre nett, wenn da mal jemand schauen würde. Ich komme da nicht mehr weiter!
 
@@ -146,6 +109,45 @@ public class KinematicsVectors {
 
 
     //----------------------------------------------------------------------------------------------------------------
+    //Freier Fall
+
+    /**
+     * Free Fall y-Pos
+     *
+     * @param deltaTime
+     * @return
+     */
+    public static void freeFallHeight(DeltaTime deltaTime, BallCollider bc) {
+        double height = 0.5 * GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        bc.setPosition(new Vector2d(bc.getPosition().getX(), height + bc.getStartingPoint().getY()));
+
+    }
+
+    /**
+     * Calculate Free Fall speed from height and gravity
+     *
+     * @param
+     * @return
+     */
+    public static void freeFallVelocity(BallCollider bc) {
+        bc.setVelocity(new Vector2d(bc.getVelocity().getX(), Math.sqrt(2 * bc.getPosition().getY() * GRAVITY)));
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+    //Waagrechter Wurf
+
+    /**
+     * Sets position during a level throw
+     * @param bc
+     * @param deltaTime
+     */
+    public static void levelThrow(BallCollider bc, DeltaTime deltaTime){
+        bc.setPosition(new Vector2d((bc.getVelocity().getX()*deltaTime.getCurrentTime())+bc.getStartingPoint().getX(),bc.getPosition().getY()-0.5*-GRAVITY*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime())));
+        System.out.println("X: "+bc.getPosition().getX()+"  Y: "+bc.getPosition().getY());
+    }
+
+
+    //----------------------------------------------------------------------------------------------------------------
     //Durchschnittszeit
 
     /**
@@ -158,7 +160,48 @@ public class KinematicsVectors {
         double averageTime = dt.getLastTime() - dt.getLastLastTime();
         return averageTime;
     }
+    //--------------------------------------------------------------------------------------
+    //unelastischer Stoß
 
+    /**
+     * Calculates new velocity after an unelastic push
+     *
+
+     * @return
+     */
+    public static void unelasticPushVelocityCollider(BallCollider ballCollider, BallCollider ballCollider2) {
+        Vector2d b1 = ballCollider.getVelocity().multiply(ballCollider.getMass());
+        Vector2d b2 =  ballCollider2.getVelocity().multiply(ballCollider2.getMass());
+        Vector2d v = b1.add(b1,b2);
+        v.divide(ballCollider.getMass()+ballCollider2.getMass());
+        ballCollider.setVelocity(v);
+        ballCollider2.setVelocity(v);
+    }
+    //---------------------------------------------------------------------------------
+    //elastischer Stoß
+
+    /**
+     * elastic Push
+     * @param bc1
+     * @param bc2
+     */
+    public static void elasticPush(BallCollider bc1, BallCollider bc2){
+        double dmass= bc1.getMass()+bc2.getMass();
+        Vector2d a = bc1.getVelocity().multiply(bc1.getMass()-bc2.getMass());
+        Vector2d a2 = bc2.getVelocity().multiply(2*bc2.getMass());
+        Vector2d b = bc2.getVelocity().multiply(bc2.getMass()-bc1.getMass());
+        Vector2d b2 = bc1.getVelocity().multiply(2*bc1.getMass());
+        a.add(a,a2);
+        a.divide(dmass);
+        b.add(b,b2);
+        b.divide(dmass);
+
+        bc1.setVelocity(a);
+        bc2.setVelocity(b);
+
+
+
+    }
 
     /**
      * sets radial Rotation
