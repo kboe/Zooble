@@ -9,18 +9,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-//TEST
-//juju
 /**
  * Created by Hilli on 24.05.2017.
  */
 public class MainMenu extends Application {
 
-    Stage window;
+    private Scene mainMenuScene;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        window = primaryStage;
+    public MainMenu(Stage primaryStage, Scene gameScene){
+        Stage window = primaryStage;
         window.setTitle("Zooble");
 
 
@@ -67,6 +64,10 @@ public class MainMenu extends Application {
             Platform.exit();
         });
 
+        playButton.setOnAction(event -> {
+            primaryStage.setScene(gameScene);
+        });
+
 
         //Füge alles zum Grid hinzu
         grid.getStylesheets().addAll(getClass().getResource("look.css").toExternalForm(),"https://fonts.googleapis.com/css?family=Quicksand");
@@ -81,6 +82,11 @@ public class MainMenu extends Application {
         scene.getStylesheets().add(look);
         window.setScene(scene);
         window.show();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
     }
 
 }

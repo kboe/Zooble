@@ -1,3 +1,4 @@
+import GUI.MainMenu;
 import Logic.Util.BooleansMovement;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
@@ -42,10 +43,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
+
         // ROBIN CODE BEGINNING
 
         //Parent root = FXMLLoader.load(getClass().getResource("Controller/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Zooble");
 
         /*TAMARA CODE ANFANG*/
 
@@ -59,9 +62,12 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
-        Scene theScene = new Scene(root);
+        //Scene menuScene = ma.getMainMenuScene();
 
-        primaryStage.setScene(theScene);
+        Scene theScene = new Scene(root);
+        MainMenu mm = new MainMenu(primaryStage,theScene);
+
+        //primaryStage.setScene(theScene);
 
         //Favicon
         primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
