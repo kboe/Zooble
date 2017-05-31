@@ -68,6 +68,8 @@ public class Vector2d {
         this.y /= scalar;
     }
 
+
+
     /**
      * Adds vector1 with vector2 and returns a new vector with
      *
@@ -115,6 +117,10 @@ public class Vector2d {
     public void scale(double scale) {
         this.setX(this.getX() * scale);
         this.setY(this.getY() * scale);
+    }
+
+    public Vector2d multiply(double scale){
+        return new Vector2d(this.getX()*scale,this.getY()*scale);
     }
 
     /**

@@ -1,4 +1,5 @@
 import Logic.Util.BooleansMovement;
+import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.BallCollider;
@@ -71,18 +72,24 @@ public class Main extends Application {
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
         //KAREN TESTLAB
-        int x_switch = 0;
 
-        c.setVelocityX(1);
+        //with Vectors
+        c.setStartingPoint(new Vector2d(c.getCenterX(),c.getCenterY()));
+        c.setVelocity(new Vector2d(5,0));
+        c.setVelocity0(c.getVelocity());
+
+
+        c.setVelocityX(10);
         //c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
+
         c2.setRotate(90);
         c2.setMass(9);
         c2.setVelocityX(0);
         c3.setMass(15);
         c3.setCenterX(400);
         c3.setS0(c3.getCenterX());
-        c.setVelocity0(c.getVelocityX());
+        //c.setVelocity0(c.getVelocityX());
         c.setLastSpeed(10);
         c.setLastLastSpeed(8);
         // c.setLastLastPosition(0);
@@ -190,30 +197,46 @@ public class Main extends Application {
                 dt.setLastLastTime(dt.getLastTime());
                 dt.setLastTime(dt.getCurrentTime());
                 dt.setCurrentTime(dt.getLastTime() + deltatime);
+
                 // }
 
                 //for BallCollider c
                 c.setLastLastPosition(c.getLastPosition());
                 c.setLastPosition(c.getPosition().getX());
 
+                c.setLastLastPos(c.getLastPos());
+                c.setLastPos(c.getPosition());
+
 
                 c.setLastLastSpeed(c.getLastSpeed());
                 c.setLastSpeed(c.getVelocity().getX());
 
 
-                System.out.println("LLS: " + c.getLastLastSpeed());
+                /*System.out.println("LLS: " + c.getLastLastSpeed());
                 System.out.println("LS: " + c.getLastSpeed());
 
                 System.out.println("LP: " + c.getLastPosition());
-                System.out.println("LLP: " + c.getLastLastPosition());
+                System.out.println("LLP: " + c.getLastLastPosition());*/
 
 
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
+                int x_switch = -1;
 
                 switch (x_switch) {
-                    //BASISEFFEKT 1
+                    //Vectors
+                    case -1:
+                        //KinematicsVectors.averageTime(dt);
+                        //KinematicsVectors.averageSpeed(c,dt);
+                        KinematicsVectors.averageAcceleration(c,dt);
+                        KinematicsVectors.acceleratedMovementVelocity(dt,c);
+                        //KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
+                        KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt,c);
+                        KinematicsVectors.radialAcceleration(c);
+                        //KinematicsVectors.evenMovementPosition(c,dt);
+                        //KinematicsVectors.accleratedMovementPosition(dt,c);
+                        break;
                     case 0: {
                         c.setRotate(c.getRotate() + Kinematics.radialAcceleration(c.getVelocity().getX(), dt.getCurrentTime()));
 
@@ -230,6 +253,8 @@ public class Main extends Application {
                         c.setPosition(new Vector2d(Kinematics.acceleratedMovementPositionWithStartingSpeedAndPositionCollider(c, dt), c.getCenterY()));
                         break;
                     }
+                    //BASISEFFEKT 1
+
                     case 1:
                         System.out.println("Mean Time: " + Kinematics.effectiveTime(dt));
                         System.out.println("Effective Velocity: " + Kinematics.effectiveSpeed(c, dt));
