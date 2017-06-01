@@ -44,7 +44,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
 
-
         // ROBIN CODE BEGINNING
 
         //Parent root = FXMLLoader.load(getClass().getResource("Controller/sample.fxml"));
@@ -65,7 +64,7 @@ public class Main extends Application {
         //Scene menuScene = ma.getMainMenuScene();
 
         Scene theScene = new Scene(root);
-        MainMenu mm = new MainMenu(primaryStage,theScene);
+        MainMenu mm = new MainMenu(primaryStage, theScene);
 
         //primaryStage.setScene(theScene);
 
@@ -83,7 +82,12 @@ public class Main extends Application {
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
         c.setVelocity(new Vector2d(5, 0));
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(1,0));
+        c.setAccelerationV(new Vector2d(1, 0));
+        c.setMass(1);
+        c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
+        c2.setVelocity(new Vector2d(0, 0));
+        c2.setVelocity0(c2.getVelocity());
+        c2.setMass(1);
 
 
         c.setVelocityX(10);
@@ -91,9 +95,9 @@ public class Main extends Application {
         c.setS0(c.getCenterX());
 
         c2.setRotate(90);
-        c2.setMass(9);
+        // c2.setMass(9);
         c2.setVelocityX(0);
-        c3.setMass(15);
+        //c3.setMass(15);
         c3.setCenterX(400);
         c3.setS0(c3.getCenterX());
         //c.setVelocity0(c.getVelocityX());
@@ -229,7 +233,7 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -1;
+                int x_switch = 14;
 
                 switch (x_switch) {
                     //Vectors
@@ -238,32 +242,24 @@ public class Main extends Application {
 
                         //KinematicsVectors.averageTime(dt);
                         //KinematicsVectors.averageAcceleration(c,dt);
-                        KinematicsVectors.acceleratedMovementVelocity(dt,c);
+                        KinematicsVectors.acceleratedMovementVelocity(dt, c);
                         //KinematicsVectors.freeFallVelocity(c);
-                       // KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
-                        //KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt,c);
+                        //KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
+                        KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
                         KinematicsVectors.radialAcceleration(c);
-                       // KinematicsVectors.evenMovementPosition(c,dt);
-                       // KinematicsVectors.freeFallHeight(dt,c);
-                        KinematicsVectors.levelThrow(c,dt);
+                        // KinematicsVectors.evenMovementPosition(c,dt);
+                        // KinematicsVectors.freeFallHeight(dt,c);
+                        //KinematicsVectors.levelThrow(c,dt);
 
 
                         //KinematicsVectors.accleratedMovementPosition(dt, c);
                         break;
                     case 0: {
-                        c.setRotate(c.getRotate() + Kinematics.radialAcceleration(c.getVelocity().getX(), dt.getCurrentTime()));
+                        KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                        KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                        KinematicsVectors.radialAcceleration(c);
 
-                        //System.out.println("Effective Acceleration: "+Kinematics.effectiveAcceleration(c,dt));
-                       /* System.out.println("Effective Velocity: "+Kinematics.effectiveSpeed(c,dt));
 
-                        //c.setPosition(new Vector2d(Kinematics.accleratedMovementPositionCollider(c,dt),c.getCenterY()));
-                        //c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c,dt),c.getCenterY()));
-                        //c.setPosition(new Vector2d(Kinematics.accleratedMovementPositionCollider(c,dt),c.getCenterY()));
-                        c.setAcceleration(Kinematics.effectiveAcceleration(c,dt));
-                        System.out.println("Acc: "+c.getAcceleration());
-                        c.setPosition(new Vector2d(c.getAcceleration()+dt.getCurrentTime()+c.getS0(),c.getCenterY()));
-                        BooleansMovement.setNow_moving(true);*/
-                        c.setPosition(new Vector2d(Kinematics.acceleratedMovementPositionWithStartingSpeedAndPositionCollider(c, dt), c.getCenterY()));
                         break;
                     }
                     //BASISEFFEKT 1
@@ -298,6 +294,7 @@ public class Main extends Application {
                             c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
                         }
                         break;
+
                     //BASISEFFEKT 2
                     case 2:
                         c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
@@ -391,15 +388,76 @@ public class Main extends Application {
                     //BASISEFFEKT 10??????
                     case 10:
                         break;
+                    //Unelastischer Stoß geupdatet (Basiseffekt 2)
+                    case 11:
+                        if ((CollisionChecker.checkCollision(c, c2)) & !collided) {
+                            System.out.println(c.getVelocity().getX());
+                            collided = true;
+                            KinematicsVectors.unelasticPushVelocityCollider(c, c2);
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+
+                            KinematicsVectors.radialAcceleration(c2);
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c2);
+                            KinematicsVectors.accleratedMovementPosition(dt, c2);
+
+                        } else if (collided) {
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                            KinematicsVectors.radialAcceleration(c);
+
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c2);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c2);
+                            KinematicsVectors.radialAcceleration(c2);
+
+
+                        } else {
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                            KinematicsVectors.radialAcceleration(c);
+                        }
+
+
+                        break;
 
                     //WAAGRECHTER WURF
                     case 12:
                         c.setPosition(KinematicsBall.levelThrowVector(c, dt));
                         c.setRotate(c.getRotate() + KinematicsBall.radialAcceleration(c));
                         break;
+                    case 14:
+                        if ((CollisionChecker.checkCollision(c, c2)) & !collided) {
+                            System.out.println(c.getVelocity().getX());
+                            collided = true;
+                            //KinematicsVectors.unelasticPushVelocityCollider(c, c2);
+                            KinematicsVectors.elasticPush(c, c2);
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+
+                            KinematicsVectors.radialAcceleration(c2);
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c2);
+                            KinematicsVectors.accleratedMovementPosition(dt, c2);
+
+                        } else if (collided) {
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                            KinematicsVectors.radialAcceleration(c);
+
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c2);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c2);
+                            KinematicsVectors.radialAcceleration(c2);
+
+
+                        } else {
+                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                            KinematicsVectors.radialAcceleration(c);
+                        }
+                        break;
 
 
                 }
+                //working on it. .add() at elasticPush isnt working
 
 
 /*
