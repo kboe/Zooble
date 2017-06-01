@@ -176,6 +176,8 @@ public class KinematicsVectors {
         v.divide(ballCollider.getMass()+ballCollider2.getMass());
         ballCollider.setVelocity(v);
         ballCollider2.setVelocity(v);
+        System.out.println(v.getX());
+        ballCollider2.setVelocity0(ballCollider2.getVelocity());
     }
     //---------------------------------------------------------------------------------
     //elastischer Stoß
@@ -187,17 +189,30 @@ public class KinematicsVectors {
      */
     public static void elasticPush(BallCollider bc1, BallCollider bc2){
         double dmass= bc1.getMass()+bc2.getMass();
+        System.out.println("BC 1: "+ bc1.getVelocity());
+        Vector2d v1 = new Vector2d();
+        Vector2d v2 = new Vector2d();
         Vector2d a = bc1.getVelocity().multiply(bc1.getMass()-bc2.getMass());
         Vector2d a2 = bc2.getVelocity().multiply(2*bc2.getMass());
         Vector2d b = bc2.getVelocity().multiply(bc2.getMass()-bc1.getMass());
         Vector2d b2 = bc1.getVelocity().multiply(2*bc1.getMass());
+        v1.add(bc1.getVelocity().multiply(bc1.getMass()-bc2.getMass()),bc2.getVelocity().multiply(2*bc2.getMass()));
+        v1.divide(dmass);
+        System.out.println("v1: "+v1);
+        System.out.println("b "+b);
+        System.out.println("b2: "+b2);
         a.add(a,a2);
         a.divide(dmass);
-        b.add(b,b2);
+      //  v1.add(b,b2);
+
+        System.out.println("b: "+b);
         b.divide(dmass);
 
         bc1.setVelocity(a);
-        bc2.setVelocity(b);
+        bc2.setVelocity(v1);
+
+        System.out.println("BC 1: "+ bc1.getVelocity());
+        System.out.println("BC 2: "+ bc2.getVelocity());
 
 
 
