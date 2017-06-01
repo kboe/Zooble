@@ -1,4 +1,4 @@
- .root {
+.root {
       -fx-background-image: url("Optionsbackground.png");
       -fx-background-repeat: stretch;
       -fx-background-size: 1300 750;
@@ -14,20 +14,20 @@
     -fx-background-radius:0;
     -fx-font-size: 40px;
     }
-    
+
     .backbutton:hover{
     -fx-background-color: #b35c72;
     }
-    
+
  .soundcss .track {
-    -fx-background-color:#9d2e4a; 
+    -fx-background-color:#9d2e4a;
     -fx-background-radius: 2.5, 2.5, 1.5;
     -fx-pref-height: 10;
     -fx-pref-width: 20;
 }
 
 .helligkeitcss .track {
-    -fx-background-color:#9d2e4a; 
+    -fx-background-color:#9d2e4a;
     -fx-background-radius: 2.5, 2.5, 1.5;
     -fx-pref-height: 10;
     -fx-pref-width: 20;
@@ -38,9 +38,9 @@
       -fx-font-weight: bold;
       -fx-font-size: 15px;
         }
-        
+
  .label2 {
-      -fx-text-fill: #000000; 
+      -fx-text-fill: #000000;
       -fx-font-weight: bold;
       -fx-font-size: 15px;
-        } 
+        }
