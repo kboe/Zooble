@@ -138,12 +138,13 @@ public class KinematicsVectors {
 
     /**
      * Sets position during a level throw
+     *
      * @param bc
      * @param deltaTime
      */
-    public static void levelThrow(BallCollider bc, DeltaTime deltaTime){
-        bc.setPosition(new Vector2d((bc.getVelocity().getX()*deltaTime.getCurrentTime())+bc.getStartingPoint().getX(),bc.getPosition().getY()-0.5*-GRAVITY*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime())));
-        System.out.println("X: "+bc.getPosition().getX()+"  Y: "+bc.getPosition().getY());
+    public static void levelThrow(BallCollider bc, DeltaTime deltaTime) {
+        bc.setPosition(new Vector2d((bc.getVelocity().getX() * deltaTime.getCurrentTime()) + bc.getStartingPoint().getX(), bc.getPosition().getY() - 0.5 * -GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime())));
+        System.out.println("X: " + bc.getPosition().getX() + "  Y: " + bc.getPosition().getY());
     }
 
 
@@ -166,14 +167,13 @@ public class KinematicsVectors {
     /**
      * Calculates new velocity after an unelastic push
      *
-
      * @return
      */
     public static void unelasticPushVelocityCollider(BallCollider ballCollider, BallCollider ballCollider2) {
         Vector2d b1 = ballCollider.getVelocity().multiply(ballCollider.getMass());
-        Vector2d b2 =  ballCollider2.getVelocity().multiply(ballCollider2.getMass());
-        Vector2d v = b1.add(b1,b2);
-        v.divide(ballCollider.getMass()+ballCollider2.getMass());
+        Vector2d b2 = ballCollider2.getVelocity().multiply(ballCollider2.getMass());
+        Vector2d v = b1.add(b1, b2);
+        v.divide(ballCollider.getMass() + ballCollider2.getMass());
         ballCollider.setVelocity(v);
         ballCollider2.setVelocity(v);
         System.out.println(v.getX());
@@ -184,35 +184,33 @@ public class KinematicsVectors {
 
     /**
      * elastic Push
+     *
      * @param bc1
      * @param bc2
      */
-    public static void elasticPush(BallCollider bc1, BallCollider bc2){
-        double dmass= bc1.getMass()+bc2.getMass();
-        System.out.println("BC 1: "+ bc1.getVelocity());
-        Vector2d v1 = new Vector2d();
-        Vector2d v2 = new Vector2d();
-        Vector2d a = bc1.getVelocity().multiply(bc1.getMass()-bc2.getMass());
-        Vector2d a2 = bc2.getVelocity().multiply(2*bc2.getMass());
-        Vector2d b = bc2.getVelocity().multiply(bc2.getMass()-bc1.getMass());
-        Vector2d b2 = bc1.getVelocity().multiply(2*bc1.getMass());
-        v1.add(bc1.getVelocity().multiply(bc1.getMass()-bc2.getMass()),bc2.getVelocity().multiply(2*bc2.getMass()));
+    public static void elasticPush(BallCollider bc1, BallCollider bc2) {
+        double dmass = bc1.getMass() + bc2.getMass();
+        System.out.println("BC 1: " + bc1.getVelocity());
+        Vector2d v1 = bc1.getVelocity();
+        Vector2d a2 = new Vector2d();
+        Vector2d a = bc1.getVelocity().multiply(bc1.getMass() - bc2.getMass());
+        a2 = a2.add(a, bc2.getVelocity().multiply(2 * bc2.getMass()));
+        Vector2d v2 = bc2.getVelocity();
+        Vector2d b = bc2.getVelocity().multiply(bc2.getMass() - bc1.getMass());
+        Vector2d b2 = new Vector2d();
+        b2 = b2.add(b,bc1.getVelocity().multiply(2 * bc1.getMass()));
+        v2= v2.add(v2,b2);
+        v1 = v1.multiply(bc1.getMass() - bc2.getMass());
+        v1 = v1.add(v1, a2);
         v1.divide(dmass);
-        System.out.println("v1: "+v1);
-        System.out.println("b "+b);
-        System.out.println("b2: "+b2);
-        a.add(a,a2);
-        a.divide(dmass);
-      //  v1.add(b,b2);
+        v2.divide(dmass);
 
-        System.out.println("b: "+b);
-        b.divide(dmass);
+        bc1.setVelocity(v1);
+        bc2.setVelocity(v2);
 
-        bc1.setVelocity(a);
-        bc2.setVelocity(v1);
 
-        System.out.println("BC 1: "+ bc1.getVelocity());
-        System.out.println("BC 2: "+ bc2.getVelocity());
+
+
 
 
 

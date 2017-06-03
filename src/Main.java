@@ -439,9 +439,12 @@ public class Main extends Application {
                             KinematicsVectors.accleratedMovementPosition(dt, c2);
 
                         } else if (collided) {
-                            KinematicsVectors.acceleratedMovementVelocity(dt, c);
-                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
-                            KinematicsVectors.radialAcceleration(c);
+                            if(c.getVelocity()==new Vector2d(0,0)){
+                                KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                                KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                                KinematicsVectors.radialAcceleration(c);
+                            }
+
 
                             KinematicsVectors.acceleratedMovementVelocity(dt, c2);
                             KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c2);
