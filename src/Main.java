@@ -179,6 +179,7 @@ public class Main extends Application {
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
+            Vector2d coll = new Vector2d();
 
 
             public int getH() {
@@ -195,6 +196,8 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+                CollisionChecker.checkSceneBoundsCollision(canvas, c);
+                System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
 
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
@@ -233,7 +236,7 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = 14;
+                int x_switch = -2;
 
                 switch (x_switch) {
                     //Vectors
@@ -292,6 +295,36 @@ public class Main extends Application {
                             c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
                         } else {
                             c.setPosition(new Vector2d(Kinematics.evenMovementPositionCollider(c, dt), c.getCenterY() + Kinematics.freeFallHeight(dt)));
+                        }
+                        break;
+                    //COlLLISION
+                    case -2:
+
+
+                        if (CollisionChecker.checkCollision(c, testRect.getRect()) & !collided) {
+                            Vector2d collision = CollisionChecker.getCollisionPoint(c, testRect.getRect());
+                            collided = true;
+                            coll = collision;
+                            //Hang
+                            c.setAlpha(testRect.getRect().getAngle());
+                            KinematicsVectors.gForce(c);
+                            KinematicsVectors.hForce(c);
+                            c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
+                            //c.setStartingPoint(new Vector2d(collision.getX(), c.gethForce()));
+
+
+                            KinematicsVectors.radialAcceleration(c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+
+
+                        }
+                        else if (collided) {
+                            KinematicsVectors.radialAcceleration(c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                        } else {
+                            KinematicsVectors.radialAcceleration(c);
+                            KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                            KinematicsVectors.freeFallHeight(dt, c);
                         }
                         break;
 
@@ -416,8 +449,6 @@ public class Main extends Application {
                             KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
                             KinematicsVectors.radialAcceleration(c);
                         }
-
-
                         break;
 
                     //WAAGRECHTER WURF
@@ -429,7 +460,6 @@ public class Main extends Application {
                         if ((CollisionChecker.checkCollision(c, c2)) & !collided) {
                             System.out.println(c.getVelocity().getX());
                             collided = true;
-                            //KinematicsVectors.unelasticPushVelocityCollider(c, c2);
                             KinematicsVectors.elasticPush(c, c2);
                             KinematicsVectors.acceleratedMovementVelocity(dt, c);
                             KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
@@ -439,7 +469,7 @@ public class Main extends Application {
                             KinematicsVectors.accleratedMovementPosition(dt, c2);
 
                         } else if (collided) {
-                            if(c.getVelocity()==new Vector2d(0,0)){
+                            if (c.getVelocity() == new Vector2d(0, 0)) {
                                 KinematicsVectors.acceleratedMovementVelocity(dt, c);
                                 KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
                                 KinematicsVectors.radialAcceleration(c);
@@ -460,60 +490,7 @@ public class Main extends Application {
 
 
                 }
-                //working on it. .add() at elasticPush isnt working
 
-
-/*
-if (CollisionChecker.checkCollision(c2, c3)) {
-                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c2, c3);
-                    collided_3 = true;
-                    //c3.setRotate(c3.getRotate() + KinematicsBall.radialAcceleration(c3));
-
-                    System.out.println("collision Point with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-
-
-                    switch (x_switch) {
-                        case 2:
-                            //BASISEFFEKT 2
-                            if (b2 == 0) {
-                                c3.setS0(c3.getCenterX() + c3.getRadius());
-                                c2.setS0(c2.getCenterX());
-                                c2.setVelocityX(Kinematics.elasticPushVelocity1Collider(c2, c3));
-
-                                c3.setVelocityX(Kinematics.elasticPushVelocity2Collider(c2, c3));
-                                System.out.println("V2: " + c2.getVelocityX());
-                                System.out.println("V3: " + c3.getVelocityX());
-
-                            }
-                            if (b2 == 5) {
-                                collided_3 = false;
-                                b2 = -1;
-                            }
-                            b2++;
-                            break;
-                    }
-
-                }
-
- */
-
-               /* if (CollisionChecker.checkCollision(c, testRect.getRect())) {
-                    Vector2d collPoint = CollisionChecker.getCollisionPoint(c, testRect.getRect());
-                    System.out.println("collision Point RECTANGLE with circle: " + "(" + (int) collPoint.getX() + "/" + (int) collPoint.getY() + ")");
-                    double p = c.getCenterX() - collPoint.getX();
-                    if(b3!=0){
-                        if (p > 0.5 * c.getRadius()) {
-                            collided_Rectangle = true;
-                        } else {
-                            leaving = true;
-                        }
-                    }
-
-                    b3 = 1;
-
-
-                }*/
-                //KAREN CODE ENDING
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 //i++;

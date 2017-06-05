@@ -4,6 +4,7 @@ import Logic.Collision.BallCollider;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 
+import static Logic.Util.Physics.Kinematics.FRICTION;
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 /**
@@ -198,8 +199,8 @@ public class KinematicsVectors {
         Vector2d v2 = bc2.getVelocity();
         Vector2d b = bc2.getVelocity().multiply(bc2.getMass() - bc1.getMass());
         Vector2d b2 = new Vector2d();
-        b2 = b2.add(b,bc1.getVelocity().multiply(2 * bc1.getMass()));
-        v2= v2.add(v2,b2);
+        b2 = b2.add(b, bc1.getVelocity().multiply(2 * bc1.getMass()));
+        v2 = v2.add(v2, b2);
         v1 = v1.multiply(bc1.getMass() - bc2.getMass());
         v1 = v1.add(v1, a2);
         v1.divide(dmass);
@@ -209,11 +210,55 @@ public class KinematicsVectors {
         bc2.setVelocity(v2);
 
 
+    }
 
+    //------------------------------------------------------------------------------------------------------------------
+    //Kinetische Energie
 
+    public static void kineticEnergy(BallCollider ballCollider) {
+        ballCollider.seteKin((ballCollider.getVelocity().dot(ballCollider.getVelocity(), ballCollider.getVelocity())) * 0.5 * ballCollider.getMass());
+    }
 
+    //------------------------------------------------------------------------------------------------------------------
+    //Potentielle Energie
 
+    public static void potentialEnergy(BallCollider ballCollider) {
+        ballCollider.setePot(ballCollider.getMass() * GRAVITY * ballCollider.getCenterY());
+    }
 
+    //------------------------------------------------------------------------------------------------------------------
+    //Impuls
+
+    public static void pulse(BallCollider ballCollider) {
+        ballCollider.setPulse(ballCollider.getVelocity().multiply(ballCollider.getMass()));
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Gewichtskraft
+
+    public static void gForce(BallCollider ballCollider) {
+        ballCollider.setgForce(ballCollider.getMass() * GRAVITY);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //Hangabtriebskraft
+
+    public static void hForce(BallCollider ballCollider) {
+        ballCollider.sethForce(ballCollider.getgForce()*Math.sin(ballCollider.getAlpha()));
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //Normalkraft
+
+    public static void nForce(BallCollider ballCollider){
+        ballCollider.setnForce(ballCollider.getgForce()*Math.cos(ballCollider.getAlpha()));
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //Reibungszahl
+
+    public static void rForce(BallCollider ballCollider){
+        ballCollider.setrForce(FRICTION*ballCollider.getnForce());
     }
 
     /**

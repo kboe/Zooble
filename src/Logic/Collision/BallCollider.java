@@ -15,17 +15,25 @@ public class BallCollider extends Circle {
     private double lastPosition;
     private double lastLastPosition;
     private Vector2d velocity = new Vector2d(2, 0);
-    private Vector2d accelerationV=new Vector2d(1,0);
+    private Vector2d accelerationV = new Vector2d(1, 0);
+    private double eKin; //according to the Internet not a Vector
+    private double ePot;
     private Vector2d currentVelocity;
     private Vector2d lastVelocity;
     private Vector2d startingPoint;
     private Vector2d velocity0;
-    private Vector2d lastPos = new Vector2d(0,0);
-    private Vector2d lastLastPos= new Vector2d(0,0);
+    private Vector2d lastPos = new Vector2d(0, 0);
+    private Vector2d lastLastPos = new Vector2d(0, 0);
+    private Vector2d pulse;
+    private double alpha;
+    private double gForce;
+    private double hForce;
+    private double nForce;
+    private double rForce;
     private double lastSpeed;
     private double lastLastSpeed;
     private double mass = 1;
-    private double acceleration=0;
+    private double acceleration = 0;
     private double velocityX;
 
     private double velocityY;
@@ -192,5 +200,69 @@ public class BallCollider extends Circle {
 
     public void setLastLastPos(Vector2d lastLastPos) {
         this.lastLastPos = lastLastPos;
+    }
+
+    public double geteKin() {
+        return eKin;
+    }
+
+    public void seteKin(double eKin) {
+        this.eKin = eKin;
+    }
+
+    public double getePot() {
+        return ePot;
+    }
+
+    public void setePot(double ePot) {
+        this.ePot = ePot;
+    }
+
+    public Vector2d getPulse() {
+        return pulse;
+    }
+
+    public void setPulse(Vector2d pulse) {
+        this.pulse = pulse;
+    }
+
+    public double getgForce() {
+        return gForce;
+    }
+
+    public void setgForce(double gForce) {
+        this.gForce = gForce;
+    }
+
+    public double gethForce() {
+        return hForce;
+    }
+
+    public void sethForce(double hForce) {
+        this.hForce = hForce;
+    }
+
+    public double getnForce() {
+        return nForce;
+    }
+
+    public void setnForce(double nForce) {
+        this.nForce = nForce;
+    }
+
+    public double getrForce() {
+        return rForce;
+    }
+
+    public void setrForce(double rForce) {
+        this.rForce = rForce;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
     }
 }
