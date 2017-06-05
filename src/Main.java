@@ -300,6 +300,8 @@ public class Main extends Application {
                     //COlLLISION
                     case -2:
 
+                        CollisionChecker.checkSceneBoundsCollision(canvas,c);
+
 
                         if (CollisionChecker.checkCollision(c, testRect.getRect()) & !collided) {
                             Vector2d collision = CollisionChecker.getCollisionPoint(c, testRect.getRect());
@@ -311,6 +313,7 @@ public class Main extends Application {
                             KinematicsVectors.hForce(c);
                             c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
                             //c.setStartingPoint(new Vector2d(collision.getX(), c.gethForce()));
+
 
 
                             KinematicsVectors.radialAcceleration(c);

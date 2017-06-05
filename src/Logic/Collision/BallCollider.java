@@ -56,18 +56,14 @@ public class BallCollider extends Circle {
 
     //GETTER & SETTER
 
-    private void position(Vector2d vector2d) {
-        setCenterX(vector2d.getX());
-        setCenterY(vector2d.getY());
-    }
-
     public Vector2d getPosition() {
         return position;
     }
 
     public void setPosition(Vector2d position) {
         this.position = position;
-        position(position);
+        setCenterX(position.getX());
+        setCenterY(position.getY());
     }
 
     public Vector2d getVelocity() {

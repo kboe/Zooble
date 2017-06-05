@@ -26,9 +26,6 @@ public class BoxCollider extends Polygon {
     public BoxCollider(double x, double y, double width, double height, @Nullable Paint paint) {
         super(x, y, x + width, y, x + width, y + height, x, y + height);
 
-        //Store the points from the observable ArrayList into an Array called points, so they can be converted to Vector
-
-        convertPointsObservableArrayIntoPointsArray();
         storePointsInVector();
 
         this.width = width;
