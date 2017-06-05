@@ -9,6 +9,7 @@ import javafx.scene.shape.Shape;
  * Created by Rocki on 23.05.2017.
  */
 public final class CollisionChecker {
+    public static boolean floorContact =false;
 
     /**
      * checks if a ballCollider (circle Shape) or another Shape intersects
@@ -97,6 +98,7 @@ public final class CollisionChecker {
             ball.getVelocity().invertY();
 
         } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()){
+            floorContact=true;
 
             System.out.println("ball outside of Bounds (down)");
             ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs

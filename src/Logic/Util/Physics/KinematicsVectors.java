@@ -1,9 +1,11 @@
 package Logic.Util.Physics;
 
 import Logic.Collision.BallCollider;
+import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 
+import static Logic.Collision.CollisionChecker.floorContact;
 import static Logic.Util.Physics.Kinematics.FRICTION;
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
@@ -130,11 +132,33 @@ public class KinematicsVectors {
      * @param deltaTime
      * @return
      */
-    public static void freeFallHeightWithVelocity(DeltaTime deltaTime, BallCollider bc){
+    public static void freeFallHeightWithVelocity(DeltaTime deltaTime, BallCollider bc) {
         //double height = 0.5 * GRAVITY / 100 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
-        bc.setVelocity(Vector2d.add(bc.getVelocity(),bc.getAccelerationV()));
+        boolean toSlow = false;
+        if ((bc.getVelocity().getX() < 0.1 & bc.getVelocity().getX() > -0.1) & floorContact) {
+            System.out.println(bc.getVelocity());
+            toSlow=true;
+
+        }
+        if (floorContact) {
+            if (toSlow){
+                LoopStopped.setOut_of_bounds(true);
+
+            }
+            else {
+                bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
+                bc.setVelocity(bc.getVelocity().multiply(0.9));
+                bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));
+                floorContact = false;
+            }
+
+
+        } else {
+            bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
+            bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));
+
+        }
         //bc.getVelocity().setY(bc.getVelocity().getY() + GRAVITY / 50 + 1);
-        bc.setPosition(Vector2d.add(bc.getPosition(),bc.getVelocity()));
         //TODO ball muss noch Energie abgeben -> Velocity muss abnehmen (?)
     }
 
@@ -147,6 +171,7 @@ public class KinematicsVectors {
     public static void freeFallVelocity(BallCollider bc) {
         bc.setVelocity(new Vector2d(bc.getVelocity().getX(), Math.sqrt(2 * bc.getPosition().getY() * GRAVITY)));
     }
+
 
     //-----------------------------------------------------------------------------------------------------------
     //Waagrechter Wurf
@@ -167,8 +192,8 @@ public class KinematicsVectors {
     public static void hillVelocity(BallCollider ballCollider) {
         double hv = Math.sqrt(2 * GRAVITY * ballCollider.getStartingPoint().getY() -
                 ballCollider.getPosition().getY());
-        Vector2d v = new Vector2d(ballCollider.getVelocity().getX(),hv);
-        ballCollider.setVelocity(ballCollider.getVelocity().add(ballCollider.getVelocity(),v));
+        Vector2d v = new Vector2d(ballCollider.getVelocity().getX(), hv);
+        ballCollider.setVelocity(ballCollider.getVelocity().add(ballCollider.getVelocity(), v));
     }
 
     //----------------------------------------------------------------------------------------------------------------

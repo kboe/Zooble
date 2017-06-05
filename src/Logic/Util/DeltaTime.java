@@ -6,6 +6,8 @@ package Logic.Util;
 public class DeltaTime {
 
     public static double deltatime = 0.0167;
+
+
     //private double currentTime = 0.0167;
     private double currentTime = 0;
 
