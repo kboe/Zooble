@@ -14,7 +14,7 @@ public class BallCollider extends Circle {
     //private Vector2d lastPosition;
     private double lastPosition;
     private double lastLastPosition;
-    private Vector2d velocity = new Vector2d(2, 0);
+    private Vector2d velocity = new Vector2d(0, 0);
     private Vector2d accelerationV = new Vector2d(1, 0);
     private double eKin; //according to the Internet not a Vector
     private double ePot;

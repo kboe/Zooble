@@ -120,8 +120,22 @@ public class KinematicsVectors {
      */
     public static void freeFallHeight(DeltaTime deltaTime, BallCollider bc) {
         double height = 0.5 * GRAVITY * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
-        bc.setPosition(new Vector2d(bc.getPosition().getX(), height + bc.getStartingPoint().getY()));
+        bc.setPosition(new Vector2d(bc.getPosition().getX(), height + bc.getPosition().getY()));
 
+    }
+
+    /**
+     * Free Fall y-Pos using the velocity Vector of the ball.
+     *
+     * @param deltaTime
+     * @return
+     */
+    public static void freeFallHeightWithVelocity(DeltaTime deltaTime, BallCollider bc){
+        //double height = 0.5 * GRAVITY / 100 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        bc.setVelocity(Vector2d.add(bc.getVelocity(),bc.getAccelerationV()));
+        //bc.getVelocity().setY(bc.getVelocity().getY() + GRAVITY / 50 + 1);
+        bc.setPosition(Vector2d.add(bc.getPosition(),bc.getVelocity()));
+        //TODO ball muss noch Energie abgeben -> Velocity muss abnehmen (?)
     }
 
     /**

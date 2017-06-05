@@ -34,8 +34,8 @@ public class Main extends Application {
     public GridPane gameControlGrid = new GridPane();
     Boolean running = true;
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = 1300;
+    private static final int HEIGHT = 750;
 
     ArrayList<ZooRect> zooRectList = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(75, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
@@ -80,9 +80,9 @@ public class Main extends Application {
 
         //with Vectors
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c.setVelocity(new Vector2d(5, 0));
+        c.setVelocity(new Vector2d(3, -3));
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(1, 0));
+        c.setAccelerationV(new Vector2d(0, 9.81));
         c.setMass(1);
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
         c2.setVelocity(new Vector2d(0, 0));
@@ -236,24 +236,26 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -2;
+                int x_switch = -1;
 
                 switch (x_switch) {
                     //Vectors
                     case -1:
+
+                        CollisionChecker.checkSceneBoundsCollision(canvas,c);
+                        KinematicsVectors.freeFallHeightWithVelocity(dt,c);
+
                         //KinematicsVectors.averageSpeed(c,dt);
 
                         //KinematicsVectors.averageTime(dt);
                         //KinematicsVectors.averageAcceleration(c,dt);
-                        KinematicsVectors.acceleratedMovementVelocity(dt, c);
+                        //KinematicsVectors.acceleratedMovementVelocity(dt, c);
                         //KinematicsVectors.freeFallVelocity(c);
                         //KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
-                        KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
-                        KinematicsVectors.radialAcceleration(c);
+                        //KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
+                        //KinematicsVectors.radialAcceleration(c);
                         // KinematicsVectors.evenMovementPosition(c,dt);
-                        // KinematicsVectors.freeFallHeight(dt,c);
                         //KinematicsVectors.levelThrow(c,dt);
-
 
                         //KinematicsVectors.accleratedMovementPosition(dt, c);
                         break;
@@ -536,9 +538,7 @@ public class Main extends Application {
                 });
             }
 
-        }.
-
-                start();
+        }.stop();
 
         gameControlGrid.setLayoutX(WIDTH / 2 - 75);
         gameControlGrid.setLayoutY(HEIGHT - 50);
