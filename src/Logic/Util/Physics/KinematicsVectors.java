@@ -9,6 +9,8 @@ import static Logic.Collision.CollisionChecker.floorContact;
 import static Logic.Util.Physics.Kinematics.FRICTION;
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
+import static java.awt.image.ImageObserver.WIDTH;
+
 /**
  * Created by ${kboe} on 31.05.2017.
  */
@@ -137,15 +139,19 @@ public class KinematicsVectors {
         boolean toSlow = false;
         if ((bc.getVelocity().getX() < 0.1 & bc.getVelocity().getX() > -0.1) & floorContact) {
             System.out.println(bc.getVelocity());
-            toSlow=true;
-
+            bc.setVelocity(new Vector2d(bc.getVelocity().getX(), 0));
+            toSlow = true;
         }
         if (floorContact) {
-            if (toSlow){
-                LoopStopped.setOut_of_bounds(true);
+            if (toSlow) {
 
-            }
-            else {
+                System.out.println(bc.getPosition());
+                //can't import the Canvas Height
+                bc.setPosition(new Vector2d(bc.getPosition().getX(), 750 - bc.getRadius()));
+                floorContact = false;
+                LoopStopped.out_of_bounds = true;
+            } else {
+
                 bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
                 bc.setVelocity(bc.getVelocity().multiply(0.9));
                 bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));

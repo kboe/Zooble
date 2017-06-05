@@ -243,8 +243,9 @@ public class Main extends Application {
                     case -1:
 
                         CollisionChecker.checkSceneBoundsCollision(canvas,c);
+                       // KinematicsVectors.radialAcceleration(c);
+
                         KinematicsVectors.freeFallHeightWithVelocity(dt,c);
-                        KinematicsVectors.radialAcceleration(c);
 
                         //KinematicsVectors.averageSpeed(c,dt);
 
