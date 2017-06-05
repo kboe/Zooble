@@ -148,6 +148,14 @@ public class KinematicsVectors {
         System.out.println("X: " + bc.getPosition().getX() + "  Y: " + bc.getPosition().getY());
     }
 
+    //-------------------------------------------------------------------------------------------------------------------
+    //Hang Geschwindigkeit
+    public static void hillVelocity(BallCollider ballCollider) {
+        double hv = Math.sqrt(2 * GRAVITY * ballCollider.getStartingPoint().getY() -
+                ballCollider.getPosition().getY());
+        Vector2d v = new Vector2d(ballCollider.getVelocity().getX(),hv);
+        ballCollider.setVelocity(ballCollider.getVelocity().add(ballCollider.getVelocity(),v));
+    }
 
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittszeit
@@ -244,21 +252,21 @@ public class KinematicsVectors {
     //Hangabtriebskraft
 
     public static void hForce(BallCollider ballCollider) {
-        ballCollider.sethForce(ballCollider.getgForce()*Math.sin(ballCollider.getAlpha()));
+        ballCollider.sethForce(ballCollider.getgForce() * Math.sin(ballCollider.getAlpha()));
     }
 
     //------------------------------------------------------------------------------------------------------------------
     //Normalkraft
 
-    public static void nForce(BallCollider ballCollider){
-        ballCollider.setnForce(ballCollider.getgForce()*Math.cos(ballCollider.getAlpha()));
+    public static void nForce(BallCollider ballCollider) {
+        ballCollider.setnForce(ballCollider.getgForce() * Math.cos(ballCollider.getAlpha()));
     }
 
     //------------------------------------------------------------------------------------------------------------------
     //Reibungszahl
 
-    public static void rForce(BallCollider ballCollider){
-        ballCollider.setrForce(FRICTION*ballCollider.getnForce());
+    public static void rForce(BallCollider ballCollider) {
+        ballCollider.setrForce(FRICTION * ballCollider.getnForce());
     }
 
     /**
