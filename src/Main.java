@@ -197,7 +197,7 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
-                System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
+                //System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
 
                 //KAREN CODE BEGINNING
                 if (LoopStopped.out_of_bounds == true) {
@@ -299,17 +299,19 @@ public class Main extends Application {
                         break;
                     //COlLLISION
                     case -2:
-
+                        Vector2d sP = new Vector2d();
 
                         if (CollisionChecker.checkCollision(c, testRect.getRect()) & !collided) {
                             Vector2d collision = CollisionChecker.getCollisionPoint(c, testRect.getRect());
                             collided = true;
                             coll = collision;
+                            sP = collision;
                             //Hang
                             c.setAlpha(testRect.getRect().getAngle());
                             KinematicsVectors.gForce(c);
                             KinematicsVectors.hForce(c);
-                            c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
+                            //c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
+                            c.setStartingPoint(new Vector2d(collision.getX()+0.25*c.getRadius(),collision.getY()+c.getRadius()*0.25));
                             //c.setStartingPoint(new Vector2d(collision.getX(), c.gethForce()));
 
 
@@ -317,8 +319,18 @@ public class Main extends Application {
                             KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
 
 
-                        }
-                        else if (collided) {
+                        } else if (CollisionChecker.checkCollision(c, testRect.getRect())) {
+                            Vector2d collision = CollisionChecker.getCollisionPoint(c, testRect.getRect());
+
+                            KinematicsVectors.gForce(c);
+                            KinematicsVectors.hForce(c);
+                            // c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
+                           // c.setStartingPoint(collision);
+                            c.setStartingPoint(new Vector2d(collision.getX(),collision.getY()+c.getRadius()*0.25));
+
+                            //c.setPosition(sP.add(sP,collision));
+                            //KinematicsVectors.freeFallVelocity(c);
+
                             KinematicsVectors.radialAcceleration(c);
                             KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, c);
                         } else {

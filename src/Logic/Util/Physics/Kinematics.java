@@ -2,6 +2,7 @@ package Logic.Util.Physics;
 
 import Logic.Collision.BallCollider;
 import Logic.Util.DeltaTime;
+import Logic.Util.Vector2d;
 
 /**
  * Created by ${kboe} on 24.05.2017.
@@ -11,6 +12,7 @@ public class Kinematics {
     //public static final double GRAVITY = 9.81;
     public static final double GRAVITY = 9.81;
     public static final double FRICTION = 0.4;
+    public static final Vector2d GRAVITYVECTOR = new Vector2d(0, GRAVITY);
 
 
     //---------------------------------------------------------------------------------
@@ -63,9 +65,9 @@ public class Kinematics {
     }
 
     public static double accleratedMovementPositionCollider(BallCollider ballCollider, DeltaTime deltaTime) {
-        ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime));
+        ballCollider.setAcceleration(effectiveAcceleration(ballCollider, deltaTime));
         //double s = 0.5 * ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime)) * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
-        double s = 0.5*ballCollider.getAcceleration()*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime());
+        double s = 0.5 * ballCollider.getAcceleration() * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return s;
     }
 
@@ -97,8 +99,9 @@ public class Kinematics {
         double position = position0 + velocity0 * deltaTime.getCurrentTime() + 0.5 * acceleration * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return position;
     }
+
     public static double acceleratedMovementPositionWithStartingSpeedAndPositionCollider(BallCollider ballCollider, DeltaTime deltaTime) {
-        ballCollider.setAcceleration(effectiveAcceleration(ballCollider,deltaTime));
+        ballCollider.setAcceleration(effectiveAcceleration(ballCollider, deltaTime));
         double position = ballCollider.getS0() + ballCollider.getVelocityX() * deltaTime.getCurrentTime() + 0.5 * ballCollider.getAcceleration() * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         return position;
     }
@@ -116,12 +119,11 @@ public class Kinematics {
        // return velocity;
         return 0;
     }*/
-
     public static double effectiveSpeed(BallCollider ballCollider, DeltaTime deltaTime) {
         //double velocity = ((pos1 - pos0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime())));
         // return velocity;
         //double velocity =(ballCollider.getLastPosition()-ballCollider.getLastLastPosition())/(effectiveTime(deltaTime));
-        double velocity =(ballCollider.getLastPosition()-ballCollider.getLastLastPosition());
+        double velocity = (ballCollider.getLastPosition() - ballCollider.getLastLastPosition());
 
         return velocity;
     }
@@ -129,14 +131,14 @@ public class Kinematics {
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittsbeschleunigung
 
-   /* /**
-     * Mean acceleration
-     *
-     * @param velocity0
-     * @param velocity1
-     * @param deltaTime
-     * @return
-     */
+    /* /**
+      * Mean acceleration
+      *
+      * @param velocity0
+      * @param velocity1
+      * @param deltaTime
+      * @return
+      */
     /*public static double effectiveAcceleration(double velocity0, double velocity1, DeltaTime deltaTime) {
         //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
         //return acceleration;
@@ -146,13 +148,13 @@ public class Kinematics {
         //double acceleration = (velocity1 - velocity0) / (effectiveTime(deltaTime.getCurrentTime(), deltaTime.getLastTime()));
         //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/effectiveTime(deltaTime);
         //double accleration=(ballCollider.getLastSpeed()-ballCollider.getLastLastSpeed())/DeltaTime.deltatime;
-        double accleration = effectiveSpeed(ballCollider,deltaTime)/60;
+        double accleration = effectiveSpeed(ballCollider, deltaTime) / 60;
 
         //without this it goes really early negative
-        if(accleration<0){
-            accleration=-accleration;
+        if (accleration < 0) {
+            accleration = -accleration;
         }
-        System.out.println("Acceleration: "+accleration);
+        System.out.println("Acceleration: " + accleration);
         return accleration;
     }
 
@@ -161,8 +163,8 @@ public class Kinematics {
 
     public static double effectiveTime(DeltaTime deltaTime) {
         //double t = t1 - t0;
-        double t = deltaTime.getLastTime()-deltaTime.getLastLastTime();
-        System.out.println("T: "+t);
+        double t = deltaTime.getLastTime() - deltaTime.getLastLastTime();
+        System.out.println("T: " + t);
         return t;
     }
 
