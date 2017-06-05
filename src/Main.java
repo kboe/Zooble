@@ -82,7 +82,7 @@ public class Main extends Application {
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
         c.setVelocity(new Vector2d(3, -3));
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(0, 9.81));
+        c.setAccelerationV(new Vector2d(0, 0.981));
         c.setMass(1);
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
         c2.setVelocity(new Vector2d(0, 0));
