@@ -105,27 +105,27 @@ public final class CollisionChecker {
 
         if (checkContactWithFloor(ball)) {
             ball.getVelocity().setY(0);
-            System.out.println("ball kontakt");
+            System.out.println("ball  Kontakt mit Boden");
 
         } else {
-            if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {
+            if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {         //Right Wall
 
                 System.out.println("ball outside of Bounds (right)");
-                System.out.println("Out od bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
+                System.out.println("Out of bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
                 ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius(), ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
                 ball.getVelocity().invertX();
 
-            } else if (ball.getCenterX() - ball.getRadius() < 0) {
+            } else if (ball.getCenterX() - ball.getRadius() < 0) {                  //Left Wall
                 System.out.println("ball outside of Bounds (left)");
                 ball.setPosition(new Vector2d(0 + ball.getRadius(), ball.getPosition().getY()));                            //Correct Ball position -> prevents bugs
                 ball.getVelocity().invertX();
 
-            } else if (ball.getCenterY() - ball.getRadius() < 0) {
+            } else if (ball.getCenterY() - ball.getRadius() < 0) {                  //Top Wall
                 System.out.println("ball outside of Bounds (up)");
                 ball.setPosition(new Vector2d(ball.getPosition().getX(), 0 + ball.getRadius()));                            //Correct Ball position -> prevents bugs
                 ball.getVelocity().invertY();
 
-            } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) {
+            } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
                 floorContact = true;
 
                 System.out.println("ball outside of Bounds (down)");

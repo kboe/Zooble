@@ -145,15 +145,15 @@ public class KinematicsVectors {
         if (floorContact) {
             if (toSlow) {
                 //can't import the Canvas Height
-                bc.setPosition(new Vector2d(bc.getPosition().getX(), 750 - bc.getRadius()));
+                //bc.setPosition(new Vector2d(bc.getPosition().getX(), 750 - bc.getRadius()));
                 floorContact = false;
-                LoopStopped.out_of_bounds = true;
+                //LoopStopped.out_of_bounds = true;
             } else {
 
                 bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
                 bc.setVelocity(bc.getVelocity().multiply(0.9));
                 bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));
-                floorContact = false;
+                //floorContact = false;
             }
 
 

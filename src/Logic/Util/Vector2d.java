@@ -33,7 +33,7 @@ public class Vector2d {
      *
      * @return the length value of the on called Vector
      */
-    public double calcLength() {
+    private double calcLength() {
         return this.length = Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
@@ -118,6 +118,11 @@ public class Vector2d {
         this.setY(this.getY() * scale);
     }
 
+    /**
+     * Scales the on called Vektor
+     * @param scale the scale value with which you want to scale the vektor
+     * @return returns the scaled vektor
+     */
     public Vector2d multiply(double scale){
         return new Vector2d(this.getX()*scale,this.getY()*scale);
     }
