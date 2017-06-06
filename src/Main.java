@@ -75,11 +75,16 @@ public class Main extends Application {
         final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
 
-        BallCollider[] balls = new BallCollider[3];
+        BallCollider[] balls = new BallCollider[5];
         balls[0] = c;
         balls[1] = c2;
         balls[2] = c3;
+        balls[3] = c4;
+        balls[4] = c5;
+
 
         //KAREN TESTLAB
 
@@ -96,6 +101,10 @@ public class Main extends Application {
         c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
         c3.setAccelerationV(new Vector2d(0,0.981));
         c3.setVelocity(new Vector2d(1,0));
+        c4.setVelocity(new Vector2d(-1,1));
+        c4.setAccelerationV(new Vector2d(0,0.981));
+        c5.setVelocity(new Vector2d(3,0));
+        c5.setAccelerationV(new Vector2d(0,0.981));
 
 
         c.setVelocityX(10);
@@ -121,8 +130,7 @@ public class Main extends Application {
 
 
         root.getChildren().add(canvas);
-        root.getChildren().addAll(c2, c);
-        root.getChildren().add(c3);
+        root.getChildren().addAll(c2, c, c3, c4, c5);
 
         //Roberts TESTFACTORY START
 
