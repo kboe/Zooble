@@ -103,7 +103,7 @@ public final class CollisionChecker {
             velocityOfBallNormalized.normalize();
 
             floorContact=true;
-            if (Vector2d.dot(velocityOfBallNormalized,normalBottom) > -0.5 && Vector2d.dot(velocityOfBallNormalized,normalBottom) < 0.5){   //bei -1 und 1 klappt es quasi
+            if (Vector2d.dot(velocityOfBallNormalized,normalBottom) > -0.05 && Vector2d.dot(velocityOfBallNormalized,normalBottom) < 0.05){   //bei -1 und 1 klappt es quasi
                 ball.getVelocity().setY(0);
                 System.out.println("ball kontakt");
 
