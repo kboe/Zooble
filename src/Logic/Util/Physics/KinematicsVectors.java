@@ -144,8 +144,6 @@ public class KinematicsVectors {
         }
         if (floorContact) {
             if (toSlow) {
-
-                System.out.println(bc.getPosition());
                 //can't import the Canvas Height
                 bc.setPosition(new Vector2d(bc.getPosition().getX(), 750 - bc.getRadius()));
                 floorContact = false;

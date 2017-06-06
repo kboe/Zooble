@@ -79,15 +79,18 @@ public class Main extends Application {
         //KAREN TESTLAB
 
         //with Vectors
+        //RELEVANT
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
         c.setVelocity(new Vector2d(3, -3));
         c.setVelocity0(c.getVelocity());
         c.setAccelerationV(new Vector2d(0, 0.981));
-        c.setMass(1);
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
-        c2.setVelocity(new Vector2d(0, 0));
+        c2.setVelocity(new Vector2d(3, -3));
+        c2.setAccelerationV(new Vector2d(0, 0.981));
         c2.setVelocity0(c2.getVelocity());
-        c2.setMass(1);
+        c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
+        c3.setAccelerationV(new Vector2d(0,0.981));
+        c3.setVelocity(new Vector2d(1,0));
 
 
         c.setVelocityX(10);
@@ -242,10 +245,17 @@ public class Main extends Application {
                     //Vectors
                     case -1:
 
-                        CollisionChecker.checkSceneBoundsCollision(canvas,c);
-                       // KinematicsVectors.radialAcceleration(c);
+                        CollisionChecker.checkSceneBoundsCollision(canvas, c);
+                        CollisionChecker.checkSceneBoundsCollision(canvas, c2);
+                        CollisionChecker.checkSceneBoundsCollision(canvas, c3);
 
-                        KinematicsVectors.freeFallHeightWithVelocity(dt,c);
+                        // KinematicsVectors.radialAcceleration(c);
+
+                        KinematicsVectors.freeFallHeightWithVelocity(dt, c);
+                        KinematicsVectors.freeFallHeightWithVelocity(dt, c2);
+                        KinematicsVectors.freeFallHeightWithVelocity(dt, c3);
+
+
 
                         //KinematicsVectors.averageSpeed(c,dt);
 
@@ -315,7 +325,7 @@ public class Main extends Application {
                             KinematicsVectors.gForce(c);
                             KinematicsVectors.hForce(c);
                             //c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
-                            c.setStartingPoint(new Vector2d(collision.getX()+0.25*c.getRadius(),collision.getY()+c.getRadius()*0.25));
+                            c.setStartingPoint(new Vector2d(collision.getX() + 0.25 * c.getRadius(), collision.getY() + c.getRadius() * 0.25));
                             //c.setStartingPoint(new Vector2d(collision.getX(), c.gethForce()));
 
 
@@ -329,8 +339,8 @@ public class Main extends Application {
                             KinematicsVectors.gForce(c);
                             KinematicsVectors.hForce(c);
                             // c.setStartingPoint(new Vector2d(collision.getX(), c.getCenterY()+0.25*c.getRadius()+c.gethForce()));
-                           // c.setStartingPoint(collision);
-                            c.setStartingPoint(new Vector2d(collision.getX(),collision.getY()+c.getRadius()*0.25));
+                            // c.setStartingPoint(collision);
+                            c.setStartingPoint(new Vector2d(collision.getX(), collision.getY() + c.getRadius() * 0.25));
 
                             //c.setPosition(sP.add(sP,collision));
                             //KinematicsVectors.freeFallVelocity(c);
