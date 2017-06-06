@@ -252,8 +252,7 @@ public class Main extends Application {
 
 
                         for (int i = 0; i < balls.length; i++) {
-                            for (int j = 1; j < balls.length; j++) {
-                                if (i == 1)j = 2;
+                            for (int j = i+1; j < balls.length; j++) {
                                 CollisionChecker.checkCollision(balls[i],balls[j]);
                             }
                         }
