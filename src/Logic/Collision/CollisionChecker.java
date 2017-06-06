@@ -98,13 +98,20 @@ public final class CollisionChecker {
             ball.getVelocity().invertY();
 
         } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()){
+            Vector2d normalBottom = new Vector2d(0,-1);
+            Vector2d velocityOfBallNormalized = new Vector2d(ball.getVelocity().getX(), ball.getVelocity().getY());
+            velocityOfBallNormalized.normalize();
+
             floorContact=true;
+            if (Vector2d.dot(velocityOfBallNormalized,normalBottom) > -0.5 && Vector2d.dot(velocityOfBallNormalized,normalBottom) < 0.5){   //bei -1 und 1 klappt es quasi
+                ball.getVelocity().setY(0);
+                System.out.println("ball kontakt");
 
-            System.out.println("ball outside of Bounds (down)");
-            ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
-            ball.getVelocity().invertY();
-
-
+            } else {
+                System.out.println("ball outside of Bounds (down)");
+                ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
+                ball.getVelocity().invertY();
+            }
         }
         ball.setPosition(Vector2d.add(ball.getPosition(),ball.getVelocity()));
     }

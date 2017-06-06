@@ -137,7 +137,7 @@ public class KinematicsVectors {
     public static void freeFallHeightWithVelocity(DeltaTime deltaTime, BallCollider bc) {
         //double height = 0.5 * GRAVITY / 100 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         boolean toSlow = false;
-        if ((bc.getVelocity().getX() < 0.1 & bc.getVelocity().getX() > -0.1) & floorContact) {
+        if ((bc.getVelocity().getX() < 0.1 & bc.getVelocity().getX() > -0.1) && floorContact) {
             System.out.println(bc.getVelocity());
             bc.setVelocity(new Vector2d(bc.getVelocity().getX(), 0));
             toSlow = true;
