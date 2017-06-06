@@ -76,6 +76,11 @@ public class Main extends Application {
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
 
+        BallCollider[] balls = new BallCollider[3];
+        balls[0] = c;
+        balls[1] = c2;
+        balls[2] = c3;
+
         //KAREN TESTLAB
 
         //with Vectors
@@ -85,7 +90,7 @@ public class Main extends Application {
         c.setVelocity0(c.getVelocity());
         c.setAccelerationV(new Vector2d(0, 0.981));
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
-        c2.setVelocity(new Vector2d(3, -3));
+        c2.setVelocity(new Vector2d(1, 0));
         c2.setAccelerationV(new Vector2d(0, 0.981));
         c2.setVelocity0(c2.getVelocity());
         c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
@@ -245,15 +250,25 @@ public class Main extends Application {
                     //Vectors
                     case -1:
 
-                        CollisionChecker.checkSceneBoundsCollision(canvas, c);
-                        CollisionChecker.checkSceneBoundsCollision(canvas, c2);
-                        CollisionChecker.checkSceneBoundsCollision(canvas, c3);
+
+                        for (int i = 0; i < balls.length; i++) {
+                            for (int j = 1; j < balls.length; j++) {
+                                if (i == 1)j = 2;
+                                CollisionChecker.checkCollision(balls[i],balls[j]);
+                            }
+                        }
+
+                        for (BallCollider ball :
+                                balls) {
+                            CollisionChecker.checkSceneBoundsCollision(canvas, ball);
+                            KinematicsVectors.freeFallHeightWithVelocity(dt,ball);
+                        }
 
                         // KinematicsVectors.radialAcceleration(c);
 
-                        KinematicsVectors.freeFallHeightWithVelocity(dt, c);
+                        /*KinematicsVectors.freeFallHeightWithVelocity(dt, c);
                         KinematicsVectors.freeFallHeightWithVelocity(dt, c2);
-                        KinematicsVectors.freeFallHeightWithVelocity(dt, c3);
+                        KinematicsVectors.freeFallHeightWithVelocity(dt, c3);*/
 
 
 

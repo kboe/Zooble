@@ -34,8 +34,7 @@ public class Vector2d {
      * @return the length value of the on called Vector
      */
     public double calcLength() {
-        this.length = Math.sqrt(this.x * this.x + this.y * this.y);
-        return getLength();
+        return this.length = Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
     /**
@@ -191,7 +190,7 @@ public class Vector2d {
 
     public double getLength() {
         if (this.length == 0) {          //If the length is not already calculated...
-            this.calcLength();
+            return this.calcLength();
         }
         return length;
     }
