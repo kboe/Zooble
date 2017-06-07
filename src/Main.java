@@ -191,21 +191,12 @@ public class Main extends Application {
             DeltaTime dt = new DeltaTime();
 
 
-            int h = 0;
-
             boolean now_counting = false;
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
             Vector2d coll = new Vector2d();
 
-            public int getH() {
-                return h;
-            }
-
-            public void setH(int h) {
-                this.h = h;
-            }
 
             public boolean isNow_counting() {
                 return now_counting;
@@ -282,6 +273,8 @@ public class Main extends Application {
                         for (int i = 0; i < balls.length; i++) {
                             for (int j = i+1; j < balls.length; j++) {
                                 CollisionChecker.checkCollision(balls[i],balls[j]);
+                                KinematicsVectors.radialAcceleration(balls[i]);
+                                KinematicsVectors.radialAcceleration(balls[j]);
                             }
                         }
 
