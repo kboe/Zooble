@@ -319,6 +319,13 @@ public class KinematicsVectors {
      * @return
      */
     public static void radialAcceleration(BallCollider bc) {
-        bc.setRotate(bc.getRotate() + (bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius());
+        if(bc.getVelocity().getX()>=0){
+            bc.setRotate(bc.getRotate() + (bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius());
+
+        }
+        else {
+            bc.setRotate(bc.getRotate() + (-bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius());
+
+        }
     }
 }

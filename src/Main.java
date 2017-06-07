@@ -281,11 +281,15 @@ public class Main extends Application {
 
                         for (int i = 0; i < balls.length; i++) {
                             for (int j = i+1; j < balls.length; j++) {
+                                KinematicsVectors.radialAcceleration(balls[i]);
+                                KinematicsVectors.radialAcceleration(balls[j]);
                                 boolean bla = CollisionChecker.checkCollision(balls[i],balls[j]);
                                 if (bla){
                                     Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
                                     GraphicsContext gc = canvas.getGraphicsContext2D();
                                     gc.fillOval(collPoint.getX(),collPoint.getY(),5,5);
+
+
                                 }
                             }
                         }
