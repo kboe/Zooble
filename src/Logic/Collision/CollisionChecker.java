@@ -113,16 +113,19 @@ public final class CollisionChecker {
                 System.out.println("ball outside of Bounds (right)");
                 System.out.println("Out of bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
                 ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius(), ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
+                ball.getVelocity().scale(Constants.RESTITUTION);
                 ball.getVelocity().invertX();
 
             } else if (ball.getCenterX() - ball.getRadius() < 0) {                  //Left Wall
                 System.out.println("ball outside of Bounds (left)");
                 ball.setPosition(new Vector2d(0 + ball.getRadius(), ball.getPosition().getY()));                            //Correct Ball position -> prevents bugs
+                ball.getVelocity().scale(Constants.RESTITUTION);
                 ball.getVelocity().invertX();
 
             } else if (ball.getCenterY() - ball.getRadius() < 0) {                  //Top Wall
                 System.out.println("ball outside of Bounds (up)");
                 ball.setPosition(new Vector2d(ball.getPosition().getX(), 0 + ball.getRadius()));                            //Correct Ball position -> prevents bugs
+                ball.getVelocity().scale(Constants.RESTITUTION);
                 ball.getVelocity().invertY();
 
             } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
@@ -153,8 +156,14 @@ public final class CollisionChecker {
 
         System.out.println("Velocity of ball: " + ball.getVelocity());
         velocityOfBallNormalized.normalize();
-
+        preventMicroJumps(ball);
 
         return velocityOfBallNormalized.dot(normalBottom) >= -0.05 && velocityOfBallNormalized.dot(normalBottom) <= 0.05;
+    }
+
+    //fixes the Gravity bug, mentioned in checkSceneBoundsCollision (Micro jumps)
+    private static void preventMicroJumps(BallCollider ball){
+        if (ball.getVelocity().getLength() < 0.8)
+            ball.setVelocity(new Vector2d(ball.getVelocity().getX(),0));
     }
 }

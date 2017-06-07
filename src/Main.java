@@ -232,7 +232,7 @@ public class Main extends Application {
 
 
 
-                CollisionChecker.checkSceneBoundsCollision(canvas, c);
+                //CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 //System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
 
                 //KAREN CODE BEGINNING
@@ -261,7 +261,6 @@ public class Main extends Application {
                 c.setLastLastSpeed(c.getLastSpeed());
                 c.setLastSpeed(c.getVelocity().getX());
 
-
                 /*System.out.println("LLS: " + c.getLastLastSpeed());
                 System.out.println("LS: " + c.getLastSpeed());
 
@@ -283,14 +282,14 @@ public class Main extends Application {
                             for (int j = i+1; j < balls.length; j++) {
                                 KinematicsVectors.radialAcceleration(balls[i]);
                                 KinematicsVectors.radialAcceleration(balls[j]);
-                                boolean bla = CollisionChecker.checkCollision(balls[i],balls[j]);
-                                if (bla){
+                                CollisionChecker.checkCollision(balls[i],balls[j]);
+                                /*if (bla){
                                     Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
                                     GraphicsContext gc = canvas.getGraphicsContext2D();
                                     gc.fillOval(collPoint.getX(),collPoint.getY(),5,5);
 
 
-                                }
+                                }*/
                             }
                         }
 
