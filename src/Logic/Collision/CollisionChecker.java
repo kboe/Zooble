@@ -163,7 +163,6 @@ public final class CollisionChecker {
 
     /**
      * fixes the Gravity bug, mentioned in checkSceneBoundsCollision (Micro jumps)
-     * blurb
      */
     private static void preventMicroJumps(BallCollider ball){
         if (ball.getVelocity().getLength() < 0.8)
