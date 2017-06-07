@@ -10,6 +10,7 @@ public class DeltaTime {
 
     //private double currentTime = 0.0167;
     private double currentTime = 0;
+    private double previousTime = 0;
 
     private double lastTime;
     private double lastLastTime;
@@ -36,5 +37,13 @@ public class DeltaTime {
 
     public void setLastLastTime(double lastLastTime) {
         this.lastLastTime = lastLastTime;
+    }
+
+    public double getPreviousTime() {
+        return previousTime;
+    }
+
+    public void setPreviousTime(double previousTime) {
+        this.previousTime = previousTime;
     }
 }

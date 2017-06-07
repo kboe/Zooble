@@ -70,35 +70,58 @@ public class Vector2d {
 
 
     /**
-     * Adds vector1 with vector2 and returns a new vector with
-     *
+     * Adds vector1 with vector2 and returns a new vector with (DEPRECATED: please use the non static functions)
      * @param vector1
      * @param vector2
      * @return
      */
+    @Deprecated
     public static Vector2d add(Vector2d vector1, Vector2d vector2) {       //TODO think about making add and subtract return a Vector2d
         return new Vector2d(vector1.x + vector2.x, vector1.y + vector2.y);
     }
 
-    /**
+    public Vector2d add (Vector2d vector2){
+        return new Vector2d(this.x + vector2.x, this.y + vector2.y);
+    }
+
+    /** (DEPRECATED: please use the non static functions)
      * @param vector1
      * @param vector2
      * @return
      */
+    @Deprecated
     public static Vector2d subtract(Vector2d vector1, Vector2d vector2) {
         return new Vector2d(vector1.x - vector2.x, vector1.y - vector2.y);
     }
 
-    /**
+    /** subtracts two vectors (useful for getting a vector between 2 points)
+     * @param vector
+     * @return
+     */
+    public Vector2d subtract(Vector2d vector){
+        return new Vector2d(this.x - vector.x, this.y - vector.y);
+    }
+
+    /** (DEPRECATED: please use the non static functions)
      * @param vector1
      * @param vector2
      * @return
      */
+    @Deprecated
     public static double dot(Vector2d vector1, Vector2d vector2) {
         return vector1.x * vector2.x + vector1.y * vector2.y;
     }
 
     /**
+     *
+     * @param vector
+     * @return the dot product of the on called Vector and the input Vector
+     */
+    public double dot(Vector2d vector){
+        return this.x * vector.x + this.y * vector.y;
+    }
+
+    /** (DEPRECATED: please use the non static functions)
      * Scales the Vector by a specified scale value
      *
      * @param scale the scalar value you want to scale the on called Vector with
@@ -128,23 +151,43 @@ public class Vector2d {
     }
 
     /**
-     * Ortho (if verts are connected in a) Counter Clockwise (order)
+     * Ortho (if verts are connected in a) Counter Clockwise (order)  (DEPRECATED: please use the non static functions)
      *
      * @param vector the vector you want to have the orthogonal vector from
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CCW order)
      */
+    @Deprecated
     public static Vector2d orthoCCW(Vector2d vector) {
         return new Vector2d(vector.getY(), vector.getX() * -1);
     }
 
     /**
-     * Ortho (if verts are connected in a) Clockwise (order)
+     * Ortho (if verts are connected in a) Counter Clockwise (order)
+     *
+     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CCW order)
+     */
+    public Vector2d orthoCCW(){
+        return new Vector2d(this.getY(), this.getX() * -1);
+    }
+
+    /**
+     * Ortho (if verts are connected in a) Clockwise (order) (DEPRECATED: please use the non static functions)
      *
      * @param vector the vector you want to have the orthogonal vector from
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CW order)
      */
+    @Deprecated
     public static Vector2d orthoCW(Vector2d vector) {
         return new Vector2d(vector.getY() * -1, vector.getX());
+    }
+
+    /**
+     * Ortho (if verts are connected in a) Clockwise (order)
+     *
+     * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CW order)
+     */
+    public Vector2d orthoCW(){
+        return new Vector2d(this.getY() * -1, this.getX());
     }
 
     /**

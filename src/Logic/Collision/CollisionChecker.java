@@ -70,7 +70,7 @@ public final class CollisionChecker {
     public static Vector2d getNormalOfCollider(BallCollider playerBall, Shape Collider) {
         if (Collider instanceof BallCollider) {
             BallCollider ballCollider = (BallCollider) Collider;
-            Vector2d normal = Vector2d.subtract(playerBall.getPosition(), ballCollider.getPosition());
+            Vector2d normal = playerBall.getPosition().subtract(ballCollider.getPosition());
             normal.normalize();
             return normal;
 
@@ -103,11 +103,7 @@ public final class CollisionChecker {
      */
     public static void checkSceneBoundsCollision(Canvas canvas, BallCollider ball) {
 
-        if (checkContactWithFloor(ball)) {
-            ball.getVelocity().setY(0);
-            System.out.println("ball  Kontakt mit Boden");
 
-        } else {
             if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {         //Right Wall
 
                 System.out.println("ball outside of Bounds (right)");
@@ -128,13 +124,18 @@ public final class CollisionChecker {
             } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
                 floorContact = true;
 
-                System.out.println("ball outside of Bounds (down)");
-                ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
-                ball.getVelocity().invertY();
+                if (checkContactWithFloor(ball)) {              //check if the ball has a contact with the bottom wall or a collision
+                    ball.getVelocity().setY(0);                 //BUG whicht lets the balls micro jump: balls get Y = 0, next frame -> add 0.981 on Y -> no contact -> collision -> invert Y -> jumps
+                    System.out.println("ball  Kontakt mit Boden");
+                } else {
+                    System.out.println("ball outside of Bounds (down)");
+                    ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
+                    ball.getVelocity().invertY();
+                }
             }
+        ball.setPosition(ball.getPosition().add(ball.getVelocity()));
         }
-        ball.setPosition(Vector2d.add(ball.getPosition(), ball.getVelocity()));
-    }
+
 
     /**
      * If there is contact with the floor -> there can't be a collision with it.
@@ -142,13 +143,13 @@ public final class CollisionChecker {
      * @param ball the ball which is hitting the floor
      * @return true if the ball is rolling on the floor, false if it hits the floor
      */
-    private static boolean checkContactWithFloor(BallCollider ball) {
+    public static boolean checkContactWithFloor(BallCollider ball) {
         Vector2d velocityOfBallNormalized = new Vector2d(ball.getVelocity().getX(), ball.getVelocity().getY());
 
         System.out.println("Velocity of ball: " + ball.getVelocity());
         velocityOfBallNormalized.normalize();
 
 
-        return Vector2d.dot(velocityOfBallNormalized, normalBottom) >= -0.05 && Vector2d.dot(velocityOfBallNormalized, normalBottom) <= 0.05;
+        return velocityOfBallNormalized.dot(normalBottom) >= -0.05 && velocityOfBallNormalized.dot(normalBottom) <= 0.05;
     }
 }

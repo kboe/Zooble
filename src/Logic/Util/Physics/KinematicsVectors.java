@@ -150,9 +150,9 @@ public class KinematicsVectors {
                 //LoopStopped.out_of_bounds = true;
             } else {
 
-                bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
+                bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV()));
                 bc.setVelocity(bc.getVelocity().multiply(0.9));
-                bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));
+                bc.setPosition(bc.getPosition().add(bc.getVelocity()));
                 //floorContact = false;
             }
 

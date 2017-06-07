@@ -107,6 +107,7 @@ public class Main extends Application {
         c5.setAccelerationV(new Vector2d(0,0.981));
 
 
+
         c.setVelocityX(10);
         //c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
@@ -197,7 +198,6 @@ public class Main extends Application {
             boolean first_contact = false;
             Vector2d coll = new Vector2d();
 
-
             public int getH() {
                 return h;
             }
@@ -212,6 +212,17 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+
+                dt.setCurrentTime(now);
+
+                if (dt.getPreviousTime() == 0){
+                    dt.setPreviousTime(dt.getCurrentTime());
+                } else {
+                    deltatime = (dt.getCurrentTime() - dt.getPreviousTime())/ 1e9;
+                    System.out.println("deltatime: " + deltatime);
+                    dt.setPreviousTime(dt.getCurrentTime());
+                }
+
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 //System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
 
@@ -269,7 +280,9 @@ public class Main extends Application {
                                 balls) {
                             CollisionChecker.checkSceneBoundsCollision(canvas, ball);
                             KinematicsVectors.freeFallHeightWithVelocity(dt,ball);
+                            System.out.println(ball.getVelocity());
                         }
+
 
                         // KinematicsVectors.radialAcceleration(c);
 
@@ -593,6 +606,7 @@ public class Main extends Application {
         primaryStage.show();
 
         //ROBIN CODE ENDING
+
     }
 
 
