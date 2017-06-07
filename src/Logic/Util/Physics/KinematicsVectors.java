@@ -135,7 +135,7 @@ public class KinematicsVectors {
      * @return
      */
     public static void freeFallHeightWithVelocity(DeltaTime deltaTime, BallCollider bc) {
-        //double height = 0.5 * GRAVITY / 100 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
+        /* double height = 0.5 * GRAVITY / 100 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime());
         boolean toSlow = false;
         if ((bc.getVelocity().getX() < 0.1 & bc.getVelocity().getX() > -0.1) && floorContact) {
             System.out.println(bc.getVelocity());
@@ -150,18 +150,18 @@ public class KinematicsVectors {
                 //LoopStopped.out_of_bounds = true;
             } else {
 
-                bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV()));
-                bc.setVelocity(bc.getVelocity().multiply(0.9));
-                bc.setPosition(bc.getPosition().add(bc.getVelocity()));
+                //bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV().multiply(DeltaTime.deltatime)));
+                //bc.setVelocity(bc.getVelocity().multiply(0.85));
+                //bc.setPosition(bc.getPosition().add(bc.getVelocity()));
                 //floorContact = false;
             }
 
 
-        } else {
-            bc.setVelocity(Vector2d.add(bc.getVelocity(), bc.getAccelerationV()));
-            bc.setPosition(Vector2d.add(bc.getPosition(), bc.getVelocity()));
+        } else {*/
+            bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV().multiply(DeltaTime.deltatime)));
+            bc.setPosition(bc.getPosition().add(bc.getVelocity()));
 
-        }
+
         //bc.getVelocity().setY(bc.getVelocity().getY() + GRAVITY / 50 + 1);
         //TODO ball muss noch Energie abgeben -> Velocity muss abnehmen (?)
     }

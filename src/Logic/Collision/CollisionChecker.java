@@ -1,5 +1,7 @@
 package Logic.Collision;
 
+
+import Logic.Util.Physics.Constants;
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.Shape;
@@ -33,10 +35,10 @@ public final class CollisionChecker {
         if (otherCollider instanceof BallCollider) {
             BallCollider ball2 = (BallCollider) otherCollider;
             Vector2d normal = getNormalOfCollider(ball, ball2);
-            normal.scale(5);  //do this with Velocity and mass of the balls
-            ball.setVelocity(Vector2d.add(ball.getVelocity(), normal));
+            normal.scale(0.5);  //do this with Velocity and mass of the balls
+            ball.setVelocity(ball.getVelocity().add(normal));
             normal.invert();
-            ball2.setVelocity(Vector2d.add(ball2.getVelocity(), normal));
+            ball2.setVelocity(ball2.getVelocity().add(normal));
         }
     }
 
@@ -122,14 +124,15 @@ public final class CollisionChecker {
                 ball.getVelocity().invertY();
 
             } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
-                floorContact = true;
+                floorContact = false;
 
                 if (checkContactWithFloor(ball)) {              //check if the ball has a contact with the bottom wall or a collision
-                    ball.getVelocity().setY(0);                 //BUG whicht lets the balls micro jump: balls get Y = 0, next frame -> add 0.981 on Y -> no contact -> collision -> invert Y -> jumps
+                    ball.getVelocity().setY(0);                 //TODO BUG which lets the balls micro jump: balls get Y = 0, next frame -> add 9.81 on Y (freeFallHeightWithVelocity) -> no contact -> collision -> invert Y -> micro jumps
                     System.out.println("ball  Kontakt mit Boden");
                 } else {
                     System.out.println("ball outside of Bounds (down)");
                     ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
+                    ball.getVelocity().scale(Constants.RESTITUTION);
                     ball.getVelocity().invertY();
                 }
             }

@@ -1,5 +1,6 @@
 import GUI.MainMenu;
 import Logic.Util.BooleansMovement;
+import Logic.Util.Physics.Constants;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
@@ -78,12 +79,12 @@ public class Main extends Application {
         final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
 
-        BallCollider[] balls = new BallCollider[5];
+        BallCollider[] balls = new BallCollider[2];
         balls[0] = c;
         balls[1] = c2;
-        balls[2] = c3;
-        balls[3] = c4;
-        balls[4] = c5;
+        //balls[2] = c3;
+        //balls[3] = c4;
+        //balls[4] = c5;
 
 
         //KAREN TESTLAB
@@ -91,20 +92,20 @@ public class Main extends Application {
         //with Vectors
         //RELEVANT
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c.setVelocity(new Vector2d(3, -3));
+        c.setVelocity(new Vector2d(1, -3));
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(0, 0.981));
+        c.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
-        c2.setVelocity(new Vector2d(1, 0));
-        c2.setAccelerationV(new Vector2d(0, 0.981));
+        c2.setVelocity(new Vector2d(0, 0));
+        c2.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
         c2.setVelocity0(c2.getVelocity());
-        c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c3.setAccelerationV(new Vector2d(0,0.981));
+        /*c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
+        c3.setAccelerationV(new Vector2d(0,9.81));
         c3.setVelocity(new Vector2d(1,0));
         c4.setVelocity(new Vector2d(-1,1));
-        c4.setAccelerationV(new Vector2d(0,0.981));
+        c4.setAccelerationV(new Vector2d(0,9.81));
         c5.setVelocity(new Vector2d(3,0));
-        c5.setAccelerationV(new Vector2d(0,0.981));
+        c5.setAccelerationV(new Vector2d(0,9.81));*/
 
 
 
@@ -215,13 +216,21 @@ public class Main extends Application {
 
                 dt.setCurrentTime(now);
 
-                if (dt.getPreviousTime() == 0){
+                //If previous time is not set yet (special calse -> first frame)
+                if (dt.getPreviousTime() == 0.0){
                     dt.setPreviousTime(dt.getCurrentTime());
                 } else {
-                    deltatime = (dt.getCurrentTime() - dt.getPreviousTime())/ 1e9;
-                    System.out.println("deltatime: " + deltatime);
-                    dt.setPreviousTime(dt.getCurrentTime());
-                }
+
+                        //CALCULATE DELTA TIME
+                        deltatime = (dt.getCurrentTime() - dt.getPreviousTime())/ 1000000000.0;
+                        if (deltatime > 0.15)       //restrict delta time (keep it low)
+                            deltatime = 0.15;
+                        System.out.println("deltatime: " + deltatime);
+                    }
+
+
+
+
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 //System.out.println("Testrect Angle: "+testRect.getRect().getAngle());
@@ -235,9 +244,9 @@ public class Main extends Application {
                 }
 
 
-                dt.setLastLastTime(dt.getLastTime());
-                dt.setLastTime(dt.getCurrentTime());
-                dt.setCurrentTime(dt.getLastTime() + deltatime);
+                //dt.setLastLastTime(dt.getLastTime());
+                //dt.setLastTime(dt.getCurrentTime());
+                //dt.setCurrentTime(dt.getLastTime() + deltatime);
 
                 // }
 
@@ -555,7 +564,8 @@ public class Main extends Application {
 
                 CollisionChecker.checkSceneBoundsCollision(canvas, c);
                 //i++;
-
+                //Set previous time for calculating the delta time for the next frame
+                dt.setPreviousTime(now);
             }
 
             {
@@ -584,6 +594,8 @@ public class Main extends Application {
                     running = false;
                 });
             }
+
+
 
         }.stop();
 
