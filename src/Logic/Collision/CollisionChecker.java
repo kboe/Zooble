@@ -163,9 +163,13 @@ public final class CollisionChecker {
 
     /**
      * fixes the Gravity bug, mentioned in checkSceneBoundsCollision (Micro jumps)
+     * Only use the Y for that (else if X is really big and Y almost 0, dot would be > 0.8)
+     * this method should only modify the height of a ball.
      */
     private static void preventMicroJumps(BallCollider ball){
-        if (ball.getVelocity().getLength() < 0.8)
+        Vector2d tmpYVelocity = new Vector2d(0, ball.getVelocity().getY());
+        System.out.println("tmpY: " + tmpYVelocity.getLength());
+        if (tmpYVelocity.getLength() < 0.8)
             ball.setVelocity(new Vector2d(ball.getVelocity().getX(),0));
     }
 }
