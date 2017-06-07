@@ -161,7 +161,9 @@ public final class CollisionChecker {
         return velocityOfBallNormalized.dot(normalBottom) >= -0.05 && velocityOfBallNormalized.dot(normalBottom) <= 0.05;
     }
 
-    //fixes the Gravity bug, mentioned in checkSceneBoundsCollision (Micro jumps)
+    /**
+     * fixes the Gravity bug, mentioned in checkSceneBoundsCollision (Micro jumps)
+     */
     private static void preventMicroJumps(BallCollider ball){
         if (ball.getVelocity().getLength() < 0.8)
             ball.setVelocity(new Vector2d(ball.getVelocity().getX(),0));
