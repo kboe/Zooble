@@ -79,12 +79,12 @@ public class Main extends Application {
         final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
 
-        BallCollider[] balls = new BallCollider[2];
+        BallCollider[] balls = new BallCollider[5];
         balls[0] = c;
         balls[1] = c2;
-        //balls[2] = c3;
-        //balls[3] = c4;
-        //balls[4] = c5;
+        balls[2] = c3;
+        balls[3] = c4;
+        balls[4] = c5;
 
 
         //KAREN TESTLAB
@@ -99,13 +99,13 @@ public class Main extends Application {
         c2.setVelocity(new Vector2d(0, 0));
         c2.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
         c2.setVelocity0(c2.getVelocity());
-        /*c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c3.setAccelerationV(new Vector2d(0,9.81));
+        c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
+        c3.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
         c3.setVelocity(new Vector2d(1,0));
         c4.setVelocity(new Vector2d(-1,1));
-        c4.setAccelerationV(new Vector2d(0,9.81));
+        c4.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
         c5.setVelocity(new Vector2d(3,0));
-        c5.setAccelerationV(new Vector2d(0,9.81));*/
+        c5.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
 
 
 
@@ -191,12 +191,21 @@ public class Main extends Application {
             DeltaTime dt = new DeltaTime();
 
 
+            int h = 0;
+
             boolean now_counting = false;
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
             Vector2d coll = new Vector2d();
 
+            public int getH() {
+                return h;
+            }
+
+            public void setH(int h) {
+                this.h = h;
+            }
 
             public boolean isNow_counting() {
                 return now_counting;
@@ -272,9 +281,12 @@ public class Main extends Application {
 
                         for (int i = 0; i < balls.length; i++) {
                             for (int j = i+1; j < balls.length; j++) {
-                                CollisionChecker.checkCollision(balls[i],balls[j]);
-                                KinematicsVectors.radialAcceleration(balls[i]);
-                                KinematicsVectors.radialAcceleration(balls[j]);
+                                boolean bla = CollisionChecker.checkCollision(balls[i],balls[j]);
+                                if (bla){
+                                    Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
+                                    GraphicsContext gc = canvas.getGraphicsContext2D();
+                                    gc.fillOval(collPoint.getX(),collPoint.getY(),5,5);
+                                }
                             }
                         }
 
