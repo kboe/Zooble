@@ -2,6 +2,7 @@ package Logic.Collision;
 
 
 import Logic.Util.Physics.Constants;
+import Logic.Util.Physics.KinematicsVectors;
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.Shape;
@@ -36,6 +37,7 @@ public final class CollisionChecker {
             BallCollider ball2 = (BallCollider) otherCollider;
             Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball normalized!
             //normal.scale(1);  //do this with Velocity and mass of the balls
+            //KinematicsVectors.unelasticPushVelocityCollider(ball,ball2);
             ball.setVelocity(ball.getVelocity().add(normal));
             normal.invert();
             ball2.setVelocity(ball2.getVelocity().add(normal));
@@ -51,7 +53,7 @@ public final class CollisionChecker {
      * @return true if contact has been found or false if not
      */
     public static boolean checkContact(Vector2d movementOfBall, Vector2d normalOfBoxCollider) {
-        if (Vector2d.dot(movementOfBall, normalOfBoxCollider) <= 0.05 && Vector2d.dot(movementOfBall, normalOfBoxCollider) >= -0.05) {       // ... == 0 maybe better?
+        if (movementOfBall.dot(normalOfBoxCollider) <= 0.05 && movementOfBall.dot(normalOfBoxCollider) >= -0.05) {       // ... == 0 maybe better?
             System.out.println("Contact!");
             return true;
         } else {

@@ -224,7 +224,7 @@ public class KinematicsVectors {
     public static void unelasticPushVelocityCollider(BallCollider ballCollider, BallCollider ballCollider2) {
         Vector2d b1 = ballCollider.getVelocity().multiply(ballCollider.getMass());
         Vector2d b2 = ballCollider2.getVelocity().multiply(ballCollider2.getMass());
-        Vector2d v = b1.add(b1, b2);
+        Vector2d v = b1.add(b2);
         v.divide(ballCollider.getMass() + ballCollider2.getMass());
         ballCollider.setVelocity(v);
         ballCollider2.setVelocity(v);
