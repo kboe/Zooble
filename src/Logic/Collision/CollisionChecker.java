@@ -34,8 +34,8 @@ public final class CollisionChecker {
     public static void collide(BallCollider ball, Shape otherCollider) {
         if (otherCollider instanceof BallCollider) {
             BallCollider ball2 = (BallCollider) otherCollider;
-            Vector2d normal = getNormalOfCollider(ball, ball2);
-            normal.scale(0.5);  //do this with Velocity and mass of the balls
+            Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball normalized!
+            //normal.scale(1);  //do this with Velocity and mass of the balls
             ball.setVelocity(ball.getVelocity().add(normal));
             normal.invert();
             ball2.setVelocity(ball2.getVelocity().add(normal));
