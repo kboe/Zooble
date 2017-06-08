@@ -1,6 +1,7 @@
 package Logic.Collision;
 
 
+import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Constants;
 import Logic.Util.Physics.KinematicsVectors;
 import Logic.Util.Vector2d;
@@ -45,9 +46,38 @@ public final class CollisionChecker {
             Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball normalized!
             //normal.scale(1);  //do this with Velocity and mass of the balls
             //KinematicsVectors.unelasticPushVelocityCollider(ball,ball2);
+
+            int ballPhysicsSwitch = 1;          //Change this to 0 for projection physics, else for physics using the normal
+
+            if (ballPhysicsSwitch == 0){
+
+
+            //TRY 1 PHYSICS WITH USING PROJECTION
+
+            Vector2d velocityProjectionBall1 = ball.getVelocity().projectOn(normal);
+            Vector2d velocityProjectionBall2 = ball2.getVelocity().projectOn(normal);
+
+            Vector2d nextVelocity1 = ball.getVelocity().subtract(velocityProjectionBall2);
+            Vector2d nextVelocity2 = ball2.getVelocity().subtract(velocityProjectionBall1);
+
+            ball.setVelocity(ball.getVelocity().add(nextVelocity2));
+            ball2.setVelocity(ball.getVelocity().add(nextVelocity1));
+            nextVelocity1.invert();
+            nextVelocity2.invert();
+            ball.setVelocity(ball.getVelocity().add(nextVelocity1));        //ADD COUNTER FORCE
+            ball2.setVelocity(ball.getVelocity().add(nextVelocity2));       //ADD COUNTER FORCE
+
+            } else {
+
+            //TRY 2 LOOKS WAY BETTER YET (not 100% physical correct)
+            //TODO make ball collision at 100% correct with projection of velocity, etc.
+
+            normal.scale(1.5);          //SCALE BY MASS AND VELOCITY MAYBE
             ball.setVelocity(ball.getVelocity().add(normal));
+
             normal.invert();
             ball2.setVelocity(ball2.getVelocity().add(normal));
+            }
 
         } if (otherCollider instanceof BoxCollider){
             if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated

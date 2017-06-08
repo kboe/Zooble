@@ -191,6 +191,20 @@ public class Vector2d {
     }
 
     /**
+     * projects the onCalled Vector onto another Vector
+     * @param vector
+     * @return returns a new Vector which is the projection of the onCalled vector onto the input vector
+     */
+    public Vector2d projectOn(Vector2d vector){
+        Vector2d proj = new Vector2d(vector.getX(), vector.getY());
+        double oBruch = this.dot(vector);
+        double uBruch = vector.getLength() * vector.getLength();
+
+        proj.scale(oBruch/uBruch);
+        return proj;
+    }
+
+    /**
      * inverts the on called Vector (x & y Coordinate)
      */
     public void invert() {
