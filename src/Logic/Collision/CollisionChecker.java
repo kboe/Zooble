@@ -43,7 +43,7 @@ public final class CollisionChecker {
 
         if (otherCollider instanceof BallCollider) {
             BallCollider ball2 = (BallCollider) otherCollider;
-            Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball normalized!
+            Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball -> connects the 2 position points
             //normal.scale(1);  //do this with Velocity and mass of the balls
             //KinematicsVectors.unelasticPushVelocityCollider(ball,ball2);
 
@@ -59,6 +59,8 @@ public final class CollisionChecker {
 
             Vector2d nextVelocity1 = ball.getVelocity().subtract(velocityProjectionBall2);
             Vector2d nextVelocity2 = ball2.getVelocity().subtract(velocityProjectionBall1);
+
+            //TODO push - pull the balls apart so they don't intersect anymore
 
             ball.setVelocity(ball.getVelocity().add(nextVelocity2));
             ball2.setVelocity(ball.getVelocity().add(nextVelocity1));
@@ -137,7 +139,7 @@ public final class CollisionChecker {
         if (Collider instanceof BallCollider) {
             BallCollider ballCollider = (BallCollider) Collider;
             Vector2d normal = playerBall.getPosition().subtract(ballCollider.getPosition());
-            normal.normalize();
+            //normal.normalize();
             return normal;
 
         } else if (Collider instanceof BoxCollider) {
