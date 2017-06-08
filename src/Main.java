@@ -86,13 +86,17 @@ public class Main extends Application {
         balls[3] = c4;
         balls[4] = c5;
 
+        BallCollider[] test = new BallCollider[1];
+        test[0] = c;
+
 
         //KAREN TESTLAB
 
         //with Vectors
         //RELEVANT
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c.setVelocity(new Vector2d(1, -3));
+        //c.setVelocity(new Vector2d(1, -3));
+
         c.setVelocity0(c.getVelocity());
         c.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
@@ -100,13 +104,12 @@ public class Main extends Application {
         c2.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
         c2.setVelocity0(c2.getVelocity());
         c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c3.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
-        c3.setVelocity(new Vector2d(1,0));
-        c4.setVelocity(new Vector2d(-1,1));
-        c4.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
-        c5.setVelocity(new Vector2d(3,0));
-        c5.setAccelerationV(new Vector2d(0,Constants.GRAVITY));
-
+        c3.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c3.setVelocity(new Vector2d(1, 0));
+        c4.setVelocity(new Vector2d(-1, 1));
+        c4.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c5.setVelocity(new Vector2d(3, 0));
+        c5.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
 
 
         c.setVelocityX(10);
@@ -191,21 +194,12 @@ public class Main extends Application {
             DeltaTime dt = new DeltaTime();
 
 
-            int h = 0;
-
             boolean now_counting = false;
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
             Vector2d coll = new Vector2d();
 
-            public int getH() {
-                return h;
-            }
-
-            public void setH(int h) {
-                this.h = h;
-            }
 
             public boolean isNow_counting() {
                 return now_counting;
@@ -217,19 +211,16 @@ public class Main extends Application {
                 dt.setCurrentTime(now);
 
                 //If previous time is not set yet (special calse -> first frame)
-                if (dt.getPreviousTime() == 0.0){
+                if (dt.getPreviousTime() == 0.0) {
                     dt.setPreviousTime(dt.getCurrentTime());
                 } else {
 
-                        //CALCULATE DELTA TIME
-                        deltatime = (dt.getCurrentTime() - dt.getPreviousTime())/ 1000000000.0;
-                        if (deltatime > 0.15)       //restrict delta time (keep it low)
-                            deltatime = 0.15;
-                        System.out.println("deltatime: " + deltatime);
-                    }
-
-
-
+                    //CALCULATE DELTA TIME
+                    deltatime = (dt.getCurrentTime() - dt.getPreviousTime()) / 1000000000.0;
+                    if (deltatime > 0.15)       //restrict delta time (keep it low)
+                        deltatime = 0.15;
+                    System.out.println("deltatime: " + deltatime);
+                }
 
 
                 //CollisionChecker.checkSceneBoundsCollision(canvas, c);
@@ -271,18 +262,41 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -1;
+                int x_switch = -3;
 
                 switch (x_switch) {
                     //Vectors
+                    case -3:
+
+
+                        for (BallCollider t :
+                                test) {
+                            CollisionChecker.checkSceneBoundsCollision(canvas, t);
+                            if (CollisionChecker.checkCollision(t, testRect.getRect())) {
+                                if(t.getVelocity().getY()<0.1&t.getVelocity().getY()>-0.1){
+                                    t.setPosition(t.getPosition());
+                                }
+                                t.setVelocity(t.getVelocity().multiply(-1));
+                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                            }
+                            else {
+                                KinematicsVectors.radialAcceleration(t);
+                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                System.out.println(t.getVelocity());
+                            }
+
+                        }
+
+                        break;
                     case -1:
 
 
                         for (int i = 0; i < balls.length; i++) {
-                            for (int j = i+1; j < balls.length; j++) {
+                            for (int j = i + 1; j < balls.length; j++) {
                                 KinematicsVectors.radialAcceleration(balls[i]);
                                 KinematicsVectors.radialAcceleration(balls[j]);
-                                CollisionChecker.checkCollision(balls[i],balls[j]);
+                                CollisionChecker.checkCollision(balls[i], balls[j]);
                                 /*if (bla){
                                     Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
                                     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -296,7 +310,7 @@ public class Main extends Application {
                         for (BallCollider ball :
                                 balls) {
                             CollisionChecker.checkSceneBoundsCollision(canvas, ball);
-                            KinematicsVectors.freeFallHeightWithVelocity(dt,ball);
+                            KinematicsVectors.freeFallHeightWithVelocity(dt, ball);
                             System.out.println(ball.getVelocity());
                         }
 
@@ -306,7 +320,6 @@ public class Main extends Application {
                         /*KinematicsVectors.freeFallHeightWithVelocity(dt, c);
                         KinematicsVectors.freeFallHeightWithVelocity(dt, c2);
                         KinematicsVectors.freeFallHeightWithVelocity(dt, c3);*/
-
 
 
                         //KinematicsVectors.averageSpeed(c,dt);
@@ -602,7 +615,6 @@ public class Main extends Application {
                     running = false;
                 });
             }
-
 
 
         }.stop();
