@@ -5,6 +5,7 @@ import Logic.Util.Physics.Constants;
 import Logic.Util.Physics.KinematicsVectors;
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape;
 
 /**
@@ -32,7 +33,13 @@ public final class CollisionChecker {
         return intersection.getLayoutBounds().getHeight() > 0 || intersection.getLayoutBounds().getWidth() > 0;         //if the 2 Shapes Collide...
     }
 
-    public static void collide(BallCollider ball, Shape otherCollider) {
+    /**
+     * if checkCollision is true, this method will be called and will calculate the behaviour of the Shapes when they collide
+     * @param ball  the ball which collides with the other shape
+     * @param otherCollider the other shape, where the ball is colliding (can be another ball or a box, etc.)
+     */
+    private static void collide(BallCollider ball, Shape otherCollider) {
+
         if (otherCollider instanceof BallCollider) {
             BallCollider ball2 = (BallCollider) otherCollider;
             Vector2d normal = getNormalOfCollider(ball, ball2);     //links the 2 middle points of the ball normalized!
@@ -41,7 +48,32 @@ public final class CollisionChecker {
             ball.setVelocity(ball.getVelocity().add(normal));
             normal.invert();
             ball2.setVelocity(ball2.getVelocity().add(normal));
+
+        } if (otherCollider instanceof BoxCollider){
+            if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
+                boxCollideNotRotated(ball,((BoxCollider) otherCollider));
+            } else {                                            //if the box is rotated -> other collision method
+                boxCollideRotated(ball,((BoxCollider) otherCollider));
+            }
         }
+    }
+
+    /**
+     * Ball to Box collision, when the Box IS NOT rotated
+     * @param ball
+     * @param box
+     */
+    private static void boxCollideNotRotated(BallCollider ball, BoxCollider box){
+
+    }
+
+    /**
+     * Ball to Box collision, when the Box IS rotated
+     * @param ball
+     * @param box
+     */
+    private static void boxCollideRotated(BallCollider ball, BoxCollider box){
+
     }
 
     /**
