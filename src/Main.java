@@ -75,9 +75,9 @@ public class Main extends Application {
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(130, 500, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(200, 200, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c3 = new BallCollider(280, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c3 = new BallCollider(500, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
         final BallCollider c4 = new BallCollider(400, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c5 = new BallCollider(250, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
 
         BallCollider[] balls = new BallCollider[5];
         balls[0] = c;
@@ -115,11 +115,12 @@ public class Main extends Application {
         c.setVelocityX(10);
         //c.setVelocity(new Vector2d(25, c.getCenterY()));
         c.setS0(c.getCenterX());
+        c.setMass(3);
 
         c2.setRotate(90);
-        // c2.setMass(9);
+        c2.setMass(9);
         c2.setVelocityX(0);
-        //c3.setMass(15);
+        c3.setMass(15);
         c3.setCenterX(400);
         c3.setS0(c3.getCenterX());
         //c.setVelocity0(c.getVelocityX());
@@ -217,6 +218,7 @@ public class Main extends Application {
 
                     //CALCULATE DELTA TIME
                     deltatime = (dt.getCurrentTime() - dt.getPreviousTime()) / 1000000000.0;
+                    deltatime /= 5;
                     if (deltatime > 0.15)       //restrict delta time (keep it low)
                         deltatime = 0.15;
                     System.out.println("deltatime: " + deltatime);

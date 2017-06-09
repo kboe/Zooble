@@ -47,12 +47,14 @@ public final class CollisionChecker {
             //normal.scale(1);  //do this with Velocity and mass of the balls
             //KinematicsVectors.unelasticPushVelocityCollider(ball,ball2);
 
-            int ballPhysicsSwitch = 1;          //Change this to 0 for projection physics, else for physics using the normal
+            //int ballPhysicsSwitch = 0;          //Change this to 0 for projection physics, else for physics using the normal
 
-            if (ballPhysicsSwitch == 0){
+            /*if (ballPhysicsSwitch == 0){
 
 
             //TRY 1 PHYSICS WITH USING PROJECTION
+
+                pushShapesApart(ball,ball2);
 
             Vector2d velocityProjectionBall1 = ball.getVelocity().projectOn(normal);
             Vector2d velocityProjectionBall2 = ball2.getVelocity().projectOn(normal);
@@ -60,7 +62,7 @@ public final class CollisionChecker {
             Vector2d nextVelocity1 = ball.getVelocity().subtract(velocityProjectionBall2);
             Vector2d nextVelocity2 = ball2.getVelocity().subtract(velocityProjectionBall1);
 
-            //TODO push - pull the balls apart so they don't intersect anymore
+                pushShapesApart(ball,ball2);
 
             ball.setVelocity(ball.getVelocity().add(nextVelocity2));
             ball2.setVelocity(ball.getVelocity().add(nextVelocity1));
@@ -69,9 +71,8 @@ public final class CollisionChecker {
             ball.setVelocity(ball.getVelocity().add(nextVelocity1));        //ADD COUNTER FORCE
             ball2.setVelocity(ball.getVelocity().add(nextVelocity2));       //ADD COUNTER FORCE
 
-            } else {
+            } else {*/
 
-            //TRY 2 LOOKS WAY BETTER YET (not 100% physical correct)
             //TODO make ball collision at 100% correct with projection of velocity, etc.
 
             normal.scale(1.5);          //SCALE BY MASS AND VELOCITY MAYBE
@@ -79,7 +80,7 @@ public final class CollisionChecker {
 
             normal.invert();
             ball2.setVelocity(ball2.getVelocity().add(normal));
-            }
+            //}
 
         } if (otherCollider instanceof BoxCollider){
             if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
@@ -107,6 +108,40 @@ public final class CollisionChecker {
     private static void boxCollideRotated(BallCollider ball, BoxCollider box){
 
     }
+
+    /*private static void pushShapesApart(BallCollider ball, Shape otherCollider){
+        if (otherCollider instanceof BallCollider){
+            if (validateBallToBallCollision(ball,(BallCollider) otherCollider)){        //if Position of balls needs to be corrected...
+                BallCollider ball2 = (BallCollider) otherCollider;
+
+                //TRY 2
+                Vector2d distanceVector = ball.getPosition().subtract(ball2.getPosition());
+                double distance = distanceVector.getLength();
+                double pushDistance = distance - (ball.getRadius() + ball2.getRadius());
+
+                Vector2d velocityBall1 = new Vector2d(ball.getVelocity().getX(),ball.getVelocity().getY());
+                Vector2d velocityBall2 = new Vector2d(ball2.getVelocity().getX(),ball2.getVelocity().getY());
+                velocityBall1.invert();
+                velocityBall2.invert();
+                velocityBall1.normalize();
+                velocityBall2.normalize();
+                velocityBall1.scale(pushDistance);
+                velocityBall2.scale(pushDistance);
+
+                velocityBall1.scale(2);
+                velocityBall2.scale(2);
+
+                ball.setPosition(ball.getPosition().subtract(velocityBall1));
+                ball2.setPosition(ball2.getPosition().subtract(velocityBall2));
+            }
+        } else if (otherCollider instanceof BoxCollider){
+
+        }
+    }
+
+    private static boolean validateBallToBallCollision(BallCollider ball1, BallCollider ball2){
+        return ball1.getPosition().subtract(ball2.getPosition()).getLength() <= ball1.getRadius() + ball2.getRadius();
+    }*/
 
     /**
      * Checks if the ball an the Collider have a contact or not.
@@ -139,7 +174,7 @@ public final class CollisionChecker {
         if (Collider instanceof BallCollider) {
             BallCollider ballCollider = (BallCollider) Collider;
             Vector2d normal = playerBall.getPosition().subtract(ballCollider.getPosition());
-            //normal.normalize();
+            normal.normalize();
             return normal;
 
         } else if (Collider instanceof BoxCollider) {
