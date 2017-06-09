@@ -68,9 +68,9 @@ public class Vector2d {
     }
 
 
-
     /**
      * Adds vector1 with vector2 and returns a new vector with (DEPRECATED: please use the non static functions)
+     *
      * @param vector1
      * @param vector2
      * @return
@@ -80,11 +80,13 @@ public class Vector2d {
         return new Vector2d(vector1.x + vector2.x, vector1.y + vector2.y);
     }
 
-    public Vector2d add (Vector2d vector2){
+    public Vector2d add(Vector2d vector2) {
         return new Vector2d(this.x + vector2.x, this.y + vector2.y);
     }
 
-    /** (DEPRECATED: please use the non static functions)
+    /**
+     * (DEPRECATED: please use the non static functions)
+     *
      * @param vector1
      * @param vector2
      * @return
@@ -94,15 +96,19 @@ public class Vector2d {
         return new Vector2d(vector1.x - vector2.x, vector1.y - vector2.y);
     }
 
-    /** subtracts two vectors (useful for getting a vector between 2 points)
+    /**
+     * subtracts two vectors (useful for getting a vector between 2 points)
+     *
      * @param vector
      * @return
      */
-    public Vector2d subtract(Vector2d vector){
+    public Vector2d subtract(Vector2d vector) {
         return new Vector2d(this.x - vector.x, this.y - vector.y);
     }
 
-    /** (DEPRECATED: please use the non static functions)
+    /**
+     * (DEPRECATED: please use the non static functions)
+     *
      * @param vector1
      * @param vector2
      * @return
@@ -113,15 +119,15 @@ public class Vector2d {
     }
 
     /**
-     *
      * @param vector
      * @return the dot product of the on called Vector and the input Vector
      */
-    public double dot(Vector2d vector){
+    public double dot(Vector2d vector) {
         return this.x * vector.x + this.y * vector.y;
     }
 
-    /** (DEPRECATED: please use the non static functions)
+    /**
+     * (DEPRECATED: please use the non static functions)
      * Scales the Vector by a specified scale value
      *
      * @param scale the scalar value you want to scale the on called Vector with
@@ -143,11 +149,12 @@ public class Vector2d {
 
     /**
      * Scales the on called Vektor
+     *
      * @param scale the scale value with which you want to scale the vektor
      * @return returns the scaled vektor
      */
-    public Vector2d multiply(double scale){
-        return new Vector2d(this.getX()*scale,this.getY()*scale);
+    public Vector2d multiply(double scale) {
+        return new Vector2d(this.getX() * scale, this.getY() * scale);
     }
 
     /**
@@ -166,7 +173,7 @@ public class Vector2d {
      *
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CCW order)
      */
-    public Vector2d orthoCCW(){
+    public Vector2d orthoCCW() {
         return new Vector2d(this.getY(), this.getX() * -1);
     }
 
@@ -186,22 +193,8 @@ public class Vector2d {
      *
      * @return returns a Vector which is orthogonal (in a 90° angle) to the on called vector (only works correctly if verts are linked in a CW order)
      */
-    public Vector2d orthoCW(){
+    public Vector2d orthoCW() {
         return new Vector2d(this.getY() * -1, this.getX());
-    }
-
-    /**
-     * projects the onCalled Vector onto another Vector
-     * @param vector
-     * @return returns a new Vector which is the projection of the onCalled vector onto the input vector
-     */
-    public Vector2d projectOn(Vector2d vector){
-        Vector2d proj = new Vector2d(vector.getX(), vector.getY());
-        double oBruch = this.dot(vector);
-        double uBruch = vector.getLength() * vector.getLength();
-
-        proj.scale(oBruch/uBruch);
-        return proj;
     }
 
     /**
@@ -210,6 +203,35 @@ public class Vector2d {
     public void invert() {
         this.x *= -1;
         this.y *= -1;
+    }
+
+    /**
+     * projects the onCalled Vector onto another Vector
+     *
+     * @param vector
+     * @return returns a new Vector which is the projection of the onCalled vector onto the input vector
+     */
+    public Vector2d projectOn(Vector2d vector) {
+        Vector2d proj = new Vector2d(vector.getX(), vector.getY());
+        double oBruch = this.dot(vector);
+        double uBruch = vector.getLength() * vector.getLength();
+
+        proj.scale(oBruch / uBruch);
+        return proj;
+    }
+
+    /**
+     * rotates a vector
+     *
+     * @param vector2d
+     * @param radians
+     * @return returns a rotated Vector
+     */
+    public static Vector2d rotateVector(Vector2d vector2d, double radians) {
+        double c = Math.cos(radians);
+        double s = Math.sin(radians);
+        vector2d = new Vector2d(c * vector2d.getX() - s * vector2d.getY(), s * vector2d.getX() + c * vector2d.getY());
+        return vector2d;
     }
 
     /**

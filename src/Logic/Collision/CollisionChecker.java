@@ -36,7 +36,8 @@ public final class CollisionChecker {
 
     /**
      * if checkCollision is true, this method will be called and will calculate the behaviour of the Shapes when they collide
-     * @param ball  the ball which collides with the other shape
+     *
+     * @param ball          the ball which collides with the other shape
      * @param otherCollider the other shape, where the ball is colliding (can be another ball or a box, etc.)
      */
     private static void collide(BallCollider ball, Shape otherCollider) {
@@ -49,62 +50,65 @@ public final class CollisionChecker {
 
             int ballPhysicsSwitch = 1;          //Change this to 0 for projection physics, else for physics using the normal
 
-            if (ballPhysicsSwitch == 0){
+            if (ballPhysicsSwitch == 0) {
 
 
-            //TRY 1 PHYSICS WITH USING PROJECTION
+                //TRY 1 PHYSICS WITH USING PROJECTION
 
-            Vector2d velocityProjectionBall1 = ball.getVelocity().projectOn(normal);
-            Vector2d velocityProjectionBall2 = ball2.getVelocity().projectOn(normal);
+                Vector2d velocityProjectionBall1 = ball.getVelocity().projectOn(normal);
+                Vector2d velocityProjectionBall2 = ball2.getVelocity().projectOn(normal);
 
-            Vector2d nextVelocity1 = ball.getVelocity().subtract(velocityProjectionBall2);
-            Vector2d nextVelocity2 = ball2.getVelocity().subtract(velocityProjectionBall1);
+                Vector2d nextVelocity1 = ball.getVelocity().subtract(velocityProjectionBall2);
+                Vector2d nextVelocity2 = ball2.getVelocity().subtract(velocityProjectionBall1);
 
-            //TODO push - pull the balls apart so they don't intersect anymore
+                //TODO push - pull the balls apart so they don't intersect anymore
 
-            ball.setVelocity(ball.getVelocity().add(nextVelocity2));
-            ball2.setVelocity(ball.getVelocity().add(nextVelocity1));
-            nextVelocity1.invert();
-            nextVelocity2.invert();
-            ball.setVelocity(ball.getVelocity().add(nextVelocity1));        //ADD COUNTER FORCE
-            ball2.setVelocity(ball.getVelocity().add(nextVelocity2));       //ADD COUNTER FORCE
+                ball.setVelocity(ball.getVelocity().add(nextVelocity2));
+                ball2.setVelocity(ball.getVelocity().add(nextVelocity1));
+                nextVelocity1.invert();
+                nextVelocity2.invert();
+                ball.setVelocity(ball.getVelocity().add(nextVelocity1));        //ADD COUNTER FORCE
+                ball2.setVelocity(ball.getVelocity().add(nextVelocity2));       //ADD COUNTER FORCE
 
             } else {
 
-            //TRY 2 LOOKS WAY BETTER YET (not 100% physical correct)
-            //TODO make ball collision at 100% correct with projection of velocity, etc.
+                //TRY 2 LOOKS WAY BETTER YET (not 100% physical correct)
+                //TODO make ball collision at 100% correct with projection of velocity, etc.
 
-            normal.scale(1.5);          //SCALE BY MASS AND VELOCITY MAYBE
-            ball.setVelocity(ball.getVelocity().add(normal));
+                normal.scale(1.5);          //SCALE BY MASS AND VELOCITY MAYBE
+                ball.setVelocity(ball.getVelocity().add(normal));
 
-            normal.invert();
-            ball2.setVelocity(ball2.getVelocity().add(normal));
+                normal.invert();
+                ball2.setVelocity(ball2.getVelocity().add(normal));
             }
 
-        } if (otherCollider instanceof BoxCollider){
-            if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
-                boxCollideNotRotated(ball,((BoxCollider) otherCollider));
+        }
+        if (otherCollider instanceof BoxCollider) {
+            if (((BoxCollider) otherCollider).getAngle() == 0) { //if the box is not rotated
+                boxCollideNotRotated(ball, ((BoxCollider) otherCollider));
             } else {                                            //if the box is rotated -> other collision method
-                boxCollideRotated(ball,((BoxCollider) otherCollider));
+                boxCollideRotated(ball, ((BoxCollider) otherCollider));
             }
         }
     }
 
     /**
      * Ball to Box collision, when the Box IS NOT rotated
+     *
      * @param ball
      * @param box
      */
-    private static void boxCollideNotRotated(BallCollider ball, BoxCollider box){
+    private static void boxCollideNotRotated(BallCollider ball, BoxCollider box) {
 
     }
 
     /**
      * Ball to Box collision, when the Box IS rotated
+     *
      * @param ball
      * @param box
      */
-    private static void boxCollideRotated(BallCollider ball, BoxCollider box){
+    private static void boxCollideRotated(BallCollider ball, BoxCollider box) {
 
     }
 
@@ -172,41 +176,44 @@ public final class CollisionChecker {
     public static void checkSceneBoundsCollision(Canvas canvas, BallCollider ball) {
 
 
-            if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {         //Right Wall
+        if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {         //Right Wall
 
-                System.out.println("ball outside of Bounds (right)");
-                System.out.println("Out of bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
-                ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius(), ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
-                ball.getVelocity().scale(Constants.RESTITUTION);
-                ball.getVelocity().invertX();
+            System.out.println("ball outside of Bounds (right)");
+            System.out.println("Out of bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
+            ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius(), ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
+            ball.getVelocity().scale(Constants.RESTITUTION);
+            ball.getVelocity().invertX();
 
-            } else if (ball.getCenterX() - ball.getRadius() < 0) {                  //Left Wall
-                System.out.println("ball outside of Bounds (left)");
-                ball.setPosition(new Vector2d(0 + ball.getRadius(), ball.getPosition().getY()));                            //Correct Ball position -> prevents bugs
-                ball.getVelocity().scale(Constants.RESTITUTION);
-                ball.getVelocity().invertX();
 
-            } else if (ball.getCenterY() - ball.getRadius() < 0) {                  //Top Wall
-                System.out.println("ball outside of Bounds (up)");
-                ball.setPosition(new Vector2d(ball.getPosition().getX(), 0 + ball.getRadius()));                            //Correct Ball position -> prevents bugs
+
+        } else if (ball.getCenterX() - ball.getRadius() < 0) {                  //Left Wall
+            System.out.println("ball outside of Bounds (left)");
+            ball.setPosition(new Vector2d(0 + ball.getRadius(), ball.getPosition().getY()));                            //Correct Ball position -> prevents bugs
+            ball.getVelocity().scale(Constants.RESTITUTION);
+            ball.getVelocity().invertX();
+
+
+        } else if (ball.getCenterY() - ball.getRadius() < 0) {                  //Top Wall
+            System.out.println("ball outside of Bounds (up)");
+            ball.setPosition(new Vector2d(ball.getPosition().getX(), 0 + ball.getRadius()));                            //Correct Ball position -> prevents bugs
+            ball.getVelocity().scale(Constants.RESTITUTION);
+            ball.getVelocity().invertY();
+
+        } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
+            floorContact = false;
+
+            if (checkContactWithFloor(ball)) {              //check if the ball has a contact with the bottom wall or a collision
+                ball.getVelocity().setY(0);                 //TODO BUG which lets the balls micro jump: balls get Y = 0, next frame -> add 9.81 on Y (freeFallHeightWithVelocity) -> no contact -> collision -> invert Y -> micro jumps
+                System.out.println("ball  Kontakt mit Boden");
+            } else {
+                System.out.println("ball outside of Bounds (down)");
+                ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
                 ball.getVelocity().scale(Constants.RESTITUTION);
                 ball.getVelocity().invertY();
-
-            } else if (ball.getCenterY() + ball.getRadius() > canvas.getHeight()) { //Bottom Wall
-                floorContact = false;
-
-                if (checkContactWithFloor(ball)) {              //check if the ball has a contact with the bottom wall or a collision
-                    ball.getVelocity().setY(0);                 //TODO BUG which lets the balls micro jump: balls get Y = 0, next frame -> add 9.81 on Y (freeFallHeightWithVelocity) -> no contact -> collision -> invert Y -> micro jumps
-                    System.out.println("ball  Kontakt mit Boden");
-                } else {
-                    System.out.println("ball outside of Bounds (down)");
-                    ball.setPosition(new Vector2d(ball.getPosition().getX(), canvas.getHeight() - ball.getRadius()));           //Correct Ball position -> prevents bugs
-                    ball.getVelocity().scale(Constants.RESTITUTION);
-                    ball.getVelocity().invertY();
-                }
             }
-        ball.setPosition(ball.getPosition().add(ball.getVelocity()));
         }
+        ball.setPosition(ball.getPosition().add(ball.getVelocity()));
+    }
 
 
     /**
@@ -230,10 +237,10 @@ public final class CollisionChecker {
      * Only use the Y for that (else if X is really big and Y almost 0, dot would be > 0.8)
      * this method should only modify the height of a ball.
      */
-    private static void preventMicroJumps(BallCollider ball){
+    private static void preventMicroJumps(BallCollider ball) {
         Vector2d tmpYVelocity = new Vector2d(0, ball.getVelocity().getY());
         System.out.println("tmpY: " + tmpYVelocity.getLength());
         if (tmpYVelocity.getLength() < 0.8)
-            ball.setVelocity(new Vector2d(ball.getVelocity().getX(),0));
+            ball.setVelocity(new Vector2d(ball.getVelocity().getX(), 0));
     }
 }
