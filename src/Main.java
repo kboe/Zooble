@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 import static Logic.Util.DeltaTime.deltatime;
+import static Logic.Util.Physics.Constants.GRAVITY;
 
 public class Main extends Application {
 
@@ -42,7 +43,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
 
         // ROBIN CODE BEGINNING
@@ -65,7 +65,7 @@ public class Main extends Application {
         //Scene menuScene = ma.getMainMenuScene();
 
         Scene theScene = new Scene(root);
-        MainMenu mm = new MainMenu(primaryStage,theScene);
+        MainMenu mm = new MainMenu(primaryStage, theScene);
 
         //primaryStage.setScene(theScene);
 
@@ -81,9 +81,9 @@ public class Main extends Application {
 
         //with Vectors
         c.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c.setVelocity(new Vector2d(5, 0));
+        c.setVelocity(new Vector2d(0, 0));
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(1,0));
+        c.setAccelerationV(new Vector2d(0, GRAVITY));
 
 
         c.setVelocityX(10);
@@ -101,6 +101,9 @@ public class Main extends Application {
         c.setLastLastSpeed(8);
         // c.setLastLastPosition(0);
         // c.setLastPosition(c.getCenterX()-1);
+
+        BallCollider[] test = new BallCollider[1];
+        test[0] = c;
 
         //KAREN TESTLAB ENDING
 
@@ -120,11 +123,11 @@ public class Main extends Application {
         GridPane buttonDisplay = new GridPane();
         {
             Label selectedButton = new Label();
-            buttonDisplay.add(selectedButton,0,0);
+            buttonDisplay.add(selectedButton, 0, 0);
         }
 
 
-        ZooRect testRect = new ZooRect(allRectsGrp,buttonDisplay);
+        ZooRect testRect = new ZooRect(allRectsGrp, buttonDisplay);
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
@@ -134,7 +137,7 @@ public class Main extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp,buttonDisplay));
+            zooRectList.add(i, new ZooRect(allRectsGrp, buttonDisplay));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
@@ -155,8 +158,7 @@ public class Main extends Application {
                 levelname.getStyleClass().add("label");
 
 
-
-                uiGrid.add(buttonDisplay,0,10);
+                uiGrid.add(buttonDisplay, 0, 10);
 
             }
             gridPane.add(uiGrid, 0, 0);
@@ -180,22 +182,11 @@ public class Main extends Application {
 
             DeltaTime dt = new DeltaTime();
 
-
-            int h = 0;
-
             boolean now_counting = false;
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
 
-
-            public int getH() {
-                return h;
-            }
-
-            public void setH(int h) {
-                this.h = h;
-            }
 
             public boolean isNow_counting() {
                 return now_counting;
@@ -241,28 +232,63 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = 0;
+                int x_switch = -3;
 
                 switch (x_switch) {
+
+                    case -3:
+                        //Vectors
+                        for (BallCollider t :
+                                test) {
+                            CollisionChecker.checkSceneBoundsCollision(canvas, t);
+
+                            if (CollisionChecker.checkCollision(t, testRect.getRect())) {
+                                if (t.getVelocity().getY() < 0.1 & t.getVelocity().getY() > -0.1) {
+
+                                    t.setPosition(t.getPosition());
+
+                                }
+                                if (testRect.getRect().getAngle() != 0) {
+                                    Vector2d cp = CollisionChecker.getCollisionPoint(t, testRect.getRect());
+                                    cp = cp.add(new Vector2d(0, t.getRadius()));
+                                    Vector2d d = cp.add(testRect.getRect().getMidpoint());
+                                    double radians = d.dot(d, cp);
+                                    t.setVelocity(Vector2d.rotateVector(t.getVelocity(), radians));
+                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                                } else {
+                                    t.setVelocity(t.getVelocity().multiply(-1));
+                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                }
+                                KinematicsVectors.radialAcceleration(t);
+
+
+                            } else {
+                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                            }
+                        }
+
+                        break;
                     //Vectors
                     case -1:
                         //KinematicsVectors.averageSpeed(c,dt);
 
                         //KinematicsVectors.averageTime(dt);
                         //KinematicsVectors.averageAcceleration(c,dt);
-                        KinematicsVectors.acceleratedMovementVelocity(dt,c);
+                        KinematicsVectors.acceleratedMovementVelocity(dt, c);
                         //KinematicsVectors.freeFallVelocity(c);
-                       // KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
+                        // KinematicsVectors.acceleratedMovementVelocityWithStartingVelocity(dt,c);
                         //KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt,c);
                         KinematicsVectors.radialAcceleration(c);
-                       // KinematicsVectors.evenMovementPosition(c,dt);
-                       // KinematicsVectors.freeFallHeight(dt,c);
-                        KinematicsVectors.levelThrow(c,dt);
+                        // KinematicsVectors.evenMovementPosition(c,dt);
+                        // KinematicsVectors.freeFallHeight(dt,c);
+                        KinematicsVectors.levelThrow(c, dt);
 
 
                         //KinematicsVectors.accleratedMovementPosition(dt, c);
                         break;
-                    case 0: {
+                    case 0:
                         c.setRotate(c.getRotate() + Kinematics.radialAcceleration(c.getVelocity().getX(), dt.getCurrentTime()));
 
                         //System.out.println("Effective Acceleration: "+Kinematics.effectiveAcceleration(c,dt));
@@ -277,7 +303,7 @@ public class Main extends Application {
                         BooleansMovement.setNow_moving(true);*/
                         c.setPosition(new Vector2d(Kinematics.acceleratedMovementPositionWithStartingSpeedAndPositionCollider(c, dt), c.getCenterY()));
                         break;
-                    }
+
                     //BASISEFFEKT 1
 
                     case 1:
@@ -498,7 +524,9 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                 });
             }
 
-        }.stop();
+        }.
+
+                stop();
 
         gameControlGrid.setLayoutX(WIDTH / 2 - 75);
         gameControlGrid.setLayoutY(HEIGHT - 50);
