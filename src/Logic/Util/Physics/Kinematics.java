@@ -281,7 +281,8 @@ public class Kinematics {
 
 
     public static double elasticPushVelocity2Collider(BallCollider ballCollider, BallCollider ballCollider2) {
-        double velocity = ((ballCollider2.getMass() - ballCollider.getMass()) * ballCollider2.getVelocityX() + (2 * ballCollider.getMass() * ballCollider.getVelocityX())) / (ballCollider.getMass() + ballCollider2.getMass());
+        double velocity = ((ballCollider2.getMass() - ballCollider.getMass()) * ballCollider2.getVelocityX() +
+                (2 * ballCollider.getMass() * ballCollider.getVelocityX())) / (ballCollider.getMass() + ballCollider2.getMass());
         return velocity;
     }
 
