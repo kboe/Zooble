@@ -105,6 +105,7 @@ public class Main extends Application {
         BallCollider[] test = new BallCollider[1];
         test[0] = c;
 
+
         //KAREN TESTLAB ENDING
 
         //ImageView imageView = new ImageView(new Image(getClass().getResource("elephant_small.png").toExternalForm()));
@@ -232,9 +233,99 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -3;
+                int x_switch = -4;
 
                 switch (x_switch) {
+                    // CONTACT WITH ZOORECT
+                    case -4:
+                        for (BallCollider t :
+                                test) {
+                            CollisionChecker.checkSceneBoundsCollision(canvas, t);
+                            Vector2d[] nVelocity = testRect.getRect().getVectorPoints();
+                           /* if (!CollisionChecker.checkCollision(t, testRect.getRect()) & (nVelocity[0].getX() >= t.getPosition().getX() & nVelocity[2].getX() <= t.getPosition().getX())) {
+
+                                Vector2d v = nVelocity[2].subtract(nVelocity[0]);
+                                v = v.multiply(1 / (t.getVelocity().getLength() * 20));
+                                t.setVelocity(v);
+                                first_contact = true;
+                                KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, t);
+                            } else*/
+                            if (CollisionChecker.checkCollision(t, testRect.getRect())) {
+
+                                if (t.getVelocity().getY() < 0.15 & t.getVelocity().getY() > -0.15) {
+                                    //should stop at this position if it goes under 0.15
+                                    t.setPosition(t.getPosition());
+                                }
+                                if (testRect.getRect().getAngle() != 0 & !first_contact) {
+                                    if (testRect.getRect().getAngle() > 0) {
+
+                                        //first_contact = true;
+                                        Vector2d cp = CollisionChecker.getCollisionPoint(t, testRect.getRect());
+                                        // cp = cp.add(new Vector2d(0, t.getRadius() ));
+                                        Vector2d d = cp.add(testRect.getRect().getMidpoint());
+                                        double radians = d.dot(d, cp);
+
+                                        Vector2d v = nVelocity[1].subtract(nVelocity[0]);
+                                        v = v.multiply(1 / (t.getVelocity().getLength() * 20));
+                                        // t.setVelocity(Vector2d.rotateVector(t.getVelocity(), radians));
+                                        t.setVelocity(v);
+                                        System.out.println(v);
+
+                                        //  KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                        //KinematicsVectors.evenMovementPosition(t,dt);
+                                        KinematicsVectors.accleratedMovementPosition(dt, t);
+                                        gc.fillOval(cp.getX(), cp.getY(), 5, 5);
+                                        KinematicsVectors.radialAcceleration(t);
+
+                                    } else {
+                                        Vector2d cp = CollisionChecker.getCollisionPoint(t, testRect.getRect());
+                                        // cp = cp.add(new Vector2d(0, t.getRadius() ));
+                                        Vector2d d = cp.add(testRect.getRect().getMidpoint());
+                                        double radians = d.dot(d, cp);
+                                        //Vector2d[] nVelocity = testRect.getRect().getVectorPoints();
+                                        //Vector2d v = nVelocity[0].subtract(nVelocity[2]);
+                                        Vector2d v = nVelocity[1].subtract(nVelocity[0]);
+                                        v = new Vector2d(v.getX() * -1, v.getY() * -1);
+                                        // v.multiply(-1);
+
+
+                                        v = v.multiply(1 / (t.getVelocity().getLength() * 20));
+                                        // t.setVelocity(Vector2d.rotateVector(t.getVelocity(), radians));
+                                        t.setVelocity(v);
+                                        System.out.println(v);
+                                        //  KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                        //KinematicsVectors.evenMovementPosition(t,dt);
+                                        KinematicsVectors.accleratedMovementPosition(dt, t);
+                                        KinematicsVectors.radialAcceleration(t);
+                                        gc.fillOval(cp.getX(), cp.getY(), 5, 5);
+
+                                    }
+
+
+                                } else {
+                                    Vector2d cp = CollisionChecker.getCollisionPoint(t, testRect.getRect());
+                                    gc.fillOval(cp.getX(), cp.getY(), 5, 5);
+
+                                    t.setVelocity(t.getVelocity().multiply(-1));
+                                    KinematicsVectors.radialAcceleration(t);
+
+                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                }
+
+
+                            } else if (!CollisionChecker.checkCollision(t, testRect.getRect()) & first_contact) {
+                                System.out.println("HERE");
+                                // KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, t);
+                                // KinematicsVectors.evenMovementPosition(t,dt);
+                            } else {
+                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                            }
+                        }
+
+                        break;
+
+                    //BOUNCE OFF OF ZOORECT
 
                     case -3:
                         //Vectors
