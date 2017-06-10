@@ -9,6 +9,7 @@ import Logic.Util.Vector2d;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -29,11 +30,12 @@ public class ZooRect {
     public Group rectGrp;
 
     private GridPane manipulators = new GridPane();
+    private GridPane buttonUi;
 
-    private Button controlPlus;
-    private Button controlMinus;
-    private Button controlRotPlus;
-    private Button controlRotMinus;
+    private Button controlPlus, controlPlus2;
+    private Button controlMinus, controlMinus2;
+    private Button controlRotPlus, controlRotPlus2;
+    private Button controlRotMinus,controlRotMinus2;
     private Button controlDelete;
 
     private double sceneX;
@@ -53,10 +55,17 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
+    Label displayAngle = new Label("0");
+    Label displayWidth = new Label(Double.toString(width));
+
+
     public final double endCoordX = getStartCoordX() + 200; //exchange 200 through width
 
 
-    public ZooRect(Group allRectsGrp) {
+    public ZooRect(Group allRectsGrp, GridPane buttonUi) {
+
+        this.buttonUi = buttonUi;
+
 
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
@@ -72,8 +81,30 @@ public class ZooRect {
                     hitCounterM--;
                 if (hitCounterP < 3) {
                     rect.scaleWidth(50);
+                    width += 50;
                     updateManipulator();
                     hitCounterP++;
+                    displayWidth.setText(Double.toString(width));
+
+                } else {
+                    System.out.println("max length");
+                }
+
+            });
+        }
+
+        controlPlus2 = new Button("+");
+        {
+            controlPlus2.setOnAction(event -> {
+                if (hitCounterM > 0)
+                    hitCounterM--;
+                if (hitCounterP < 3) {
+                    rect.scaleWidth(50);
+                    width += 50;
+                    updateManipulator();
+                    hitCounterP++;
+                    displayWidth.setText(Double.toString(width));
+
                 } else {
                     System.out.println("max length");
                 }
@@ -90,8 +121,31 @@ public class ZooRect {
 
                 if (hitCounterM < 3) {
                     rect.scaleWidth(-50);
+                    width -= 50;
                     updateManipulator();
                     hitCounterM++;
+                    displayWidth.setText(Double.toString(width));
+
+                } else {
+                    System.out.println("min length");
+                }
+
+            });
+        }
+
+        controlMinus2 = new Button("-");
+        {
+            controlMinus2.setOnAction(event -> {
+                if (hitCounterP > 0)
+                    hitCounterP--;
+
+                if (hitCounterM < 3) {
+                    rect.scaleWidth(-50);
+                    width -= 50;
+                    updateManipulator();
+                    hitCounterM++;
+                    displayWidth.setText(Double.toString(width));
+
                 } else {
                     System.out.println("min length");
                 }
@@ -110,6 +164,31 @@ public class ZooRect {
                     rect.rotateBox(addAngle);
                     angle += addAngle;
                     updateManipulator();
+                    displayAngle.setText(Double.toString(rect.getAngle()));
+
+
+
+                } else {
+                    System.out.println("max angle");
+                }
+
+            });
+        }
+
+        controlRotPlus2 = new Button();
+        {
+            controlRotPlus2.setStyle("-fx-background-image: url('/GUI/addrot.jpg')");
+            controlRotPlus2.setMinWidth(25);
+
+            controlRotPlus2.setOnAction(event -> {
+                if (angle < 67.5) {
+                    rect.rotateBox(addAngle);
+                    angle += addAngle;
+                    updateManipulator();
+                    displayAngle.setText(Double.toString(rect.getAngle()));
+
+
+
                 } else {
                     System.out.println("max angle");
                 }
@@ -129,6 +208,8 @@ public class ZooRect {
                     rect.rotateBox(-addAngle);
                     angle -= addAngle;
                     updateManipulator();
+                    displayAngle.setText(Double.toString(rect.getAngle()));
+
                 } else {
                     System.out.println("min angle");
                 }
@@ -136,13 +217,43 @@ public class ZooRect {
             });
         }
 
+        controlRotMinus2 = new Button();
+        {
+            controlRotMinus2.setStyle("-fx-background-image: url('/GUI/removerot.jpg')");
+            controlRotMinus2.setMinWidth(25);
+
+            controlRotMinus2.setOnAction(event -> {
+                if (angle > -67.5) {
+                    rect.rotateBox(-addAngle);
+                    angle -= addAngle;
+                    updateManipulator();
+                    displayAngle.setText(Double.toString(rect.getAngle()));
+
+                } else {
+                    System.out.println("min angle");
+                }
+
+            });
+        }
+
+
         controlDelete = new Button("X");
         {
             manipulators.add(controlDelete, 2, 1);
             controlDelete.setOnAction(event -> {
                 allRectsGrp.getChildren().remove(rectGrp);
+                buttonUi.getChildren().removeAll();
+                buttonUi.getChildren().removeAll(displayAngle,displayWidth);
             });
         }
+
+        buttonUi.add(new Label("angle: "),0,0);
+        buttonUi.add(displayAngle,1,0);
+        buttonUi.add(controlRotMinus2,2,0);
+        buttonUi.add(controlRotPlus2,3,0);
+        buttonUi.add(new Label("width: "),0,1);
+        buttonUi.add(displayWidth,1,1);
+
 
 
         rectGrp = new Group();
@@ -228,11 +339,15 @@ public class ZooRect {
                 updateManipulator();        //Update Manipulator auf die neuen Punkte
                 hasBeenTranslated = false;
             }
+
+
+
         }
     };
 
     public void showManipulator(Boolean b) {
         manipulators.setVisible(b);
+        buttonUi.setVisible(b);
     }
 
     private void updateManipulator() {

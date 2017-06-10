@@ -34,8 +34,8 @@ public class Main extends Application {
     public GridPane gameControlGrid = new GridPane();
     Boolean running = true;
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = 1300;
+    private static final int HEIGHT = 750;
 
     ArrayList<ZooRect> zooRectList = new ArrayList<>();
 
@@ -116,7 +116,15 @@ public class Main extends Application {
 
 
         Group allRectsGrp = new Group();
-        ZooRect testRect = new ZooRect(allRectsGrp);
+
+        GridPane buttonDisplay = new GridPane();
+        {
+            Label selectedButton = new Label();
+            buttonDisplay.add(selectedButton,0,0);
+        }
+
+
+        ZooRect testRect = new ZooRect(allRectsGrp,buttonDisplay);
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
@@ -126,7 +134,7 @@ public class Main extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp));
+            zooRectList.add(i, new ZooRect(allRectsGrp,buttonDisplay));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
@@ -145,6 +153,10 @@ public class Main extends Application {
                 uiGrid.setVgap(5);
                 uiGrid.getStyleClass().add("uiGrid");
                 levelname.getStyleClass().add("label");
+
+
+
+                uiGrid.add(buttonDisplay,0,10);
 
             }
             gridPane.add(uiGrid, 0, 0);
