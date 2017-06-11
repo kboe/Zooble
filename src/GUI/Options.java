@@ -76,7 +76,7 @@ public class Options extends Application {
 
 
         //Image auf dass die Helligkeitsveränderung vorerst wirkt->soll später auf das ganze Spiel wirken
-        Image image  = new Image(getClass().getResourceAsStream("chloe.png"));
+        Image image  = new Image(getClass().getResourceAsStream("Persistent/Resources/ballImages/chloe.png"));
 
         final ImageView katze = new ImageView (image);
         GridPane.setConstraints(katze,25, 13);
