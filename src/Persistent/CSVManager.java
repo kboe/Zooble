@@ -9,10 +9,14 @@ import java.util.Scanner;
 
 
 /*
-* CSV CONVENTION:   |SEPARATOR|   VARIABLE_NAME  |   VALUE  |
-*   SEPARATOR can be: PROPERTY, POSITION,
-*   VARIABLE_NAME is only relevant for human
-*   VALUE: specifies the objects value of the variable
+* CSV CONVENTION:   |   OBJECTTYPE  |   ATTRIBUTE  |   VALUE  |
+*   OBJECTTYPE can be: ELEPHANTBALL, OWLBALL, BOXCOLLIDER, GOALBOX, ...
+*   ATTRIBUTE can be something like: POSITION, VELOCITY, MASS, etc. depends on the Object/Seperator
+*   VALUE: specifies the objects value of the variable -> POSITION and VELOCITY have to be Vectors -> POSITION,2,4,VELOCITY,3,1 would be-> something like:
+*   this.position = new Vector2d(2,4);
+*   this.velocity = new Vector2d(3,1);
+*
+*   Every row is going to be a new Object/Game asset in the Game, but an Object can have multiple Attributes
 * */
 
 public final class CSVManager {

@@ -1,4 +1,4 @@
-package Persistent.Game_Items;
+package Persistent.Game_Assets.Balls;
 
 import Logic.Collision.Collider.BallCollider;
 import Persistent.Constants;

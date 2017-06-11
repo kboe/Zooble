@@ -1,6 +1,7 @@
 import GUI.MainMenu;
 import GUI.TransferRectData;
 import Logic.Util.Physics.KinematicsVectors;
+import Persistent.Game_Assets.AoE_Assets.BoostBox;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.Collider.BallCollider;
@@ -88,6 +89,8 @@ public class Main_Deprecated extends Application {
         //Favicon
         primaryStage.getIcons().add(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm()));
 
+        BoostBox booster = new BoostBox(50,350,400,200,Color.PINK);
+
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
         final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm())));
@@ -151,7 +154,7 @@ public class Main_Deprecated extends Application {
 
 
         root.getChildren().add(canvas);
-        root.getChildren().addAll(c2, c, c3, c4, c5);
+        root.getChildren().addAll(c2, c, c3, c4, c5, booster);
 
         //Roberts TESTFACTORY START
 
@@ -298,7 +301,7 @@ public class Main_Deprecated extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -4;
+                int x_switch = -1;
 
                 switch (x_switch) {
                     //Vectors
@@ -442,8 +445,8 @@ public class Main_Deprecated extends Application {
 
                         for (int i = 0; i < balls.length; i++) {
                             for (int j = i + 1; j < balls.length; j++) {
-                                KinematicsVectors.radialAcceleration(balls[i]);
-                                KinematicsVectors.radialAcceleration(balls[j]);
+                               // KinematicsVectors.radialAcceleration(balls[i]);
+                               // KinematicsVectors.radialAcceleration(balls[j]);
                                 CollisionChecker.checkCollision(balls[i], balls[j]);
                                 /*if (bla){
                                     Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
@@ -458,6 +461,7 @@ public class Main_Deprecated extends Application {
                         for (BallCollider ball :
                                 balls) {
                             CollisionChecker.checkSceneBoundsCollision(canvas, ball);
+                            CollisionChecker.checkCollision(ball,booster);
                             KinematicsVectors.freeFallHeightWithVelocity(dt, ball);
                             System.out.println(ball.getVelocity());
                         }

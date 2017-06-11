@@ -1,9 +1,12 @@
 package Logic.Collision.Collider;
 
 
+import Logic.Collision.TriggerArea.TriggerArea;
 import Persistent.Constants;
 import Logic.Util.Vector2d;
+import Persistent.Game_Assets.AoE_Assets.BoostBox;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape;
 
 /**
@@ -79,10 +82,20 @@ public final class CollisionChecker {
             }
 
         } if (otherCollider instanceof BoxCollider){
-            if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
-                boxCollideNotRotated(ball,((BoxCollider) otherCollider));
-            } else {                                            //if the box is rotated -> other collision method
-                boxCollideRotated(ball,((BoxCollider) otherCollider));
+            BoxCollider boxCollider = (BoxCollider) otherCollider;
+
+
+            if (boxCollider instanceof TriggerArea){            //IF IT IS A TRIGGER (NOT A COLLIDER)
+                if (boxCollider instanceof BoostBox){           //DO SOMETHING SPECIFIC DEPENDING ON THE TYPE OF THE TRIGGER
+                    BoostBox boostBox = (BoostBox) boxCollider;
+                    boostBox.boostBall(ball);
+                }
+            } else {                                            //IF IT IS A COLLIDER
+                if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
+                    boxCollideNotRotated(ball,((BoxCollider) otherCollider));
+                } else {                                            //if the box is rotated -> other collision method
+                    boxCollideRotated(ball,((BoxCollider) otherCollider));
+                }
             }
         }
     }
@@ -136,7 +149,7 @@ public final class CollisionChecker {
         if (Collider instanceof BallCollider) {
             BallCollider ballCollider = (BallCollider) Collider;
             Vector2d normal = playerBall.getPosition().subtract(ballCollider.getPosition());
-            //normal.normalize();
+            normal.normalize();
             return normal;
 
         } else if (Collider instanceof BoxCollider) {
@@ -169,11 +182,11 @@ public final class CollisionChecker {
     public static void checkSceneBoundsCollision(Canvas canvas, BallCollider ball) {
 
 
-            if (ball.getCenterX() + ball.getRadius() > canvas.getWidth()) {         //Right Wall
+            if (ball.getCenterX() + ball.getRadius() > canvas.getWidth() - 200) {         //Right Wall  -200 because of the sticky options menu on the right
 
                 System.out.println("ball outside of Bounds (right)");
                 System.out.println("Out of bounds at: (" + ball.getCenterX() + "," + ball.getCenterY() + ")");
-                ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius(), ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
+                ball.setPosition(new Vector2d(canvas.getWidth() - ball.getRadius() - 200, ball.getPosition().getY()));            //Correct Ball position -> prevents bugs
                 ball.getVelocity().scale(Constants.RESTITUTION);
                 ball.getVelocity().invertX();
 
