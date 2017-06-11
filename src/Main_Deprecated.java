@@ -158,7 +158,7 @@ public class Main_Deprecated extends Application {
 
         timerLabel.textProperty().bind(timeSeconds.asString());
         timerLabel.setTextFill(Color.RED);
-        timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #A24949;-fx-font-size: 50;");
+        timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #FFF;-fx-font-size: 50;");
 
 
 
