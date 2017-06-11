@@ -77,7 +77,7 @@ public class Main extends Application {
         /*TAMARA CODE ENDE*/
 
         Group root = new Group();
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        Canvas   canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
@@ -508,7 +508,7 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                 playSim.setMinHeight(50);
                 gameControlGrid.add(playSim, 0, 1);
                 playSim.setOnAction(event -> {
-                    this.start();
+                    this.start();                    
                     for (int j = 0; j < zooRectList.size(); j++) {
                         zooRectList.get(j).showManipulator(false);
                     }
@@ -521,7 +521,7 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                         timeSeconds.set(STARTTIME);
                         timeline = new Timeline();
                         timeline.getKeyFrames().add(
-                                new KeyFrame(Duration.seconds(STARTTIME+1200),
+                                new KeyFrame(Duration.seconds(STARTTIME+2000),
                                         new KeyValue(timeSeconds, 2000)));
                         timeline.playFromStart();
 
