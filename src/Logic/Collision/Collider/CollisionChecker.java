@@ -1,12 +1,9 @@
-package Logic.Collision;
+package Logic.Collision.Collider;
 
 
-import Logic.Util.DeltaTime;
-import Logic.Util.Physics.Constants;
-import Logic.Util.Physics.KinematicsVectors;
+import Persistent.Constants;
 import Logic.Util.Vector2d;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape;
 
 /**

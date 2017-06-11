@@ -4,7 +4,7 @@ package GUI;
  * Created by TheRop on 25/05/17.
  */
 
-import Logic.Collision.BoxCollider;
+import Logic.Collision.Collider.BoxCollider;
 import Logic.Util.Vector2d;
 import javafx.event.Event;
 import javafx.event.EventHandler;

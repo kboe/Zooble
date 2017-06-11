@@ -1,7 +1,7 @@
 package Logic;
 
 import GUI.ZooRect;
-import Logic.Collision.BallCollider;
+import Logic.Collision.Collider.BallCollider;
 import Logic.Util.DeltaTime;
 import Persistent.Level.Level;
 import javafx.animation.AnimationTimer;
@@ -14,8 +14,8 @@ import java.util.EmptyStackException;
  */
 public class ZoobleGame {
 
-    ArrayList<ZooRect> boxColliderList = new ArrayList<>();         //store all Box Collider into this ArrayList.
-    ArrayList<BallCollider> ballColliderList = new ArrayList<>();   //store all Balls into this ArrayList.
+    private ArrayList<ZooRect> boxColliderList;         //store all Box Collider into this ArrayList.
+    private ArrayList<BallCollider> ballColliderList;   //store all Balls into this ArrayList.
 
     public ZoobleGame(Level level){
         storeFromLevelIntoGame(level);

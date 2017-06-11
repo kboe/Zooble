@@ -1,17 +1,14 @@
 package Logic.Util.Physics;
 
 import GUI.ZooRect;
-import Logic.Collision.BallCollider;
-import Logic.Collision.LoopStopped;
+import Logic.Collision.Collider.BallCollider;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 
-import static Logic.Collision.CollisionChecker.floorContact;
 import static Logic.Util.Physics.Kinematics.FRICTION;
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
 import static Logic.Util.Physics.Kinematics.GRAVITYVECTOR;
-import static java.awt.image.ImageObserver.WIDTH;
 
 /**
  * Created by ${kboe} on 31.05.2017.

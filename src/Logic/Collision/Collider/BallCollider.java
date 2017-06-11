@@ -1,11 +1,9 @@
-package Logic.Collision;
+package Logic.Collision.Collider;
 
 import Logic.Util.Vector2d;
 import com.sun.istack.internal.Nullable;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-
-import static Logic.Util.Physics.Constants.GRAVITY;
 
 /**
  * Created by Rocki on 24.05.2017.

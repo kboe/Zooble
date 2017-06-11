@@ -1,13 +1,10 @@
 package GUI;
 
 
-import Logic.Collision.BoxCollider;
-import javafx.scene.Group;
+import Logic.Collision.Collider.BoxCollider;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-
-import java.util.ArrayList;
 
 /**
  * Created by TheRop on 10/06/17.
@@ -29,7 +26,7 @@ public class TransferRectData {
     int hitCounterM;
 
 
-    public TransferRectData( ){
+    public TransferRectData(){
 
         controlPlus.setOnAction(event -> {
             if (rect.getWidth() < 350){

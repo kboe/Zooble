@@ -1,8 +1,6 @@
-package Logic.Collision.Deprecated;
+package Logic.Collision.Collider.Deprecated;
 
-import Logic.Util.Vector2d;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.transform.Rotate;
 
 /**
  * Created by Rocki on 09.05.2017.

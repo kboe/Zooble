@@ -1,7 +1,6 @@
 package Logic.Util.Physics;
 
-import Logic.Collision.BallCollider;
-import Logic.Collision.BoxCollider;
+import Logic.Collision.Collider.BallCollider;
 import Logic.Util.DeltaTime;
 import Logic.Util.Vector2d;
 

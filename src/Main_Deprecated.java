@@ -1,11 +1,10 @@
 import GUI.MainMenu;
 import GUI.TransferRectData;
-import Logic.Util.Physics.Constants;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
-import Logic.Collision.BallCollider;
-import Logic.Collision.CollisionChecker;
+import Logic.Collision.Collider.BallCollider;
+import Logic.Collision.Collider.CollisionChecker;
 import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Kinematics;
@@ -36,7 +35,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-import static Logic.Util.Physics.Constants.GRAVITY;
+import static Persistent.Constants.GRAVITY;
 import static Logic.Util.Physics.Kinematics.GRAVITYVECTOR;
 
 public class Main_Deprecated extends Application {

@@ -1,4 +1,4 @@
-package Logic.Collision;
+package Logic.Collision.Collider;
 
 import Logic.Util.Vector2d;
 import com.sun.istack.internal.Nullable;
