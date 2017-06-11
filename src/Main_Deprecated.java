@@ -49,6 +49,7 @@ public class Main_Deprecated extends Application {
     private Timeline timeline;
     private Label timerLabel = new Label();
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
+    private Boolean firstStart = false;
 
 
 
@@ -739,15 +740,19 @@ public class Main_Deprecated extends Application {
                     }
                     running = true;
 
-                    if (timeline != null) {
-                        timeline.stop();
+                    if (!firstStart){
+                        if (timeline != null) {
+                            timeline.stop();
+                        }
+                        timeSeconds.set(STARTTIME);
+                        timeline = new Timeline();
+                        timeline.getKeyFrames().add(
+                                new KeyFrame(Duration.seconds(STARTTIME+2000),
+                                        new KeyValue(timeSeconds, 2000)));
+                        timeline.playFromStart();
+                        firstStart = true;
                     }
-                    timeSeconds.set(STARTTIME);
-                    timeline = new Timeline();
-                    timeline.getKeyFrames().add(
-                            new KeyFrame(Duration.seconds(STARTTIME+1200),
-                                    new KeyValue(timeSeconds, 2000)));
-                    timeline.playFromStart();
+
 
 
                 });
@@ -763,7 +768,7 @@ public class Main_Deprecated extends Application {
                     this.stop();
                     running = false;
 
-                    timeline.stop();
+
 
                 });
             }
