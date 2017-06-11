@@ -161,7 +161,6 @@ public class Main_Deprecated extends Application {
 
 
 
-        root.getChildren().add(timerLabel);
 
 
         TransferRectData transferRectData = new TransferRectData();
@@ -790,11 +789,15 @@ public class Main_Deprecated extends Application {
 
         }.stop();
 
-        gameControlGrid.add(timerLabel,0,0);
+
+
+        timerLabel.setLayoutX(WIDTH / 2 - 75);
+        timerLabel.setLayoutY(HEIGHT - 700);
 
         gameControlGrid.setLayoutX(WIDTH / 2 - 75);
-        gameControlGrid.setLayoutY(HEIGHT - 100);
+        gameControlGrid.setLayoutY(HEIGHT - 50);
 
+        root.getChildren().add(timerLabel);
         root.getChildren().add(gameControlGrid);
 
         theScene.getStylesheets().addAll(this.getClass().getResource("/GUI/gameUI.css").toExternalForm());
