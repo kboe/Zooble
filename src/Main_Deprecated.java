@@ -18,6 +18,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -743,7 +744,7 @@ public class Main_Deprecated extends Application {
                 playSim.setMinWidth(50);
                 playSim.setMinHeight(50);
                 gameControlGrid.add(playSim, 0, 1);
-                playSim.setOnAction(event -> {
+                playSim.setOnAction((ActionEvent event) -> {
                     this.start();
                     for (int j = 0; j < zooRectList.size(); j++) {
                         zooRectList.get(j).showManipulator(false);
@@ -761,6 +762,8 @@ public class Main_Deprecated extends Application {
                                         new KeyValue(timeSeconds, 2000)));
                         timeline.playFromStart();
                         firstStart = true;
+                    }else{
+                        timeline.play();
                     }
 
 
@@ -777,6 +780,8 @@ public class Main_Deprecated extends Application {
                 pauseSim.setOnAction(event -> {
                     this.stop();
                     running = false;
+                    timeline.pause();
+                    System.out.println(timerLabel.getText());
 
 
 
