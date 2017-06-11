@@ -67,6 +67,7 @@ public class BoxCollider extends Polygon {
 
         storePointsInVector();      //update vectorPoints
         calculateMidpoint();        //Update Midpoint
+        setWidth(getWidth() + newWidth);
     }
 
     /**
@@ -199,6 +200,7 @@ public class BoxCollider extends Polygon {
     }
 
     public void setWidth(double width) {
+
         this.width = width;
     }
 

@@ -73,10 +73,10 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(130, 500, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c2 = new BallCollider(200, 200, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c3 = new BallCollider(280, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c4 = new BallCollider(400, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
         final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
 
         BallCollider[] balls = new BallCollider[5];
@@ -262,7 +262,7 @@ public class Main extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -1;
+                int x_switch = -3;
 
                 switch (x_switch) {
                     //Vectors
@@ -272,19 +272,35 @@ public class Main extends Application {
                         for (BallCollider t :
                                 test) {
                             CollisionChecker.checkSceneBoundsCollision(canvas, t);
+
                             if (CollisionChecker.checkCollision(t, testRect.getRect())) {
-                                if(t.getVelocity().getY()<0.1&t.getVelocity().getY()>-0.1){
+                                //KinematicsVectors.radialAcceleration(t);
+                                // KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+
+                                if (t.getVelocity().getY() < 0.1 & t.getVelocity().getY() > -0.1) {
                                     t.setPosition(t.getPosition());
                                 }
-                                t.setVelocity(t.getVelocity().multiply(-1));
-                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                if (testRect.getRect().getAngle() != 0) {
+                                    Vector2d cp = CollisionChecker.getCollisionPoint(t, testRect.getRect());
+                                    cp = cp.add(new Vector2d(0, t.getRadius()));
+                                    Vector2d d = cp.add(testRect.getRect().getMidpoint());
+                                    double radians = d.dot(d, cp);
+                                    t.setVelocity(Vector2d.rotateVector(t.getVelocity(), radians));
+                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
 
-                            }
-                            else {
-                                KinematicsVectors.radialAcceleration(t);
+                                } else {
+                                    t.setVelocity(t.getVelocity().multiply(-1));
+                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                }
+
+
+                            } else {
                                 KinematicsVectors.freeFallHeightWithVelocity(dt, t);
                                 System.out.println(t.getVelocity());
                             }
+                            KinematicsVectors.radialAcceleration(t);
+
 
                         }
 

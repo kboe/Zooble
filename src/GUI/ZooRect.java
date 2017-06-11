@@ -6,9 +6,12 @@ package GUI;
 
 import Logic.Collision.BoxCollider;
 import Logic.Util.Vector2d;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -30,10 +33,10 @@ public class ZooRect {
 
     private GridPane manipulators = new GridPane();
 
-    private Button controlPlus;
-    private Button controlMinus;
-    private Button controlRotPlus;
-    private Button controlRotMinus;
+    private Button controlPlus, controlPlus2;
+    private Button controlMinus, controlMinus2;
+    private Button controlRotPlus, controlRotPlus2;
+    private Button controlRotMinus,controlRotMinus2;
     private Button controlDelete;
 
     private double sceneX;
@@ -53,27 +56,34 @@ public class ZooRect {
     private double endY;
     private boolean hasBeenTranslated;
 
+    TransferRectData transferRectData;
+
+
+
     public final double endCoordX = getStartCoordX() + 200; //exchange 200 through width
 
 
-    public ZooRect(Group allRectsGrp) {
+    public ZooRect(Group allRectsGrp, TransferRectData transferRectData) {
 
+
+        this.transferRectData = transferRectData;
         rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
 
 
         manipulators.setVisible(false);
+
         updateManipulator();
 
         controlPlus = new Button("+");
         {
             manipulators.add(controlPlus, 4, 0);
             controlPlus.setOnAction(event -> {
-                if (hitCounterM > 0)
-                    hitCounterM--;
-                if (hitCounterP < 3) {
+                if (rect.getWidth() < 350) {
                     rect.scaleWidth(50);
+                    width += 50;
                     updateManipulator();
-                    hitCounterP++;
+                    transferRectData.width.setText(Double.toString(width));
+
                 } else {
                     System.out.println("max length");
                 }
@@ -81,17 +91,17 @@ public class ZooRect {
             });
         }
 
+
         controlMinus = new Button("-");
         {
             manipulators.add(controlMinus, 0, 0);
             controlMinus.setOnAction(event -> {
-                if (hitCounterP > 0)
-                    hitCounterP--;
 
-                if (hitCounterM < 3) {
+                if (rect.getWidth() > 200) {
                     rect.scaleWidth(-50);
+                    width -= 50;
                     updateManipulator();
-                    hitCounterM++;
+                    transferRectData.width.setText(Double.toString(width));
                 } else {
                     System.out.println("min length");
                 }
@@ -110,13 +120,16 @@ public class ZooRect {
                     rect.rotateBox(addAngle);
                     angle += addAngle;
                     updateManipulator();
+
+                    transferRectData.angle.setText(Double.toString(rect.getAngle()));
+
+
                 } else {
                     System.out.println("max angle");
                 }
 
             });
         }
-
 
         controlRotMinus = new Button();
         {
@@ -129,12 +142,15 @@ public class ZooRect {
                     rect.rotateBox(-addAngle);
                     angle -= addAngle;
                     updateManipulator();
+                    transferRectData.angle.setText(Double.toString(rect.getAngle()));
+
                 } else {
                     System.out.println("min angle");
                 }
 
             });
         }
+
 
         controlDelete = new Button("X");
         {
@@ -145,8 +161,12 @@ public class ZooRect {
         }
 
 
+
+
+
         rectGrp = new Group();
         rectGrp.getChildren().add(rect);
+      //  rectGrp.getChildren().add(displayButtonUi);
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
         rectGrp.setOnMouseDragged(rectMouseDragEvent);
@@ -171,10 +191,22 @@ public class ZooRect {
 
             System.out.println("start: " + startX + " " + startY);
 
+            transferRectData.rect = rect;
+            transferRectData.hitCounterM = hitCounterM;
+            transferRectData.hitCounterP = hitCounterP;
+            transferRectData.manipulator = manipulators;
+
+            transferRectData.angle.setText(Double.toString(rect.getAngle()));
+            transferRectData.width.setText(Double.toString(width));
+
+
+
 
             if (!selected) {
                 selected = true;
                 showManipulator(selected);
+              //  showButtonUi(selected,event);
+
 
             } else {
                 selected = false;
@@ -228,11 +260,32 @@ public class ZooRect {
                 updateManipulator();        //Update Manipulator auf die neuen Punkte
                 hasBeenTranslated = false;
             }
+
+
+
         }
     };
 
     public void showManipulator(Boolean b) {
         manipulators.setVisible(b);
+
+    }
+
+    public void showButtonUi(Boolean b,Event event){
+        if(event.getSource() instanceof Group){
+            Node nodeOut = ((Group)event.getSource()).getChildren().get(2);
+
+            if (nodeOut instanceof GridPane){
+                System.out.println("gridpane");
+                ((GridPane) nodeOut).add(new Label("tes"),0,0);
+                ((GridPane) nodeOut).setVisible(b);
+
+            }
+        }else{
+            System.out.println("schade");
+        }
+
+
     }
 
     private void updateManipulator() {
