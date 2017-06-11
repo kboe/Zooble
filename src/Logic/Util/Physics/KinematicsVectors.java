@@ -10,6 +10,7 @@ import static Logic.Collision.CollisionChecker.floorContact;
 import static Logic.Util.Physics.Kinematics.FRICTION;
 import static Logic.Util.Physics.Kinematics.GRAVITY;
 
+import static Logic.Util.Physics.Kinematics.GRAVITYVECTOR;
 import static java.awt.image.ImageObserver.WIDTH;
 
 /**
@@ -26,6 +27,7 @@ public class KinematicsVectors {
 
     public static void evenMovementPosition(BallCollider bc, DeltaTime deltaTime) {
         Vector2d newPosition = new Vector2d();
+       // newPosition= bc.getVelocity().multiply(deltaTime.getCurrentTime());
         bc.setPosition(newPosition.add(bc.getPosition(), bc.getVelocity().multiply(deltaTime.getCurrentTime())));
     }
 
@@ -319,7 +321,17 @@ public class KinematicsVectors {
     //Hangabtriebskraft
 
     public static void hForce(BallCollider ballCollider) {
+        gForce(ballCollider);
         ballCollider.sethForce(ballCollider.getgForce() * Math.sin(ballCollider.getAlpha()));
+    }
+    public static Vector2d hillForce(BallCollider ballCollider) {
+        System.out.println(Math.sin(ballCollider.getAlpha()));
+        System.out.println("Math.sin(ballCollider.getAlpha() "+Math.sin(ballCollider.getAlpha()));
+        Vector2d gf= GRAVITYVECTOR.multiply(ballCollider.getMass());
+        //Vector2d h = gf.multiply(Math.sin(ballCollider.getAlpha()));
+        Vector2d h = Vector2d.rotateVector(gf,ballCollider.getAlpha());
+
+        return h;
     }
 
     //------------------------------------------------------------------------------------------------------------------

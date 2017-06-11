@@ -35,6 +35,9 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
+import static Logic.Util.Physics.Constants.GRAVITY;
+import static Logic.Util.Physics.Kinematics.GRAVITYVECTOR;
+
 public class Main_Deprecated extends Application {
 
     public GridPane gameControlGrid = new GridPane();
@@ -110,18 +113,18 @@ public class Main_Deprecated extends Application {
         //c.setVelocity(new Vector2d(1, -3));
 
         c.setVelocity0(c.getVelocity());
-        c.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c.setAccelerationV(new Vector2d(0, GRAVITY));
         c2.setStartingPoint(new Vector2d(c2.getCenterX(), c2.getCenterY()));
         c2.setVelocity(new Vector2d(0, 0));
-        c2.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c2.setAccelerationV(new Vector2d(0, GRAVITY));
         c2.setVelocity0(c2.getVelocity());
         c3.setStartingPoint(new Vector2d(c.getCenterX(), c.getCenterY()));
-        c3.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c3.setAccelerationV(new Vector2d(0, GRAVITY));
         c3.setVelocity(new Vector2d(1, 0));
         c4.setVelocity(new Vector2d(-1, 1));
-        c4.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c4.setAccelerationV(new Vector2d(0, GRAVITY));
         c5.setVelocity(new Vector2d(3, 0));
-        c5.setAccelerationV(new Vector2d(0, Constants.GRAVITY));
+        c5.setAccelerationV(new Vector2d(0, GRAVITY));
 
 
         c.setVelocityX(10);
@@ -295,7 +298,7 @@ public class Main_Deprecated extends Application {
                 //TODO Collision and Contact with rotated Rectangle
 
                 //gleichförmige Bewegung
-                int x_switch = -3;
+                int x_switch = -4;
 
                 switch (x_switch) {
                     //Vectors
@@ -313,6 +316,7 @@ public class Main_Deprecated extends Application {
                                 KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, t);
                             } else*/
                             if (CollisionChecker.checkCollision(t, testRect.getRect())) {
+                                t.setAlpha(testRect.getRect().getAngle());
 
                                 if (t.getVelocity().getY() < 0.15 & t.getVelocity().getY() > -0.15) {
                                     //should stop at this position if it goes under 0.15
@@ -326,11 +330,17 @@ public class Main_Deprecated extends Application {
                                         // cp = cp.add(new Vector2d(0, t.getRadius() ));
                                         Vector2d d = cp.add(testRect.getRect().getMidpoint());
                                         double radians = d.dot(d, cp);
-
+                                        KinematicsVectors.hForce(t);
+                                        System.out.println(t.gethForce());
                                         Vector2d v = nVelocity[1].subtract(nVelocity[0]);
-                                        v = v.multiply(1 / (t.getVelocity().getLength() * 20));
+                                        v = v.multiply(1 / (t.getVelocity().getLength() *200));
+                                        Vector2d v2= GRAVITYVECTOR;
+                                        v2.multiply(Math.sin(testRect.getRect().getAngle()));
+                                        //t.setVelocity(Vector2d.rotateVector(v2,testRect.getRect().getAngle()));
+                                        //t.setVelocity(v2);
                                         // t.setVelocity(Vector2d.rotateVector(t.getVelocity(), radians));
-                                        t.setVelocity(v);
+                                        t.setVelocity(v2);
+                                       // t.setVelocity(KinematicsVectors.hillForce(t).multiply(dt.getCurrentTime()));
                                         System.out.println(v);
 
                                         //  KinematicsVectors.freeFallHeightWithVelocity(dt, t);
