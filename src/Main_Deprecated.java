@@ -154,8 +154,8 @@ public class Main_Deprecated extends Application {
 
 
         root.getChildren().add(canvas);
-        root.getChildren().addAll(c2, c, c3, c4, c5, booster);
-
+        root.getChildren().addAll(c2, c, c3, c4, c5);
+        root.getChildren().add(booster);
         //Roberts TESTFACTORY START
 
 
