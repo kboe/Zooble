@@ -89,12 +89,13 @@ public class Main extends Application {
         //primaryStage.setScene(theScene);
 
         //Favicon
-        primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
+        primaryStage.getIcons().add(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm()));
+
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(75, 100, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(75, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
+        final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm())));
+        final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm())));
 
         //KAREN TESTLAB
 
@@ -210,22 +211,11 @@ public class Main extends Application {
 
             DeltaTime dt = new DeltaTime();
 
-
-            int h = 0;
-
             boolean now_counting = false;
             boolean collided = false;
             boolean collided_3 = false;
             boolean first_contact = false;
 
-
-            public int getH() {
-                return h;
-            }
-
-            public void setH(int h) {
-                this.h = h;
-            }
 
             public boolean isNow_counting() {
                 return now_counting;
@@ -275,6 +265,7 @@ public class Main extends Application {
 
                 switch (x_switch) {
                     //Vectors
+
                     case -1:
                         //KinematicsVectors.averageSpeed(c,dt);
 
