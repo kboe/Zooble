@@ -1,5 +1,5 @@
 import GUI.MainMenu;
-import Logic.Util.BooleansMovement;
+import GUI.TransferRectData;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
@@ -11,7 +11,12 @@ import Logic.Util.Physics.Kinematics;
 import Logic.Util.Physics.KinematicsBall;
 import Logic.Util.Vector2d;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,17 +24,29 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
 import static Logic.Util.DeltaTime.deltatime;
+import static Logic.Util.Physics.Constants.GRAVITY;
 
 public class Main extends Application {
+
+
+
+    private static final Integer STARTTIME = 0;
+    private Timeline timeline;
+    private Label timerLabel = new Label();
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
+
+
 
     public GridPane gameControlGrid = new GridPane();
     Boolean running = true;
@@ -37,12 +54,14 @@ public class Main extends Application {
     private static final int WIDTH = 1300;
     private static final int HEIGHT = 750;
 
+    Label displayAngle = new Label("0");
+    Label displayWidth = new Label("0");
+
     ArrayList<ZooRect> zooRectList = new ArrayList<>();
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
 
         // ROBIN CODE BEGINNING
@@ -115,16 +134,21 @@ public class Main extends Application {
         //Roberts TESTFACTORY START
 
 
+        timerLabel.textProperty().bind(timeSeconds.asString());
+        timerLabel.setTextFill(Color.RED);
+        timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #A24949;-fx-font-size: 30;");
+
+
+
+        root.getChildren().add(timerLabel);
+
+
+        TransferRectData transferRectData = new TransferRectData();
         Group allRectsGrp = new Group();
 
         GridPane buttonDisplay = new GridPane();
-        {
-            Label selectedButton = new Label();
-            buttonDisplay.add(selectedButton,0,0);
-        }
 
-
-        ZooRect testRect = new ZooRect(allRectsGrp,buttonDisplay);
+        ZooRect testRect = new ZooRect(allRectsGrp,transferRectData);
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
@@ -134,7 +158,7 @@ public class Main extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp,buttonDisplay));
+            zooRectList.add(i, new ZooRect(allRectsGrp,transferRectData));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
@@ -156,16 +180,22 @@ public class Main extends Application {
 
 
 
-                uiGrid.add(buttonDisplay,0,10);
+                uiGrid.add(transferRectData.buttonUi,0,10);
+
 
             }
             gridPane.add(uiGrid, 0, 0);
+
+
+            ColumnConstraints col1 = new ColumnConstraints();
+            col1.setPercentWidth(70);
+            uiGrid.getColumnConstraints().addAll(col1);
 
             RowConstraints ui = new RowConstraints();
             ui.setMinHeight(HEIGHT);
             gridPane.getRowConstraints().addAll(ui);
             gridPane.getStyleClass().add("gridpane");
-            gridPane.setLayoutX(WIDTH - 50);
+            gridPane.setLayoutX(WIDTH - 200);
         }
 
 
@@ -476,13 +506,26 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                 playSim.setStyle("-fx-background-image: url('/GUI/playBTN.jpg');" + "-fx-background-size: 50px;");
                 playSim.setMinWidth(50);
                 playSim.setMinHeight(50);
-                gameControlGrid.add(playSim, 0, 0);
+                gameControlGrid.add(playSim, 0, 1);
                 playSim.setOnAction(event -> {
                     this.start();
                     for (int j = 0; j < zooRectList.size(); j++) {
                         zooRectList.get(j).showManipulator(false);
                     }
                     running = true;
+
+
+                        if (timeline != null) {
+                            timeline.stop();
+                        }
+                        timeSeconds.set(STARTTIME);
+                        timeline = new Timeline();
+                        timeline.getKeyFrames().add(
+                                new KeyFrame(Duration.seconds(STARTTIME+1200),
+                                        new KeyValue(timeSeconds, 2000)));
+                        timeline.playFromStart();
+
+
                 });
 
                 Button pauseSim = new Button();
@@ -491,29 +534,24 @@ if (CollisionChecker.checkCollision(c2, c3)) {
                 pauseSim.setMinHeight(50);
 
 
-                gameControlGrid.add(pauseSim, 1, 0);
+                gameControlGrid.add(pauseSim, 1, 1);
                 pauseSim.setOnAction(event -> {
                     this.stop();
                     running = false;
                 });
             }
 
-        }.stop();
+        }.
 
+                stop();
+
+        gameControlGrid.add(timerLabel,0,0);
         gameControlGrid.setLayoutX(WIDTH / 2 - 75);
-        gameControlGrid.setLayoutY(HEIGHT - 50);
+        gameControlGrid.setLayoutY(HEIGHT - 100);
 
-        root.getChildren().
+        root.getChildren().add(gameControlGrid);
 
-                add(gameControlGrid);
-
-        theScene.getStylesheets().
-
-                addAll(this.getClass().
-
-                        getResource("/GUI/gameUI.css").
-
-                        toExternalForm());
+        theScene.getStylesheets().addAll(this.getClass().getResource("/GUI/gameUI.css").toExternalForm());
 
 
         primaryStage.show();
