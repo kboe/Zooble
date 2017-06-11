@@ -1,5 +1,6 @@
 package Logic.Util.Physics;
 
+import GUI.ZooRect;
 import Logic.Collision.BallCollider;
 import Logic.Collision.LoopStopped;
 import Logic.Util.DeltaTime;
@@ -25,7 +26,7 @@ public class KinematicsVectors {
 
     public static void evenMovementPosition(BallCollider bc, DeltaTime deltaTime) {
         Vector2d newPosition = new Vector2d();
-        bc.setPosition(newPosition.add(bc.getStartingPoint(), bc.getVelocity().multiply(deltaTime.getCurrentTime())));
+        bc.setPosition(newPosition.add(bc.getPosition(), bc.getVelocity().multiply(deltaTime.getCurrentTime())));
     }
 
     /**
@@ -45,8 +46,31 @@ public class KinematicsVectors {
      * @param bc        ballCollider
      */
     public static void accleratedMovementPosition(DeltaTime deltaTime, BallCollider bc) {
-        Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
-        bc.setPosition(position.add(position, bc.getStartingPoint()));
+        double x = bc.getAccelerationV().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+        Vector2d position = new Vector2d(x,0);
+        //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+        //bc.setPosition(position.add(position, bc.getStartingPoint()));
+        bc.setPosition(position.add(position, bc.getPosition()));
+
+    }
+
+    public static void accleratedMovementPosition(DeltaTime deltaTime, BallCollider bc, ZooRect zooRect) {
+        if(zooRect.getRect().getAngle()<0){
+            double x = bc.getAccelerationV().getX()*(-0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+            Vector2d position = new Vector2d(x,0);
+            //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+            //bc.setPosition(position.add(position, bc.getStartingPoint()));
+            bc.setPosition(position.add(position, bc.getPosition()));
+        }
+        else {
+            double x = bc.getAccelerationV().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+            Vector2d position = new Vector2d(x,0);
+            //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+            //bc.setPosition(position.add(position, bc.getStartingPoint()));
+            bc.setPosition(position.add(position, bc.getPosition()));
+        }
+
+
     }
     //----------------------------------------------------------------------------------------------------------------
     //Beschleunigte Bewegung mit Anfangsgeschwindigkeit
