@@ -19,11 +19,12 @@ import javafx.scene.paint.Color;
 public class ZooRect {
 
     private double width = 200;
-    private double height = 35;
+    private double height = 17.5;
 
     private double angle = 0;
     private double addAngle = 22.5;
     BoxCollider rect;
+    BoxCollider visualRect;
 
     private static final double startCoordX = 100;
     private static final double startCoordY = 200;
@@ -67,7 +68,10 @@ public class ZooRect {
 
 
         this.transferRectData = transferRectData;
-        rect = new BoxCollider(startCoordX, startCoordY, width, height, Color.ORANGE);
+        rect = new BoxCollider(startCoordX, startCoordY, width, height/2, Color.TRANSPARENT);
+        rect.translateBox(new Vector2d(0, height/4));
+        visualRect = new BoxCollider(startCoordX, startCoordY, width, height + height, Color.ORANGE);
+        visualRect.translateBox(new Vector2d(0, -height/2));
 
 
         manipulators.setVisible(false);
@@ -80,6 +84,7 @@ public class ZooRect {
             controlPlus.setOnAction(event -> {
                 if (rect.getWidth() < 350) {
                     rect.scaleWidth(50);
+                    visualRect.scaleWidth(50);
                     width += 50;
                     updateManipulator();
                     transferRectData.width.setText(Double.toString(width));
@@ -99,6 +104,7 @@ public class ZooRect {
 
                 if (rect.getWidth() > 200) {
                     rect.scaleWidth(-50);
+                    visualRect.scaleWidth(-50);
                     width -= 50;
                     updateManipulator();
                     transferRectData.width.setText(Double.toString(width));
@@ -118,6 +124,7 @@ public class ZooRect {
             controlRotPlus.setOnAction(event -> {
                 if (angle < 67.5) {
                     rect.rotateBox(addAngle);
+                    visualRect.rotateBox(addAngle);
                     angle += addAngle;
                     updateManipulator();
 
@@ -140,6 +147,7 @@ public class ZooRect {
             controlRotMinus.setOnAction(event -> {
                 if (angle > -67.5) {
                     rect.rotateBox(-addAngle);
+                    visualRect.rotateBox(-addAngle);
                     angle -= addAngle;
                     updateManipulator();
                     transferRectData.angle.setText(Double.toString(rect.getAngle()));
@@ -165,7 +173,7 @@ public class ZooRect {
 
 
         rectGrp = new Group();
-        rectGrp.getChildren().add(rect);
+        rectGrp.getChildren().addAll(visualRect, rect);
       //  rectGrp.getChildren().add(displayButtonUi);
         rectGrp.getChildren().add(manipulators);
         rectGrp.setOnMousePressed(rectMousePressEvent);
@@ -250,6 +258,7 @@ public class ZooRect {
             if (hasBeenTranslated) {
                 Vector2d translationVector = Vector2d.subtract(new Vector2d(endX, endY), new Vector2d(startX, startY));
                 rect.translateBox(translationVector);       //after translation of Box -> hasBeenTranslated = false
+                visualRect.translateBox(translationVector);
 
                 //invertiere Vector um LayoutBounds zu korrigieren
                 translationVector.invert();
