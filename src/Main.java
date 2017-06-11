@@ -1,5 +1,5 @@
 import GUI.MainMenu;
-import Logic.Util.BooleansMovement;
+import GUI.TransferRectData;
 import Logic.Util.Physics.Constants;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.Highscore.Highscore;
@@ -28,8 +28,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-import static Logic.Util.DeltaTime.deltatime;
-
 public class Main extends Application {
 
     public GridPane gameControlGrid = new GridPane();
@@ -38,7 +36,7 @@ public class Main extends Application {
     private static final int WIDTH = 1300;
     private static final int HEIGHT = 750;
 
-    ArrayList<ZooRect> zooRectList = new ArrayList<>();
+    private ArrayList<ZooRect> zooRectList = new ArrayList<>();
 
 
     @Override
@@ -70,14 +68,14 @@ public class Main extends Application {
         //primaryStage.setScene(theScene);
 
         //Favicon
-        primaryStage.getIcons().add(new Image(getClass().getResource("chloe_small.png").toExternalForm()));
+        primaryStage.getIcons().add(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm()));
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
-        final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("chloe_small.png").toExternalForm())));
-        final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
-        final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("owl_small.png").toExternalForm())));
+        final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
+        final BallCollider c2 = new BallCollider(200, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm())));
+        final BallCollider c3 = new BallCollider(250, 100, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm())));
+        final BallCollider c4 = new BallCollider(130, 250, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
+        final BallCollider c5 = new BallCollider(50, 400, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
 
         BallCollider[] balls = new BallCollider[5];
         balls[0] = c;
@@ -141,7 +139,7 @@ public class Main extends Application {
 
 
         Group allRectsGrp = new Group();
-        ZooRect testRect = new ZooRect(allRectsGrp);
+        ZooRect testRect = new ZooRect(allRectsGrp,new TransferRectData());
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
@@ -151,7 +149,7 @@ public class Main extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp));
+            zooRectList.add(i, new ZooRect(allRectsGrp,new TransferRectData()));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
@@ -208,6 +206,7 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
 
+                //set Current Time on begin of next Frame (on the second loop -> in the first loop -> previous and current time will be the same)
                 dt.setCurrentTime(now);
 
                 //If previous time is not set yet (special calse -> first frame)
@@ -216,10 +215,7 @@ public class Main extends Application {
                 } else {
 
                     //CALCULATE DELTA TIME
-                    deltatime = (dt.getCurrentTime() - dt.getPreviousTime()) / 1000000000.0;
-                    if (deltatime > 0.15)       //restrict delta time (keep it low)
-                        deltatime = 0.15;
-                    System.out.println("deltatime: " + deltatime);
+                    dt.calcDeltaTime();
                 }
 
 

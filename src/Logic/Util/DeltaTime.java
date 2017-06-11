@@ -15,6 +15,16 @@ public class DeltaTime {
     private double lastTime;
     private double lastLastTime;
 
+    /**
+     * calculates the time between 2 Frames
+     * can not be > 0.15
+     */
+    public void calcDeltaTime(){
+        deltatime = (this.getCurrentTime() - this.getPreviousTime()) / 1000000000.0;
+        if (deltatime > 0.15)       //restrict delta time (keep it low)
+            deltatime = 0.15;
+    }
+
     public double getCurrentTime() {
         return currentTime;
     }
