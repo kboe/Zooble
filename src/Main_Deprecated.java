@@ -673,6 +673,9 @@ public class Main_Deprecated extends Application {
                 pauseSim.setOnAction(event -> {
                     this.stop();
                     running = false;
+
+                    timeline.stop();
+
                 });
             }
 
