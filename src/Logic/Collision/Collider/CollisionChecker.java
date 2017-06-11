@@ -86,10 +86,7 @@ public final class CollisionChecker {
 
 
             if (boxCollider instanceof TriggerArea){            //IF IT IS A TRIGGER (NOT A COLLIDER)
-                if (boxCollider instanceof BoostBox){           //DO SOMETHING SPECIFIC DEPENDING ON THE TYPE OF THE TRIGGER
-                    BoostBox boostBox = (BoostBox) boxCollider;
-                    boostBox.boostBall(ball);
-                }
+                trigger((TriggerArea) boxCollider, ball);
             } else {                                            //IF IT IS A COLLIDER
                 if (((BoxCollider) otherCollider).getAngle() == 0){ //if the box is not rotated
                     boxCollideNotRotated(ball,((BoxCollider) otherCollider));
@@ -97,6 +94,13 @@ public final class CollisionChecker {
                     boxCollideRotated(ball,((BoxCollider) otherCollider));
                 }
             }
+        }
+    }
+
+    private static void trigger(TriggerArea triggerArea, BallCollider ball){
+        if (triggerArea instanceof BoostBox){           //DO SOMETHING SPECIFIC DEPENDING ON THE TYPE OF THE TRIGGER
+            BoostBox boostBox = (BoostBox) triggerArea;
+            boostBox.boostBall(ball);
         }
     }
 

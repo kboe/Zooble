@@ -1,6 +1,7 @@
 import GUI.MainMenu;
 import GUI.TransferRectData;
 import Logic.Util.Physics.KinematicsVectors;
+import Persistent.CSVManager;
 import Persistent.Game_Assets.AoE_Assets.BoostBox;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
@@ -11,6 +12,7 @@ import Logic.Util.DeltaTime;
 import Logic.Util.Physics.Kinematics;
 import Logic.Util.Physics.KinematicsBall;
 import Logic.Util.Vector2d;
+import Persistent.Level.DefaultLevel;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -35,6 +37,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static Persistent.Constants.GRAVITY;
@@ -60,6 +63,13 @@ public class Main_Deprecated extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+        try {
+            DefaultLevel level1 = CSVManager.loadDefaultLevel(1);
+        } catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        }
 
 
         // ROBIN CODE BEGINNING

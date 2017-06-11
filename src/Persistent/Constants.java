@@ -21,4 +21,7 @@ public class Constants {
 
     //GOAL AREA IMAGE CONSTANTS
 
+    //USER DIRECTORY
+    public static final String DIRECTORY = System.getProperty("user.dir");
+
 }

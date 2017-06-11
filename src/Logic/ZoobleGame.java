@@ -14,7 +14,7 @@ import java.util.EmptyStackException;
  */
 public class ZoobleGame {
 
-    private ArrayList<ZooRect> boxColliderList;         //store all Box Collider into this ArrayList.
+    private ArrayList<Object> boxColliderList;         //store all Box Collider into this ArrayList.
     private ArrayList<BallCollider> ballColliderList;   //store all Balls into this ArrayList.
 
     public ZoobleGame(Level level){
@@ -57,7 +57,7 @@ public class ZoobleGame {
     private void storeFromLevelIntoGame(Level level){
         checkForErrorsInlevelArrayLists(level);
         this.ballColliderList = level.getBallCollidersList();
-        this.boxColliderList = level.getBoxCollidersList();
+        this.boxColliderList = level.getOtherCollidersList();
     }
 
     /**
@@ -65,9 +65,9 @@ public class ZoobleGame {
      * @param level
      */
     private void checkForErrorsInlevelArrayLists(Level level){
-        if (level.getBallCollidersList().isEmpty() || level.getBoxCollidersList().isEmpty()){
+        if (level.getBallCollidersList().isEmpty() || level.getOtherCollidersList().isEmpty()){
             throw new EmptyStackException();
-        } else if (level.getBallCollidersList() == null || level.getBoxCollidersList() == null){
+        } else if (level.getBallCollidersList() == null || level.getOtherCollidersList() == null){
             throw new NullPointerException();
         }
     }
