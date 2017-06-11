@@ -200,6 +200,7 @@ public class ZooRect {
             System.out.println("start: " + startX + " " + startY);
 
             transferRectData.rect = rect;
+            transferRectData.visRect = visualRect;
             transferRectData.hitCounterM = hitCounterM;
             transferRectData.hitCounterP = hitCounterP;
             transferRectData.manipulator = manipulators;

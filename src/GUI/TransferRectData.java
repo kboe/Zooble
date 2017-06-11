@@ -22,6 +22,7 @@ public class TransferRectData {
     Button controlMinusRot = new Button("-");
 
     BoxCollider rect;
+    BoxCollider visRect;
     int hitCounterP;
     int hitCounterM;
 
@@ -31,6 +32,7 @@ public class TransferRectData {
         controlPlus.setOnAction(event -> {
             if (rect.getWidth() < 350){
                 rect.scaleWidth(50);
+                visRect.scaleWidth(50);
                 width.setText(Double.toString(rect.getWidth()));
                 updateManipulator();
             }
@@ -41,6 +43,7 @@ public class TransferRectData {
         controlMinus.setOnAction(event -> {
             if (rect.getWidth() > 200){
                 rect.scaleWidth(-50);
+                visRect.scaleWidth(-50);
                 width.setText(Double.toString(rect.getWidth()));
                 updateManipulator();
             }
@@ -50,6 +53,7 @@ public class TransferRectData {
         controlPlusRot.setOnAction(event -> {
             if(rect.getAngle() < 67.5){
                 rect.rotateBox(22.5);
+                visRect.rotateBox(22.5);
                 angle.setText(Double.toString(rect.getAngle()));
                 updateManipulator();
 
@@ -59,6 +63,7 @@ public class TransferRectData {
         controlMinusRot.setOnAction(event -> {
             if(rect.getAngle() > -67.5){
                 rect.rotateBox(-22.5);
+                visRect.rotateBox(-22.5);
                 angle.setText(Double.toString(rect.getAngle()));
                 updateManipulator();
             }
