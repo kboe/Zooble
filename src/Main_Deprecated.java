@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -72,7 +73,7 @@ public class Main_Deprecated extends Application {
 
         /*TAMARA CODE ENDE*/
 
-        Group root = new Group();
+        Pane root = new Pane();
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
@@ -157,7 +158,7 @@ public class Main_Deprecated extends Application {
 
         timerLabel.textProperty().bind(timeSeconds.asString());
         timerLabel.setTextFill(Color.RED);
-        timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #A24949;-fx-font-size: 30;");
+        timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #A24949;-fx-font-size: 50;");
 
 
 
@@ -777,6 +778,7 @@ public class Main_Deprecated extends Application {
                 gameControlGrid.add(pauseSim, 1, 1);
                 pauseSim.setOnAction(event -> {
                     this.stop();
+
                     running = false;
                     timeline.pause();
                     System.out.println(timerLabel.getText());
@@ -799,6 +801,8 @@ public class Main_Deprecated extends Application {
 
         root.getChildren().add(timerLabel);
         root.getChildren().add(gameControlGrid);
+
+        root.setId("pane");
 
         theScene.getStylesheets().addAll(this.getClass().getResource("/GUI/gameUI.css").toExternalForm());
 

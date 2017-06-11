@@ -8,7 +8,10 @@
             -fx-font-weight: bold;
             -fx-font-size: 15;
 
-
-
-
         }
+
+#pane {
+              -fx-background-image: url("/GUI/game_background.jpg");
+         }
+
+
