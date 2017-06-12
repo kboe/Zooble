@@ -52,7 +52,7 @@ public class Main_Deprecated extends Application {
     private static final int HEIGHT = 750;
 
     private ArrayList<ZooRect> zooRectList = new ArrayList<>();
-    private  ArrayList<BallCollider> owlList = new ArrayList<>();
+    private ArrayList<BallCollider> owlList = new ArrayList<>();
 
     private static final Integer STARTTIME = 0;
     private Timeline timeline;
@@ -61,14 +61,13 @@ public class Main_Deprecated extends Application {
     private Boolean firstStart = false;
 
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
 
         try {
             DefaultLevel level1 = CSVManager.loadDefaultLevel(1);
-        } catch (FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
 
@@ -100,7 +99,7 @@ public class Main_Deprecated extends Application {
         //Favicon
         primaryStage.getIcons().add(new Image(getClass().getResource("Persistent/Resources/ballImages/chloe_small.png").toExternalForm()));
 
-        BoostBox booster = new BoostBox(50,350,400,200,Color.PINK);
+        BoostBox booster = new BoostBox(50, 350, 400, 200, Color.PINK);
 
         //CenterX and CenterY are unnecessary if the colliders are inside a Pane
         final BallCollider c = new BallCollider(75, 250, 50, new ImagePattern(new Image(getClass().getResource("Persistent/Resources/ballImages/owl_small.png").toExternalForm())));
@@ -165,15 +164,12 @@ public class Main_Deprecated extends Application {
         timerLabel.setStyle("-fx-font-family: sample; -fx-text-fill: #FFF;-fx-font-size: 50;");
 
 
-
-
-
         TransferRectData transferRectData = new TransferRectData();
         Group allRectsGrp = new Group();
 
         GridPane buttonDisplay = new GridPane();
 
-        ZooRect testRect = new ZooRect(allRectsGrp,transferRectData,new BoxCollider(100, 200, WIDTH, HEIGHT/2, Color.TRANSPARENT),
+        ZooRect testRect = new ZooRect(allRectsGrp, transferRectData, new BoxCollider(100, 200, WIDTH, HEIGHT / 2, Color.TRANSPARENT),
                 new BoxCollider(100, 200, 200, 17.5 + 17.5, Color.ORANGE));
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
@@ -184,12 +180,11 @@ public class Main_Deprecated extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp,transferRectData,new BoxCollider(100, 200, WIDTH, HEIGHT/2, Color.TRANSPARENT),
+            zooRectList.add(i, new ZooRect(allRectsGrp, transferRectData, new BoxCollider(100, 200, WIDTH, HEIGHT / 2, Color.TRANSPARENT),
                     new BoxCollider(100, 200, 200, 17.5 + 17.5, Color.ORANGE)));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
-
 
 
         GridPane gridPane = new GridPane();
@@ -207,8 +202,7 @@ public class Main_Deprecated extends Application {
                 levelname.getStyleClass().add("label");
 
 
-
-                uiGrid.add(transferRectData.buttonUi,0,10);
+                uiGrid.add(transferRectData.buttonUi, 0, 10);
 
 
             }
@@ -308,9 +302,10 @@ public class Main_Deprecated extends Application {
                 switch (x_switch) {
                     //Vectors
                     case -4:
+
                         for (BallCollider t :
                                 balls) {
-                            for(ZooRect z:zooRectList){
+                            for (ZooRect z : zooRectList) {
                                 CollisionChecker.checkSceneBoundsCollision(canvas, t);
                                 Vector2d[] nVelocity = z.getRect().getVectorPoints();
                                 if (t.getVelocity().getY() < 0.15 & t.getVelocity().getY() > -0.15) {
@@ -338,9 +333,53 @@ public class Main_Deprecated extends Application {
 //                                        t.setVelocity(new Vector2d(-t.getVelocity().getX(), t.getVelocity().getY()));
 //                                        System.out.println("HERE3");
 //                                    }
-                                    /*else*/ if (z.getRect().getAngle() != 0) {
-                                        if (z.getRect().getAngle() > 0) {
-                                            Vector2d cp = CollisionChecker.getCollisionPoint(t, z.getRect());
+                                    /*else*/
+
+
+                                    if (t.getAngle() != 0 & first_contact) {
+                                        Vector2d cp = CollisionChecker.getCollisionPoint(t, z.getRect());
+
+                                        if (t.getAngle() > 0) {
+                                                /*if ((t.getPosition().getY() > nVelocity[3].getY()&t.getPosition().getY()<nVelocity[2].getY())&(t.getPosition().getX()>=nVelocity[3].getX()&t.getPosition().getX()<=nVelocity[2].getX())) {
+                                                    t.setVelocity(new Vector2d(-t.getVelocity().getX(), -t.getVelocity().getY()));
+                                                    System.out.println("- Kontakt3");
+                                                    KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                                    break;
+                                                }*/
+                                            if ((cp.getY() > nVelocity[3].getY() & (cp.getX() >= nVelocity[3].getX()))) {
+                                                t.setVelocity(new Vector2d(-t.getVelocity().getX(), -t.getVelocity().getY()));
+                                                System.out.println("- Kontakt3");
+                                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                                break;
+                                            }
+
+                                        } else {
+                                            if (t.getPosition().getY() > nVelocity[2].getY()) {
+                                                t.setVelocity(new Vector2d(t.getVelocity().getX(), -t.getVelocity().getY()));
+                                                System.out.println("- Kontakt4");
+                                                KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+                                                break;
+                                            }
+                                        }
+
+                                    }
+
+                                    if (z.getRect().getAngle() != 0) {
+                                        Vector2d cp = CollisionChecker.getCollisionPoint(t, z.getRect());
+                                        System.out.println("CP " + cp + " " + cp.dot(cp));
+                                        System.out.println("NOM " + cp.orthoCW() + " " + cp.orthoCW().dot(cp.orthoCW()));
+                                        System.out.println("POS: " + t.getPosition() + " " + t.getPosition().dot(t.getPosition()));
+                                        if (t.getPosition().getX() <= nVelocity[0].getX() & t.getPosition().getY() >= nVelocity[0].getY()) {
+                                            t.setVelocity(new Vector2d(-t.getVelocity().getX(), -t.getVelocity().getY()));
+                                            System.out.println("- Kontakt");
+                                            KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                                        } else if (t.getPosition().getX() > nVelocity[2].getX() & t.getPosition().getY() > nVelocity[1].getY()) {
+                                            t.setVelocity(new Vector2d(-t.getVelocity().getX(), -t.getVelocity().getY()));
+                                            System.out.println("- Kontakt2");
+                                            KinematicsVectors.freeFallHeightWithVelocity(dt, t);
+
+                                        } else if (z.getRect().getAngle() > 0) {
 
                                             Vector2d d = cp.add(z.getRect().getMidpoint());
                                             KinematicsVectors.hForce(t);
@@ -357,7 +396,7 @@ public class Main_Deprecated extends Application {
                                             KinematicsVectors.radialAcceleration(t);
 
                                         } else {
-                                            Vector2d cp = CollisionChecker.getCollisionPoint(t, z.getRect());
+                                            // Vector2d cp = CollisionChecker.getCollisionPoint(t, z.getRect());
                                             Vector2d d = cp.add(z.getRect().getMidpoint());
                                             Vector2d v = nVelocity[1].subtract(nVelocity[0]);
                                             v = new Vector2d(v.getX() * -1, v.getY() * -1);
@@ -383,11 +422,10 @@ public class Main_Deprecated extends Application {
 
                                         KinematicsVectors.freeFallHeightWithVelocity(dt, t);
                                     }
-                                    first_contact=true;
 
 
-                                } else if (!CollisionChecker.checkCollision(t, z.getRect()) & first_contact&((t.getPosition().getX()>nVelocity[1].getX())|t.getPosition().getX()<nVelocity[0].getX())) {
-                                    first_contact=false;
+                                } else if (!CollisionChecker.checkCollision(t, z.getRect()) & first_contact & ((t.getPosition().getX() > nVelocity[1].getX()) | t.getPosition().getX() < nVelocity[0].getX())) {
+                                    first_contact = false;
                                     System.out.println("HERE");
                                     t.setStartingPoint(t.getPosition());
                                     //KinematicsVectors.acceleratedMovementPositionWithStartingSpeedAndPosition(dt, t);
@@ -399,7 +437,21 @@ public class Main_Deprecated extends Application {
 
                                 }
                             }
+                        }
+                        for (int i = 0; i < balls.length; i++) {
+                            for (int j = i + 1; j < balls.length; j++) {
+                                // KinematicsVectors.radialAcceleration(balls[i]);
+                                // KinematicsVectors.radialAcceleration(balls[j]);
+                                CollisionChecker.checkCollision(balls[i], balls[j]);
+                                /*if (bla){
+                                    Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
+                                    GraphicsContext gc = canvas.getGraphicsContext2D();
+                                    gc.fillOval(collPoint.getX(),collPoint.getY(),5,5);
+
+
+                                }*/
                             }
+                        }
 
 
                         break;
@@ -449,8 +501,8 @@ public class Main_Deprecated extends Application {
 
                         for (int i = 0; i < balls.length; i++) {
                             for (int j = i + 1; j < balls.length; j++) {
-                               // KinematicsVectors.radialAcceleration(balls[i]);
-                               // KinematicsVectors.radialAcceleration(balls[j]);
+                                // KinematicsVectors.radialAcceleration(balls[i]);
+                                // KinematicsVectors.radialAcceleration(balls[j]);
                                 CollisionChecker.checkCollision(balls[i], balls[j]);
                                 /*if (bla){
                                     Vector2d collPoint = CollisionChecker.getCollisionPoint(balls[i],balls[j]);
@@ -465,7 +517,7 @@ public class Main_Deprecated extends Application {
                         for (BallCollider ball :
                                 balls) {
                             CollisionChecker.checkSceneBoundsCollision(canvas, ball);
-                            CollisionChecker.checkCollision(ball,booster);
+                            CollisionChecker.checkCollision(ball, booster);
                             KinematicsVectors.freeFallHeightWithVelocity(dt, ball);
                             System.out.println(ball.getVelocity());
                         }
@@ -591,21 +643,20 @@ public class Main_Deprecated extends Application {
                     }
                     running = true;
 
-                    if (!firstStart){
+                    if (!firstStart) {
                         if (timeline != null) {
                             timeline.stop();
                         }
                         timeSeconds.set(STARTTIME);
                         timeline = new Timeline();
                         timeline.getKeyFrames().add(
-                                new KeyFrame(Duration.seconds(STARTTIME+2000),
+                                new KeyFrame(Duration.seconds(STARTTIME + 2000),
                                         new KeyValue(timeSeconds, 2000)));
                         timeline.playFromStart();
                         firstStart = true;
-                    }else{
+                    } else {
                         timeline.play();
                     }
-
 
 
                 });
@@ -625,13 +676,11 @@ public class Main_Deprecated extends Application {
                     System.out.println(timerLabel.getText());
 
 
-
                 });
             }
 
 
         }.stop();
-
 
 
         timerLabel.setLayoutX(WIDTH / 2 - 75);
