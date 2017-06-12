@@ -5,6 +5,7 @@ package GUI;
  */
 
 import Logic.Collision.Collider.BoxCollider;
+import Logic.Collision.TriggerArea.TriggerArea;
 import Logic.Util.Vector2d;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -23,7 +24,7 @@ public class ZooRectTrigger {
 
     private double angle = 0;
     private double addAngle = 22.5;
-    BoxCollider rect;
+    TriggerArea rect;
 
     private static final double startCoordX = 100;
     private static final double startCoordY = 200;
@@ -68,7 +69,7 @@ public class ZooRectTrigger {
 
 
         this.transferRectData = transferRectData;
-        rect = new BoxCollider(startCoordX, startCoordY, width, height/2, Color.TRANSPARENT);
+        rect = new TriggerArea(startCoordX, startCoordY, width, height/2, Color.RED);
         rect.translateBox(new Vector2d(0, height/4));
 
 
