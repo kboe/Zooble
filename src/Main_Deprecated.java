@@ -1,8 +1,10 @@
 import GUI.MainMenu;
 import GUI.TransferRectData;
+import Logic.Collision.Collider.BoxCollider;
 import Logic.Util.Physics.KinematicsVectors;
 import Persistent.CSVManager;
 import Persistent.Game_Assets.AoE_Assets.BoostBox;
+import Persistent.Game_Assets.Balls.OwlBall;
 import Persistent.Highscore.Highscore;
 import GUI.ZooRect;
 import Logic.Collision.Collider.BallCollider;
@@ -50,6 +52,7 @@ public class Main_Deprecated extends Application {
     private static final int HEIGHT = 750;
 
     private ArrayList<ZooRect> zooRectList = new ArrayList<>();
+    private  ArrayList<BallCollider> owlList = new ArrayList<>();
 
     private static final Integer STARTTIME = 0;
     private Timeline timeline;
@@ -170,7 +173,8 @@ public class Main_Deprecated extends Application {
 
         GridPane buttonDisplay = new GridPane();
 
-        ZooRect testRect = new ZooRect(allRectsGrp,transferRectData);
+        ZooRect testRect = new ZooRect(allRectsGrp,transferRectData,new BoxCollider(100, 200, WIDTH, HEIGHT/2, Color.TRANSPARENT),
+                new BoxCollider(100, 200, 200, 17.5 + 17.5, Color.ORANGE));
         zooRectList.add(0, testRect);
         allRectsGrp.getChildren().add(testRect.rectGrp);
 
@@ -180,10 +184,12 @@ public class Main_Deprecated extends Application {
         addRect.setMinHeight(62.5);
         addRect.setOnAction(event -> {
             int i = 1;
-            zooRectList.add(i, new ZooRect(allRectsGrp,transferRectData));
+            zooRectList.add(i, new ZooRect(allRectsGrp,transferRectData,new BoxCollider(100, 200, WIDTH, HEIGHT/2, Color.TRANSPARENT),
+                    new BoxCollider(100, 200, 200, 17.5 + 17.5, Color.ORANGE)));
             allRectsGrp.getChildren().add(zooRectList.get(i).rectGrp);
             i++;
         });
+
 
 
         GridPane gridPane = new GridPane();
