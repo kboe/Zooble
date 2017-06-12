@@ -25,7 +25,7 @@ public class KinematicsBall {
      * @param bc
      */
     public static void evenMovementPosition( DeltaTime deltaTime, BallCollider bc) {
-        double pos = bc.getVelocityX() * deltaTime.getCurrentTime() + bc.getCenterX();
+        double pos = bc.getVelocity().getX() * deltaTime.getCurrentTime() + bc.getCenterX();
         bc.setCenterX(pos);
     }
 
@@ -41,7 +41,7 @@ public class KinematicsBall {
      */
     public static void acceleratedMovementVelocity(double a, DeltaTime deltaTime, BallCollider bc) {
         double velocity = a * deltaTime.getCurrentTime();
-        bc.setCurrentVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
+        bc.setVelocity(new Vector2d(velocity, bc.getVelocity().getY()));
         //bc.setLayoutX(velocity);
     }
 
@@ -112,10 +112,10 @@ public class KinematicsBall {
      * @param deltaTime
      * @return
      */
-    public static double effectiveAcceleration(BallCollider bc, DeltaTime deltaTime) {
+    /*public static double effectiveAcceleration(BallCollider bc, DeltaTime deltaTime) {
         double acceleration = (bc.getVelocity().getX() - bc.getLastVelocity().getX()) / (deltaTime.getCurrentTime() - deltaTime.getLastTime());
         return 0;
-    }
+    }*/
 
     //----------------------------------------------------------------------------------------------------------------
     //Freier Fall
@@ -166,7 +166,7 @@ public class KinematicsBall {
      * @return
      */
     public static double levelThrowXPos(BallCollider bc, DeltaTime deltaTime) {
-        double xPos = bc.getVelocityX() * deltaTime.getCurrentTime()+bc.getS0();
+        double xPos = bc.getVelocity().getX()* deltaTime.getCurrentTime()+bc.getStartingPoint().getX();
         return xPos;
     }
 
@@ -265,7 +265,7 @@ public class KinematicsBall {
     public static double radialAcceleration(BallCollider bc) {
         //double acceleration=(velocity*velocity)/radius;
         double a = (bc.getVelocity().getX() * bc.getVelocity().getX()) / bc.getRadius();
-        a =( bc.getVelocityX()*bc.getVelocityX())/bc.getRadius();
+        a =( bc.getVelocity().getX()*bc.getVelocity().getX())/bc.getRadius();
         return a;
     }
 

@@ -11,21 +11,16 @@ import javafx.scene.shape.Circle;
 public class BallCollider extends Circle {
 
     private Vector2d position;          //will be the center of the circle!
-    //private Vector2d lastPosition;
-    private double lastPosition;
-    private double lastLastPosition;
-    private Vector2d velocity = new Vector2d(0, 0);
-    private Vector2d accelerationV = new Vector2d(1, 0);
-    private double eKin; //according to the Internet not a Vector
+    private double eKin;
     private double ePot;
-    private Vector2d currentVelocity;
-    private Vector2d lastVelocity;
+    private Vector2d velocity = new Vector2d(0, 0);
+    private Vector2d acceleration = new Vector2d(1, 0);
     private Vector2d startingPoint;
     private Vector2d velocity0;
     private Vector2d lastPos = new Vector2d(0, 0);
     private Vector2d lastLastPos = new Vector2d(0, 0);
     private Vector2d pulse;
-    private double alpha;
+    private double angle;
     private double gForce;
     private double hForce;
     private double nForce;
@@ -33,14 +28,6 @@ public class BallCollider extends Circle {
     private double lastSpeed;
     private double lastLastSpeed;
     private double mass = 1;
-    private double acceleration = 0;
-    private double velocityX;
-
-    private double velocityY;
-    private double velocityX2;
-    private double velocityY2;
-    private double s0;
-    private double s1;
 
 
     //CONSTRUCTOR
@@ -48,6 +35,15 @@ public class BallCollider extends Circle {
     public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint) {
         super(centerX, centerY, radius, paint);
         position = new Vector2d(centerX, centerY);
+        if (paint != null) {
+            this.setFill(paint);
+        }
+    }
+    public BallCollider(double centerX, double centerY, double radius, @Nullable Paint paint, double mass) {
+        super(centerX, centerY, radius, paint);
+        position = new Vector2d(centerX, centerY);
+        startingPoint=position;
+        this.mass=mass;
         if (paint != null) {
             this.setFill(paint);
         }
@@ -82,66 +78,6 @@ public class BallCollider extends Circle {
         this.mass = mass;
     }
 
-    //TODO wo sollen wir das hintun?
-
-
-    public void setCurrentVelocity(Vector2d currentVelocity) {
-        this.currentVelocity = currentVelocity;
-    }
-
-    public Vector2d getLastVelocity() {
-        return lastVelocity;
-    }
-
-
-   /* public Vector2d getLastPosition() {
-        return lastPosition;
-    }*/
-
-    public double getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(double acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public double getVelocityX() {
-        return velocityX;
-    }
-
-    public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
-    }
-
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    public double getS0() {
-        return s0;
-    }
-
-    public void setS0(double s0) {
-        this.s0 = s0;
-    }
-
-    public void setLastLastPosition(double lastLastPosition) {
-        this.lastLastPosition = lastLastPosition;
-    }
-
-    public void setLastPosition(double lastPosition) {
-        this.lastPosition = lastPosition;
-    }
-
-    public double getLastPosition() {
-        return lastPosition;
-    }
-
-    public double getLastLastPosition() {
-        return lastLastPosition;
-    }
-
     public double getLastSpeed() {
         return lastSpeed;
     }
@@ -174,12 +110,12 @@ public class BallCollider extends Circle {
         this.startingPoint = startingPoint;
     }
 
-    public Vector2d getAccelerationV() {
-        return accelerationV;
+    public Vector2d getAcceleration() {
+        return acceleration;
     }
 
-    public void setAccelerationV(Vector2d accelerationV) {
-        this.accelerationV = accelerationV;
+    public void setAcceleration(Vector2d acceleration) {
+        this.acceleration = acceleration;
     }
 
     public Vector2d getLastPos() {
@@ -254,11 +190,11 @@ public class BallCollider extends Circle {
         this.rForce = rForce;
     }
 
-    public double getAlpha() {
-        return alpha;
+    public double getAngle() {
+        return angle;
     }
 
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 }

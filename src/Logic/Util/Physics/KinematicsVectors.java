@@ -35,7 +35,7 @@ public class KinematicsVectors {
      * @param bc        ballCollider which is used
      */
     public static void acceleratedMovementVelocity(DeltaTime deltaTime, BallCollider bc) {
-        bc.setVelocity(bc.getAccelerationV().multiply(deltaTime.getCurrentTime()));
+        bc.setVelocity(bc.getAcceleration().multiply(deltaTime.getCurrentTime()));
     }
 
     /**
@@ -45,9 +45,9 @@ public class KinematicsVectors {
      * @param bc        ballCollider
      */
     public static void accleratedMovementPosition(DeltaTime deltaTime, BallCollider bc) {
-        double x = bc.getAccelerationV().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+        double x = bc.getAcceleration().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
         Vector2d position = new Vector2d(x,0);
-        //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+        //Vector2d position = bc.getAcceleration().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
         //bc.setPosition(position.add(position, bc.getStartingPoint()));
         bc.setPosition(position.add(position, bc.getPosition()));
 
@@ -55,16 +55,16 @@ public class KinematicsVectors {
 
     public static void accleratedMovementPosition(DeltaTime deltaTime, BallCollider bc, ZooRect zooRect) {
         if(zooRect.getRect().getAngle()<0){
-            double x = bc.getAccelerationV().getX()*(-0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+            double x = bc.getAcceleration().getX()*(-0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
             Vector2d position = new Vector2d(x,0);
-            //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+            //Vector2d position = bc.getAcceleration().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
             //bc.setPosition(position.add(position, bc.getStartingPoint()));
             bc.setPosition(position.add(position, bc.getPosition()));
         }
         else {
-            double x = bc.getAccelerationV().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
+            double x = bc.getAcceleration().getX()*(0.5*(deltaTime.getCurrentTime()*deltaTime.getCurrentTime()));
             Vector2d position = new Vector2d(x,0);
-            //Vector2d position = bc.getAccelerationV().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
+            //Vector2d position = bc.getAcceleration().multiply(0.5 * (deltaTime.getCurrentTime() * deltaTime.getCurrentTime()));
             //bc.setPosition(position.add(position, bc.getStartingPoint()));
             bc.setPosition(position.add(position, bc.getPosition()));
         }
@@ -83,7 +83,7 @@ public class KinematicsVectors {
      */
     public static void acceleratedMovementVelocityWithStartingVelocity(DeltaTime deltaTime, BallCollider bc) {
 
-        bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV().multiply(deltaTime.getCurrentTime()), bc.getVelocity()));
+        bc.setVelocity(bc.getVelocity().add(bc.getAcceleration().multiply(deltaTime.getCurrentTime()), bc.getVelocity()));
     }
 
     /**
@@ -96,7 +96,7 @@ public class KinematicsVectors {
 
         ballCollider.setPosition(ballCollider.getPosition().add(ballCollider.getPosition().
                         add(ballCollider.getStartingPoint(), ballCollider.getVelocity0().multiply(deltaTime.getCurrentTime())),
-                ballCollider.getAccelerationV().multiply(0.5 * deltaTime.getCurrentTime() * deltaTime.getCurrentTime())));
+                ballCollider.getAcceleration().multiply(0.5 * deltaTime.getCurrentTime() * deltaTime.getCurrentTime())));
     }
     //----------------------------------------------------------------------------------------------------------------
     //Durchschnittsgeschwindigkeit
@@ -131,7 +131,7 @@ public class KinematicsVectors {
         bc.setVelocity(averageSpeed(bc, deltaTime));
         Vector2d averageAcceleration = bc.getVelocity();
         averageAcceleration.divide(averageTime(deltaTime));
-        bc.setAccelerationV(averageAcceleration);
+        bc.setAcceleration(averageAcceleration);
         System.out.println(bc.getAcceleration());
     }
 
@@ -173,7 +173,7 @@ public class KinematicsVectors {
                 //LoopStopped.out_of_bounds = true;
             } else {
 
-                //bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV().multiply(DeltaTime.deltatime)));
+                //bc.setVelocity(bc.getVelocity().add(bc.getAcceleration().multiply(DeltaTime.deltatime)));
                 //bc.setVelocity(bc.getVelocity().multiply(0.85));
                 //bc.setPosition(bc.getPosition().add(bc.getVelocity()));
                 //floorContact = false;
@@ -181,7 +181,7 @@ public class KinematicsVectors {
 
 
         } else {*/
-            bc.setVelocity(bc.getVelocity().add(bc.getAccelerationV().multiply(DeltaTime.deltatime)));
+            bc.setVelocity(bc.getVelocity().add(bc.getAcceleration().multiply(DeltaTime.deltatime)));
             bc.setPosition(bc.getPosition().add(bc.getVelocity()));
 
 
@@ -319,14 +319,14 @@ public class KinematicsVectors {
 
     public static void hForce(BallCollider ballCollider) {
         gForce(ballCollider);
-        ballCollider.sethForce(ballCollider.getgForce() * Math.sin(ballCollider.getAlpha()));
+        ballCollider.sethForce(ballCollider.getgForce() * Math.sin(ballCollider.getAngle()));
     }
     public static Vector2d hillForce(BallCollider ballCollider) {
-        System.out.println(Math.sin(ballCollider.getAlpha()));
-        System.out.println("Math.sin(ballCollider.getAlpha() "+Math.sin(ballCollider.getAlpha()));
+        System.out.println(Math.sin(ballCollider.getAngle()));
+        System.out.println("Math.sin(ballCollider.getAngle() "+Math.sin(ballCollider.getAngle()));
         Vector2d gf= GRAVITYVECTOR.multiply(ballCollider.getMass());
-        //Vector2d h = gf.multiply(Math.sin(ballCollider.getAlpha()));
-        Vector2d h = Vector2d.rotateVector(gf,ballCollider.getAlpha());
+        //Vector2d h = gf.multiply(Math.sin(ballCollider.getAngle()));
+        Vector2d h = Vector2d.rotateVector(gf,ballCollider.getAngle());
 
         return h;
     }
@@ -335,7 +335,7 @@ public class KinematicsVectors {
     //Normalkraft
 
     public static void nForce(BallCollider ballCollider) {
-        ballCollider.setnForce(ballCollider.getgForce() * Math.cos(ballCollider.getAlpha()));
+        ballCollider.setnForce(ballCollider.getgForce() * Math.cos(ballCollider.getAngle()));
     }
 
     //------------------------------------------------------------------------------------------------------------------
